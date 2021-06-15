@@ -4,4 +4,213 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="9.06.21-1" author="alexey" runOnChange="true">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="user">
+            <column name="id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar"/>
+            <column name="birthdate" type="varchar"/>
+            <column name="pass" type="varchar"/>
+            <column name="active" type="boolean"/>
+        </createTable>
+
+        <rollback>
+            DROP TABLE USER
+        </rollback>
+    </changeSet>
+
+    <changeSet id="9.06.21-2" author="alexey" runOnChange="true">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="organisation"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="organisation">
+            <column name="id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar"/>
+        </createTable>
+
+        <rollback>
+            DROP TABLE ORGANISATION
+        </rollback>
+    </changeSet>
+
+    <changeSet id="9.06.21-3" author="alexey" runOnChange="true">
+
+        <preConditions>
+            <not>
+                <tableExists tableName="entries"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="organisation">
+            <column name="id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+
+            <column name="e_type_id" type="integer">
+                <constraints foreignKeyName="fk_entry_et"
+                             referencedTableName="entry_types"
+                             referencedColumnNames="id"/>
+            </column>
+
+            <column name="u_id">
+                <constraints foreignKeyName="fr_entry_user"
+                             referencedTableName="user"
+                             referencedColumnNames="id"/>
+            </column>
+
+            <column name="e_value" type="varchar">
+                <constraints unique="true"/>
+            </column>
+
+        </createTable>
+
+        <rollback>
+            DROP TABLE ENTRIES
+        </rollback>
+    </changeSet>
+
+    <changeSet id="9.06.21-4" author="alexey" runOnChange="true">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="roles"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="roles">
+            <column name="id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+
+            <column name="name" type="varchar"/>
+        </createTable>
+
+        <rollback>
+            DROP TABLE ROLES
+        </rollback>
+    </changeSet>
+
+    <changeSet id="9.06.21-5" author="alexey" runOnChange="true">
+
+        <preConditions>
+            <not>
+                <tableExists tableName="entry_types"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="entry_types">
+            <column name="id" type="serial" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+
+            <column name="name" type="varchar">
+                <constraints unique="true"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            DROP TABLE ENTRY_TYPES
+        </rollback>
+    </changeSet>
+
+    <changeSet id="9.06.21-6" author="alexey" runOnChange="true">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="organisation_roles"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="organisation_roles">
+            <column name="org_id" type="integer">
+                <constraints foreignKeyName="fk_or_org"
+                             referencedTableName="organisation"
+                             referencedColumnNames="id"/>
+            </column>
+
+            <column name="role_id" type="integer">
+                <constraints foreignKeyName="fk_or_role"
+                             referencedTableName="role"
+                             referencedColumnNames="id"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            DROP TABLE ORGANISATION_ROLES
+        </rollback>
+    </changeSet>
+
+    <changeSet id="9.06.21-7" author="alexey" runOnChange="true">
+
+        <preConditions>
+            <not>
+                <tableExists tableName="user_organisation"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="user_organisation">
+            <column name="id" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id">
+                <constraints foreignKeyName="fk_uo_user"
+                             referencedTableName="user"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="org_id">
+                <constraints foreignKeyName="fk_uo_org"
+                             referencedTableName="organisation"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="reg_date" type="varchar"/>
+        </createTable>
+
+        <rollback>
+            DROP TABLE USER_ORGANISATION
+        </rollback>
+    </changeSet>
+
+    <changeSet id="9.06.21-8" author="alexey" runOnChange="true">
+
+        <preConditions>
+            <not>
+                <tableExists tableName="uo_roles"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="uo_roles">
+            <column name="uo_id" type="integer">
+                <constraints foreignKeyName="fk_uor_uo"
+                             referencedTableName="user_organisation"
+                             referencedColumnNames="id"/>
+            </column>
+
+            <column name="role_id" type="integer">
+                <constraints foreignKeyName="fk_uor_role"
+                             referencedTableName="roles"
+                             referencedColumnNames="id"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            DROP TABLE UO_ROLES
+        </rollback>
+    </changeSet>
+
+
 </databaseChangeLog>
