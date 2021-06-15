@@ -9,11 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name = "entries")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Entries {
+public class Entry {
 
     @Id
     private long id;
