@@ -5,11 +5,15 @@ services:
     image: 'docker-spring-boot-postgres:latest'
     build:
       context: .
+      dockerfile: Dockerfile
     container_name: app
     depends_on:
       - db
     ports:
       - 8080:8080
+    networks:
+      sso-net: { aliases: [app.sso-net] }
+
   db:
     image: 'postgres:latest'
     container_name: db
@@ -19,3 +23,9 @@ services:
       - POSTGRES_USER=compose-postgres
       - POSTGRES_PASSWORD=compose-postgres
       - POSTGRES_DB=sso
+    networks:
+      sso-net: { aliases: [db.sso-net] }
+
+networks:
+  sso-net:
+    driver: bridge
