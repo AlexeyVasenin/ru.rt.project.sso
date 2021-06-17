@@ -117,7 +117,7 @@
             </column>
 
             <column name="e_value" type="varchar">
-                <constraints unique="true" nullable="false"/>
+                <constraints nullable="false"/>
             </column>
 
             <column name="e_type_id" type="integer">

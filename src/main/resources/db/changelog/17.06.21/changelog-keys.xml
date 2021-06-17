@@ -5,6 +5,10 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
+    <changeSet id="17.06.21-entries-0" author="korpatiy">
+        <addUniqueConstraint tableName="entries" columnNames="e_value, e_type_id, u_id"/>
+    </changeSet>
+
     <changeSet id="17.06.21-entries-1" author="korpatiy">
         <addForeignKeyConstraint baseTableName="entries"
                                  baseColumnNames="e_type_id"
@@ -47,9 +51,9 @@
                                  onDelete="CASCADE"/>
     </changeSet>
 
-    <!--<changeSet id="17.06.21-3-uo-0" author="korpatiy">
-        <addPrimaryKey columnNames="user_organisations" tableName="user_id, org_id"/>
-    </changeSet>-->
+    <changeSet id="17.06.21-3-uo-0" author="korpatiy">
+        <addUniqueConstraint tableName="user_organisations" columnNames="user_id, org_id"/>
+    </changeSet>
 
     <changeSet id="17.06.21-uo-1" author="korpatiy">
         <addForeignKeyConstraint baseTableName="user_organisations"
