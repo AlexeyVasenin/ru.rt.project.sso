@@ -7,5 +7,6 @@
 
     <include file="/17.06.21/changelog-createdb.xml" relativeToChangelogFile="true"/>
     <include file="/17.06.21/changelog-keys.xml" relativeToChangelogFile="true"/>
+    <include file="/17.06.21/changelog-filling.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

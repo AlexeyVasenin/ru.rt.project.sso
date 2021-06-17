@@ -17,10 +17,18 @@
             <column name="id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="name" type="varchar"/>
-            <column name="birthdate" type="varchar"/>
-            <column name="pass" type="varchar"/>
-            <column name="active" type="boolean"/>
+            <column name="name" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="birthdate" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pass" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="boolean">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
         <rollback>
@@ -40,7 +48,9 @@
             <column name="id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="name" type="varchar"/>
+            <column name="name" type="varchar">
+                <constraints nullable="false" unique="true"/>
+            </column>
         </createTable>
 
         <rollback>
@@ -60,8 +70,9 @@
             <column name="id" type="serial" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
-
-            <column name="name" type="varchar"/>
+            <column name="name" type="varchar">
+                <constraints nullable="false" unique="true"/>
+            </column>
         </createTable>
 
         <rollback>
