@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="17.06.21-entries-0" author="korpatiy">
+        <addUniqueConstraint tableName="entries" columnNames="e_value, e_type_id, u_id"/>
+    </changeSet>
+
+    <changeSet id="17.06.21-entries-1" author="korpatiy">
+        <addForeignKeyConstraint baseTableName="entries"
+                                 baseColumnNames="e_type_id"
+                                 constraintName="fk_entry_et"
+                                 referencedTableName="entry_types"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+    </changeSet>
+
+    <changeSet id="17.06.21-entries-2" author="korpatiy">
+        <addForeignKeyConstraint baseTableName="entries"
+                                 baseColumnNames="u_id"
+                                 constraintName="fk_entry_user"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="17.06.21-or-0" author="korpatiy">
+        <addPrimaryKey tableName="organisation_roles" columnNames="org_id, role_id"/>
+    </changeSet>
+
+    <changeSet id="17.06.21-or-1" author="korpatiy">
+        <addForeignKeyConstraint baseTableName="organisation_roles"
+                                 baseColumnNames="org_id"
+                                 constraintName="fk_or_org"
+                                 referencedTableName="organisations"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+    </changeSet>
+
+    <changeSet id="17.06.21-or-2" author="korpatiy">
+        <addForeignKeyConstraint baseTableName="organisation_roles"
+                                 baseColumnNames="role_id"
+                                 constraintName="fk_or_role"
+                                 referencedTableName="roles"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="17.06.21-3-uo-0" author="korpatiy">
+        <addUniqueConstraint tableName="user_organisations" columnNames="user_id, org_id"/>
+    </changeSet>
+
+    <changeSet id="17.06.21-uo-1" author="korpatiy">
+        <addForeignKeyConstraint baseTableName="user_organisations"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_uo_user"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="17.06.21-uo-2" author="korpatiy">
+        <addForeignKeyConstraint baseTableName="user_organisations"
+                                 baseColumnNames="org_id"
+                                 constraintName="fk_uo_org"
+                                 referencedTableName="organisations"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="17.06.21-uor-0" author="korpatiy">
+        <addPrimaryKey tableName="uo_roles" columnNames="uo_id, role_id"/>
+    </changeSet>
+
+    <changeSet id="17.06.21-uor-1" author="korpatiy">
+        <addForeignKeyConstraint baseTableName="uo_roles"
+                                 baseColumnNames="uo_id"
+                                 constraintName="fk_uor_uo"
+                                 referencedTableName="user_organisations"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+    </changeSet>
+
+    <changeSet id="17.06.21-uor-2" author="korpatiy">
+        <addForeignKeyConstraint baseTableName="uo_roles"
+                                 baseColumnNames="role_id"
+                                 constraintName="fk_uor_role"
+                                 referencedTableName="roles"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+</databaseChangeLog>

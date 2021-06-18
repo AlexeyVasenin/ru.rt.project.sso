@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="17.06-users" author="korpatiy">
+        <insert tableName="users">
+            <column name="name" value="Иванов Иван Иванович"/>
+            <column name="birthdate" value="05.06.2000"/>
+            <column name="pass" value="lm#$@31,lsda"/>
+            <column name="active" value="true"/>
+        </insert>
+        <insert tableName="users">
+            <column name="name" value="Петрова Анна Сергеевна"/>
+            <column name="birthdate" value="27.05.2001"/>
+            <column name="pass" value="54321235dsaa"/>
+            <column name="active" value="true"/>
+        </insert>
+        <insert tableName="users">
+            <column name="name" value="Иванов Сергей Петрович"/>
+            <column name="birthdate" value="07.06.2002"/>
+            <column name="pass" value="l4%$%#@!@3"/>
+            <column name="active" value="true"/>
+        </insert>
+        <insert tableName="users">
+            <column name="name" value="Петров Иван Сергеевич"/>
+            <column name="birthdate" value="03.01.2000"/>
+            <column name="pass" value="32132fsasaDSAF"/>
+            <column name="active" value="false"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="17.06-organizations" author="korpatiy">
+        <insert tableName="organisations">
+            <column name="name" value="org1"/>
+        </insert>
+        <insert tableName="organisations">
+            <column name="name" value="org2"/>
+        </insert>
+        <insert tableName="organisations">
+            <column name="name" value="org3"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="17.06-roles" author="korpatiy">
+        <insert tableName="roles">
+            <column name="name" value="USER"/>
+        </insert>
+        <insert tableName="roles">
+            <column name="name" value="ADMIN"/>
+        </insert>
+        <insert tableName="roles">
+            <column name="name" value="MODERATOR"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="17.06-entry_types" author="korpatiy">
+        <insert tableName="entry_types">
+            <column name="name" value="LOGIN"/>
+        </insert>
+        <insert tableName="entry_types">
+            <column name="name" value="EMAIL"/>
+        </insert>
+        <insert tableName="entry_types">
+            <column name="name" value="PHONE"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="17.06-OR" author="korpatiy">
+        <insert tableName="organisation_roles">
+            <column name="org_id" value="1"/>
+            <column name="role_id" value="1"/>
+        </insert>
+        <insert tableName="organisation_roles">
+            <column name="org_id" value="1"/>
+            <column name="role_id" value="2"/>
+        </insert>
+        <insert tableName="organisation_roles">
+            <column name="org_id" value="1"/>
+            <column name="role_id" value="3"/>
+        </insert>
+        <insert tableName="organisation_roles">
+            <column name="org_id" value="2"/>
+            <column name="role_id" value="1"/>
+        </insert>
+        <insert tableName="organisation_roles">
+            <column name="org_id" value="2"/>
+            <column name="role_id" value="2"/>
+        </insert>
+        <insert tableName="organisation_roles">
+            <column name="org_id" value="2"/>
+            <column name="role_id" value="3"/>
+        </insert>
+        <insert tableName="organisation_roles">
+            <column name="org_id" value="3"/>
+            <column name="role_id" value="1"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
