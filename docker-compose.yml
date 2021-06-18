@@ -15,7 +15,7 @@ services:
     ports:
       - 8080:8080
     networks:
-      sso-net: { aliases: [app.sso-net] }
+      - sso-net
 
   db:
     image: 'postgres:latest'
@@ -27,7 +27,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
     networks:
-      sso-net: { aliases: [db.sso-net] }
+      - sso-net
 
   keycloak:
     image: 'jboss/keycloak'
@@ -41,12 +41,13 @@ services:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: 123
     ports:
-      - 8180:8180
+      - 8180:8443
     depends_on:
       - db
     networks:
-      sso-net: { aliases: [ keycloak.sso-net ] }
+      - sso-net
 
 networks:
   sso-net:
+    name: sso-net
     driver: bridge

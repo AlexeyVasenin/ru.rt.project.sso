@@ -14,13 +14,15 @@
 
 *127.0.0.1 keycloak*
 
-##### Создание и запуск контейнера
+##### Создание и запуск контейнера (detached mode)
 
-*docker-compose up*
+*docker-compose up -d*
+
+##### Панель администратора Keycloak
+
+*https://localhost:8180/auth/*
 
 ##### Остановка и удаление контейнера
-
-Остановка БД (Terminal): Ctrl+C 
 
 *docker-compose down*
 
