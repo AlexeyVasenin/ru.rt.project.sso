@@ -5,8 +5,9 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                               http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <include file="/17.06.21/changelog-createdb.xml" relativeToChangelogFile="true"/>
-    <include file="/17.06.21/changelog-keys.xml" relativeToChangelogFile="true"/>
-    <include file="/17.06.21/changelog-filling.xml" relativeToChangelogFile="true"/>
+    <!-- названия файлов не должны начинаться с / -->
+    <include file="17.06.21/changelog-createdb.xml" relativeToChangelogFile="true"/>
+    <include file="17.06.21/changelog-keys.xml" relativeToChangelogFile="true"/>
+    <include file="17.06.21/changelog-filling.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
