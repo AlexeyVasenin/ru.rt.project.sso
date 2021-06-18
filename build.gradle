@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.5.0'
+    id 'org.springframework.boot' version '2.4.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
 }
@@ -7,6 +7,7 @@ plugins {
 group = 'ru.rt'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+targetCompatibility = '11'
 
 configurations {
     compileOnly {
@@ -28,14 +29,15 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-    // https://mvnrepository.com/artifact/org.keycloak/keycloak-core
-    implementation 'org.keycloak:keycloak-core:13.0.1'
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web
     implementation 'org.springframework.boot:spring-boot-starter-web:2.5.0'
     implementation 'org.postgresql:postgresql:42.2.20'
     // https://mvnrepository.com/artifact/org.yaml/snakeyaml
     implementation 'org.yaml:snakeyaml:1.29'
 
+    // для настройки keycloak:
+    implementation 'org.keycloak:keycloak-spring-boot-starter:13.0.1'
+    implementation 'org.keycloak:keycloak-spring-boot-2-adapter:13.0.1'
 }
 
 test {
