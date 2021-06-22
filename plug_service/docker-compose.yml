@@ -6,9 +6,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: app-1
+    env_file:
+      - .env
+    container_name: ${FST_SERVICE}
+    environment:
+      SPRING_PROFILES_ACTIVE: ${FST_SERVICE}
     ports:
-      - 8081:8081
+      - ${FST_PORT}:${FST_PORT}
     networks:
       - plug-net
   app-2:
@@ -16,9 +20,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: app-2
+    env_file:
+      - .env
+    container_name: ${SND_SERVICE}
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SND_SERVICE}
     ports:
-      - 8082:8082
+      - ${SND_PORT}:${SND_PORT}
     networks:
       - plug-net
   app-3:
@@ -26,9 +34,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: app-3
+    env_file:
+      - .env
+    container_name: ${TRD_SERVICE}
+    environment:
+      SPRING_PROFILES_ACTIVE: ${TRD_SERVICE}
     ports:
-      - 8083:8083
+      - ${TRD_PORT}:${TRD_PORT}
     networks:
       - plug-net
 
