@@ -1,6 +1,6 @@
 ### Инструкция по использованию (на Windows)
 
-##### Подготовка
+##### Подготовка (текущая директория: <project_dir>/main_service)
 
 1. Построить проект:
 
@@ -10,11 +10,7 @@
 
 *docker rmi docker-spring-boot-postgres:latest*
 
-3. Добавить keycloak в качестве хостов (/etc/hosts на Mac/Linux, c:\Windows\System32\Drivers\etc\hosts на Windows)
-
-*127.0.0.1 keycloak*
-
-##### Создание и запуск контейнера (detached mode)
+##### Создание и запуск контейнера основного сервиса (detached mode)
 
 *docker-compose up -d*
 

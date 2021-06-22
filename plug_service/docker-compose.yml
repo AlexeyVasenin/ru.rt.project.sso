@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  app-1:
+    image: 'springio/gs-spring-boot-docker:latest'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    container_name: ${FST_SERVICE}
+    environment:
+      SPRING_PROFILES_ACTIVE: ${FST_SERVICE}
+    ports:
+      - ${FST_PORT}:${FST_PORT}
+    networks:
+      - plug-net
+  app-2:
+    image: 'springio/gs-spring-boot-docker:latest'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    container_name: ${SND_SERVICE}
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SND_SERVICE}
+    ports:
+      - ${SND_PORT}:${SND_PORT}
+    networks:
+      - plug-net
+  app-3:
+    image: 'springio/gs-spring-boot-docker:latest'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    container_name: ${TRD_SERVICE}
+    environment:
+      SPRING_PROFILES_ACTIVE: ${TRD_SERVICE}
+    ports:
+      - ${TRD_PORT}:${TRD_PORT}
+    networks:
+      - plug-net
+
+networks:
+  plug-net:
+    name: plug-net
+    driver: bridge

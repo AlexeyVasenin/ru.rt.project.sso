@@ -16,13 +16,23 @@ _Есть несколько различных систем (с разными 
 
 ## Структура проекта
 
-- main - основная логика приложения
-    - java
-        - ru.rt.sso - sources
-    - resources
-        - liquibase db changelog
-        - app properties
-- tests - тесты
+- main_service - модуль основного сервиса
+    - src
+        - main
+            - java
+                - ru.rt.sso - sources
+            - resources
+                - liquibase db changelog
+                - application.properties
+        - tests - тесты
+- plug_service - модуль сервисов-заглушек
+    - src
+        - main
+            - java
+                - ru.rt.plug - sources
+            - resources
+                - templates
+                - application.properties
 
 ## Технологии
 
