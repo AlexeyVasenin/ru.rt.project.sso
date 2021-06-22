@@ -9,7 +9,7 @@
 2. (После нового билда) Удалить существующий (если он есть) образ docker-spring-boot-postgres
 
 *docker rmi docker-spring-boot-postgres:latest*
-
+d
 3. Добавить keycloak в качестве хостов (/etc/hosts на Mac/Linux, c:\Windows\System32\Drivers\etc\hosts на Windows)
 
 *127.0.0.1 keycloak*
