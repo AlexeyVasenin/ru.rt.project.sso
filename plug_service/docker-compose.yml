@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  app-1:
+    image: 'springio/gs-spring-boot-docker:latest'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app-1
+    ports:
+      - 8081:8081
+    networks:
+      - plug-net
+  app-2:
+    image: 'springio/gs-spring-boot-docker:latest'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app-2
+    ports:
+      - 8082:8082
+    networks:
+      - plug-net
+  app-3:
+    image: 'springio/gs-spring-boot-docker:latest'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app-3
+    ports:
+      - 8083:8083
+    networks:
+      - plug-net
+
+networks:
+  plug-net:
+    name: plug-net
+    driver: bridge
