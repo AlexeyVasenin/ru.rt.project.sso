@@ -1,26 +1,21 @@
 package ru.rt.sso.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import javax.persistence.Entity;
+import lombok.Data;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
-@Entity
-@Table(name = "users")
-@Getter
-@Setter
-@NoArgsConstructor
+import java.util.List;
+
+
+
+@Data
 public class User {
 
     @Id
-    private long id;
-    private String name;
-    private String birthdate;
-    private String pass;
-    private boolean active;
+    private String id;
+    private String username;
+    private String email;
+    private List<String> roles;
+
 
 
 }
