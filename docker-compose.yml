@@ -32,6 +32,10 @@ services:
   keycloak:
     image: 'jboss/keycloak'
     container_name: keycloak
+    #command:
+    #  - "-b"
+    #  - "0.0.0.0"
+    # - "-Dkeycloak.profile.feature.declarative_user_profile=enabled"
     environment:
       DB_VENDOR: postgres
       DB_ADDR: db
@@ -40,7 +44,7 @@ services:
       DB_PASSWORD: ${POSTGRES_PASSWORD}
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: 123
-      KEYCLOAK_IMPORT: /tmp/realm-export.json -Dkeycloak.profile.feature.upload_scripts=enabled -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
+      #KEYCLOAK_IMPORT: /tmp/realm-export.json -Dkeycloak.profile.feature.upload_scripts=enabled -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
     volumes:
       - ./home_tmp:/tmp
     ports:
