@@ -12,7 +12,7 @@ public class User {
 
     @Id
     private String id;
-    private String username;
+    private String userName;
     private String email;
     private List<String> roles;
 

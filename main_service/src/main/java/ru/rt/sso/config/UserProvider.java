@@ -27,12 +27,12 @@ public class UserProvider {
                 .getAuthentication().getPrincipal();
 
         String id = principal.getKeycloakSecurityContext().getToken().getSubject();
-        String username = principal.toString();
+        String userName = principal.toString();
         String email = principal.getKeycloakSecurityContext().getToken().getEmail();
         Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 
         result.setId(id);
-        result.setUsername(username);
+        result.setUserName(userName);
         result.setEmail(email);
         result.setRoles(authorities.stream().map(SimpleGrantedAuthority::getAuthority).collect(Collectors.toList()));
 
