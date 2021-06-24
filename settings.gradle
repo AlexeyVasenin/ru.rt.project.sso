@@ -1,4 +1,0 @@
-rootProject.name = 'sso'
-
-include 'main_service'
-include 'plug_service'
