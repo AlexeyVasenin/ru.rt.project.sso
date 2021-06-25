@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+}
+
+group = 'ru.rt.sso'
+version = '0.0.1-SNAPSHOT'
+
+apply plugin: 'java'
+sourceCompatibility = '11'
+targetCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server:3.0.3'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+    }
+}
