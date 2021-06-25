@@ -3,35 +3,44 @@ version: '3.8'
 services:
 
   eureka-server:
+    container_name: eureka-server
     build:
       context: eureka-server
       dockerfile: Dockerfile
     ports:
-      - 9091:9091
+      - ${EUREKA_SERVER_PORT}:${EUREKA_SERVER_PORT}
+    networks:
+      - sso-net
 
   api-gateway:
+    container_name: api-gateway
     build:
       context: api-gateway
       dockerfile: Dockerfile
     ports:
-      - 8080:8080
+      - ${API_GATEWAY_PORT}:${API_GATEWAY_PORT}
     environment:
-      - eureka.client.serviceUrl.defaultZone=https://localhost:9091/eureka
-      - keycloak-client.server-url=https://localhost:8081/auth
+      - eureka.client.serviceUrl.defaultZone=https://eureka-server:${EUREKA_SERVER_PORT}/eureka
+      - keycloak-client.server-url=https://keycloak:${KEYCLOAK_OUT_PORT}/auth
     depends_on:
       - eureka-server
+    networks:
+      - sso-net
 
   microservice-cinema:
+    container_name: microservice-cinema
     build:
       context: microservice-cinema
       dockerfile: Dockerfile
     ports:
-      - 8081:8081
+      - ${CINEMA_MICROSERVICE_PORT}:${CINEMA_MICROSERVICE_PORT}
     environment:
-      - eureka.client.serviceUrl.defaultZone=https://localhost:9091/eureka
-      - keycloak-client.server-ur=https://localhost:8081/auth
+      - eureka.client.serviceUrl.defaultZone=https://eureka-server:${EUREKA_SERVER_PORT}/eureka
+      - keycloak-client.server-url=https://keycloak:${KEYCLOAK_OUT_PORT}/auth
     depends_on:
       - eureka-server
+    networks:
+      - sso-net
 
   #app:
    # image: 'docker-spring-boot-postgres:latest'
@@ -58,8 +67,8 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
-    #networks:
-    # - sso-net
+    networks:
+     - sso-net
 
   keycloak:
     image: 'jboss/keycloak'
@@ -80,13 +89,13 @@ services:
     volumes:
       - ./keycloak-server:/tmp
     ports:
-      - 8180:8443
+      - ${KEYCLOAK_OUT_PORT}:8443
     depends_on:
       - db
-    #networks:
-    # - sso-net
+    networks:
+     - sso-net
 
-#networks:
-#  sso-net:
-#    name: sso-net
-#    driver: bridge
+networks:
+  sso-net:
+    name: sso-net
+    driver: bridge

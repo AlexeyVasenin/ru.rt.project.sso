@@ -32,8 +32,6 @@ subprojects {
         annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
         implementation 'org.springframework.security:spring-security-config'
         implementation 'org.springframework.security:spring-security-web'
-
-
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
     }

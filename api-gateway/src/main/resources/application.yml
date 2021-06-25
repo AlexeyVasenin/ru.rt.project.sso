@@ -6,9 +6,9 @@ logging:
     org.springframework.security.oauth2: DEBUG
 
 server:
-  port: 8080
+  port: 8761
 keycloak-client:
-  server-url: http://localhost:8180/auth
+  server-url: https://keycloak:8180/auth
   realm: sso_realm
 spring:
   application:
@@ -22,7 +22,7 @@ spring:
             client-id: service-gateway
             client-secret: f72c02ca-7321-4397-8959-398dedcfb073
             authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:8080/login/oauth2/code/keycloak
+            redirect-uri: https://keycloak:8180/login/oauth2/code/keycloak
             scope: openid
         provider:
           keycloak:
@@ -44,8 +44,13 @@ spring:
           filters:
             - TokenRelay=
             - RemoveRequestHeader=Cookie
+  main:
+    allow-bean-definition-overriding: true
+    web-application-type: reactive
 
 eureka:
   client:
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
-      defaultZone: http://localhost:9091/eureka/
+      defaultZone: https://eureka-server:8761/eureka/
