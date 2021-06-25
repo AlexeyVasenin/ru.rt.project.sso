@@ -20,7 +20,7 @@ spring:
           keycloak:
             provider: keycloak
             client-id: service-gateway
-            client-secret:
+            client-secret: f72c02ca-7321-4397-8959-398dedcfb073
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8080/login/oauth2/code/keycloak
             scope: openid
@@ -37,10 +37,10 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: microservice-consumer
-          uri: lb://microservice-consumer
+        - id: microservice-cinema
+          uri: lb://microservice-cinema
           predicates:
-            - Path=/api/consume/**
+            - Path=/api/cinema/**
           filters:
             - TokenRelay=
             - RemoveRequestHeader=Cookie

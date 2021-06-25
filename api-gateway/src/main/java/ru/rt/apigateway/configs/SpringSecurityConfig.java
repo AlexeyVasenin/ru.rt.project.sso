@@ -12,7 +12,6 @@ public class SpringSecurityConfig {
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
-        // @formatter:off
         http
                 .authorizeExchange()
                 .anyExchange().authenticated()
@@ -22,6 +21,5 @@ public class SpringSecurityConfig {
                 .oauth2ResourceServer()
                 .jwt();
         return http.build();
-        // @formatter:on
     }
 }

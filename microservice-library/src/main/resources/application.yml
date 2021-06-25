@@ -11,7 +11,7 @@ keycloak-client:
   realm: sso_realm
 spring:
   application:
-    name: microservice-cinema
+    name: microservice-library
   security:
     oauth2:
       client:
@@ -19,7 +19,7 @@ spring:
           keycloak:
             provider: keycloak
             client-id: microservice-library
-            client-secret:
+            client-secret: 57d301ff-8ed2-4c6c-92e7-3a25794705d6
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8082/login/oauth2/code/keycloak
             scope: openid
