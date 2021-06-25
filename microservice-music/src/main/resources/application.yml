@@ -29,7 +29,7 @@ spring:
             token-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/token
             user-info-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/userinfo
             jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
-            user-name-attribute: name
+            nameuser-name-attribute: preferred_username
             user-info-authentication-method: header
       resourceserver:
         jwt:

@@ -1,18 +1,19 @@
-package ru.rt.cinema.microservicecinema.controllers;
+package ru.rt.cinema.controllers;
 
-
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.http.HttpHeaders;
 
 @RestController
+@RequestMapping("/api")
 public class CinemaController {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/api/cinema/")
+    @GetMapping("/cinema")
     public String getTokenDetails(@RequestHeader HttpHeaders headers) {
         return headers.toString();
     }
+
 }

@@ -2,12 +2,10 @@ plugins {
     id 'java'
 }
 
-group = 'ru.rt.sso'
-version = '0.0.1-SNAPSHOT'
-
-apply plugin: 'java'
-sourceCompatibility = '11'
-targetCompatibility = '11'
+allprojects {
+    group = 'ru.rt'
+    version = '0.0.1-SNAPSHOT'
+}
 
 repositories {
     mavenCentral()
@@ -21,16 +19,21 @@ configurations {
 
 subprojects {
     apply plugin: 'java'
+    sourceCompatibility = '11'
+    targetCompatibility = '11'
 
     repositories {
         mavenCentral()
     }
 
     dependencies {
-        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server:3.0.3'
         implementation 'org.springframework.boot:spring-boot-starter-web'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+        implementation 'org.springframework.security:spring-security-config'
+        implementation 'org.springframework.security:spring-security-web'
+
+
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
     }

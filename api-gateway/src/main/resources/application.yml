@@ -1,27 +1,28 @@
-debug: true
-server:
-  port: 8081
+logging:
+  level:
+    root: WARN
+    org.springframework.web: INFO
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:9091/eureka/
+server:
+  port: 8080
 keycloak-client:
   server-url: http://localhost:8180/auth
   realm: sso_realm
 spring:
   application:
-    name: microservice-cinema
+    name: service-gateway
   security:
     oauth2:
       client:
         registration:
           keycloak:
             provider: keycloak
-            client-id: microservice-cinema
+            client-id: service-gateway
             client-secret:
             authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:8081/login/oauth2/code/keycloak
+            redirect-uri: http://localhost:8080/login/oauth2/code/keycloak
             scope: openid
         provider:
           keycloak:
@@ -29,9 +30,22 @@ spring:
             token-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/token
             user-info-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/userinfo
             jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
-            user-name-attribute: name
-            user-info-authentication-method: header
+            user-name-attribute: preferred_username
       resourceserver:
         jwt:
           jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
+  cloud:
+    gateway:
+      routes:
+        - id: microservice-consumer
+          uri: lb://microservice-consumer
+          predicates:
+            - Path=/api/consume/**
+          filters:
+            - TokenRelay=
+            - RemoveRequestHeader=Cookie
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9091/eureka/

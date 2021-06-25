@@ -1,4 +1,4 @@
-package ru.rt.cinema.microservicecinema.configs;
+package ru.rt.cinema.configs;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

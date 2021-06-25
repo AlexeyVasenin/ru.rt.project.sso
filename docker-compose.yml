@@ -5,32 +5,47 @@ services:
   eureka-server:
     build:
       context: eureka-server
+      dockerfile: Dockerfile
+    ports:
+      - 9091:9091
+
+  api-gateway:
+    build:
+      context: api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    environment:
+      - eureka.client.serviceUrl.defaultZone=https://localhost:9091/eureka
+      - keycloak-client.server-url=https://localhost:8081/auth
+    depends_on:
+      - eureka-server
 
   microservice-cinema:
     build:
       context: microservice-cinema
+      dockerfile: Dockerfile
     ports:
       - 8081:8081
-    restart: on-failure
     environment:
       - eureka.client.serviceUrl.defaultZone=https://localhost:9091/eureka
       - keycloak-client.server-ur=https://localhost:8081/auth
     depends_on:
       - eureka-server
 
-  app:
-    image: 'docker-spring-boot-postgres:latest'
-    build:
-      context: test_service
-      dockerfile: Dockerfile
-    container_name: app
-    env_file:
-      - test_service/.env
-    restart: on-failure:1
-    depends_on:
-      - db
-    ports:
-      - 8080:8080
+  #app:
+   # image: 'docker-spring-boot-postgres:latest'
+    #build:
+     # context: test_service
+      #dockerfile: Dockerfile
+    #container_name: app
+    #e#v_file:
+     # - test_service/.env
+    #restart: on-failure:1
+    #depends_on:
+    #  - db
+    #ports:
+    #  - 8080:8080
     #networks:
     # - sso-net
 
@@ -61,7 +76,7 @@ services:
       DB_PASSWORD: ${POSTGRES_PASSWORD}
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: 123
-      KEYCLOAK_IMPORT: /tmp/realm-export.json -Dkeycloak.profile.feature.upload_scripts=enabled -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
+      KEYCLOAK_IMPORT: /tmp/realm-export.json -Dkeycloak.profile.feature.upload_scripts=enabled -Dkeycloak.migration.strategy=IGNORE_EXISTING
     volumes:
       - ./keycloak-server:/tmp
     ports:
