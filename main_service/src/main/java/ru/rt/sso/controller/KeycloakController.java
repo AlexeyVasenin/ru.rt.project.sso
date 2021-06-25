@@ -1,9 +1,9 @@
 package ru.rt.sso.controller;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.rt.sso.service.KeycloakAdminClientService;
 
 import java.util.Collection;
@@ -19,17 +19,32 @@ public class KeycloakController {
     }
 
     @GetMapping(path = "/hello")
-    public String hello(){
+    public String hello() {
         return "Hello";
     }
 
     @GetMapping(path = "/roles")
-    public Collection<String> rolesOfUser(){
+    public Collection<String> rolesOfUser() {
         return keycloakAdminClientService.getUserRoles();
     }
 
     @GetMapping(path = "/profile")
-    public Object profileOfUser(){
+    public Object profileOfUser() {
         return keycloakAdminClientService.getUserProfileOfLoggedUser();
     }
+
+    @Getter
+    @Setter
+    public static class SaveNewUsers {
+        private String userName;
+        private String email;
+        private String password;
+    }
+
+    @PostMapping(path = "/users")
+    @ResponseBody
+    public void addUser(@RequestBody SaveNewUsers newUsers) {
+        keycloakAdminClientService.addUser(newUsers);
+    }
+
 }
