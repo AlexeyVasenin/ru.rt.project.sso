@@ -6,8 +6,10 @@ spring:
     name: eureka-server
 
 eureka:
+  # added
+  instance:
+    hostname: ${DOCKER_HOST:localhost}
+  #
   client:
-    serviceUrl:
-      defaultZone: https://eureka-server:8761/eureka/
     register-with-eureka: false
     fetch-registry: false

@@ -6,10 +6,12 @@ logging:
     org.springframework.security.oauth2: DEBUG
 
 server:
-  port: 8761
+  port: 8080
+
 keycloak-client:
-  server-url: https://keycloak:8180/auth
+  server-url: http://localhost:8180/auth
   realm: sso_realm
+
 spring:
   application:
     name: service-gateway
@@ -22,7 +24,7 @@ spring:
             client-id: service-gateway
             client-secret: f72c02ca-7321-4397-8959-398dedcfb073
             authorization-grant-type: authorization_code
-            redirect-uri: https://keycloak:8180/login/oauth2/code/keycloak
+            redirect-uri: http://localhost:8180/login/oauth2/code/keycloak
             scope: openid
         provider:
           keycloak:
@@ -38,12 +40,12 @@ spring:
     gateway:
       routes:
         - id: microservice-cinema
-          uri: lb://microservice-cinema
+          uri: http://localhost:8081
           predicates:
             - Path=/api/cinema/**
-          filters:
-            - TokenRelay=
-            - RemoveRequestHeader=Cookie
+#          filters:
+#            - TokenRelay=
+#            - RemoveRequestHeader=Cookie
   main:
     allow-bean-definition-overriding: true
     web-application-type: reactive
@@ -53,4 +55,4 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: https://eureka-server:8761/eureka/
+      defaultZone: http://localhost:8761/eureka
