@@ -1,9 +1,11 @@
-package ru.rt.music.microservicemusic;
+package ru.rt.music;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
+@EnableEurekaClient
 public class MicroserviceMusicApplication {
 
     public static void main(String[] args) {

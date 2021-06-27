@@ -1,4 +1,4 @@
-package ru.rt.cinema.controllers;
+package ru.rt.library.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.http.HttpHeaders;
 
 @RestController
-@RequestMapping("/cinema")
-public class CinemaController {
+@RequestMapping("/library")
+public class LibraryController {
 
     @GetMapping
     public String getTokenDetails(@RequestHeader HttpHeaders headers) {

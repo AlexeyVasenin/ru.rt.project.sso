@@ -24,7 +24,8 @@ spring:
             client-id: service-gateway
             client-secret: f72c02ca-7321-4397-8959-398dedcfb073
             authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:8180/login/oauth2/code/keycloak
+            # redirect-uri: http://localhost:8080/login/oauth2/code/service-gateway
+            redirect-uri: http://localhost:8080/login/oauth2/code/keycloak
             scope: openid
         provider:
           keycloak:
@@ -33,6 +34,7 @@ spring:
             user-info-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/userinfo
             jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
             user-name-attribute: preferred_username
+            user-info-authentication-method: header
       resourceserver:
         jwt:
           jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
@@ -42,10 +44,24 @@ spring:
         - id: microservice-cinema
           uri: http://localhost:8081
           predicates:
-            - Path=/api/cinema/**
-#          filters:
-#            - TokenRelay=
-#            - RemoveRequestHeader=Cookie
+            - Path=/cinema/**
+          filters:
+            - TokenRelay=
+            - RemoveRequestHeader=Cookie
+        - id: microservice-library
+          uri: http://localhost:8082
+          predicates:
+            - Path=/library/**
+          filters:
+            - TokenRelay=
+            - RemoveRequestHeader=Cookie
+        - id: microservice-music
+          uri: http://localhost:8083
+          predicates:
+            - Path=/library/**
+          filters:
+            - TokenRelay=
+            - RemoveRequestHeader=Cookie
   main:
     allow-bean-definition-overriding: true
     web-application-type: reactive

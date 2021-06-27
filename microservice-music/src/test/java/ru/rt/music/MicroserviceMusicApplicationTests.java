@@ -1,4 +1,4 @@
-package ru.rt.music.microservicemusic;
+package ru.rt.music;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

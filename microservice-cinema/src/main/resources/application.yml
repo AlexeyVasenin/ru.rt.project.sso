@@ -24,9 +24,10 @@ spring:
           keycloak:
             provider: keycloak
             client-id: microservice-cinema
-            client-secret:
+            client-secret: 192f9bc9-7617-4b97-a549-92dc40d091be
             authorization-grant-type: authorization_code
-            redirect-uri: http://microservice-cinema:8081/login/oauth2/code/keycloak
+            #redirect-uri: http://localhost:8081/login/oauth2/code/microservice-cinema
+            redirect-uri: http://localhost:8081/login/oauth2/code/keycloak
             scope: openid
         provider:
           keycloak:
@@ -34,7 +35,7 @@ spring:
             token-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/token
             user-info-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/userinfo
             jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
-            user-name-attribute: name
+            user-name-attribute: preferred_username
             user-info-authentication-method: header
       resourceserver:
         jwt:
