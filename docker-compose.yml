@@ -26,7 +26,7 @@ services:
       - microservice-cinema
       - microservice-library
       - microservice-music
-      - main-service
+      #- main-service
     networks:
       - sso-net
 
@@ -72,20 +72,20 @@ services:
     networks:
       - sso-net
 
-  main-service:
-    container_name: main-service
-    build:
-      context: main_service
-      dockerfile: Dockerfile
-    ports:
-      - ${MAIN_SERVICE_PORT}:${MAIN_SERVICE_PORT}
-    environment:
-      - eureka.client.serviceUrl.defaultZone=http://eureka-server:${EUREKA_SERVER_PORT}/eureka
-    depends_on:
-      - eureka-server
-      - db
-    networks:
-      - sso-net
+  #main-service:
+  #  container_name: main-service
+  #  build:
+  #    context: main_service
+  #    dockerfile: Dockerfile
+  #  ports:
+  #    - ${MAIN_SERVICE_PORT}:${MAIN_SERVICE_PORT}
+  #  environment:
+  #    - eureka.client.serviceUrl.defaultZone=http://eureka-server:${EUREKA_SERVER_PORT}/eureka
+  #  depends_on:
+  #    - eureka-server
+  #    - db
+  #  networks:
+  #    - sso-net
 
   db:
     image: 'postgres:latest'
