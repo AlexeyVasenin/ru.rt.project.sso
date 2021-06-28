@@ -102,10 +102,10 @@ services:
   keycloak:
     image: 'jboss/keycloak'
     container_name: keycloak
-    #command:
-    #  - "-b"
-    #  - "0.0.0.0"
-    # - "-Dkeycloak.profile.feature.declarative_user_profile=enabled"
+    command:
+      - "-b"
+      - "0.0.0.0"
+      - "-Djboss.socket.binding.port-offset=100"
     environment:
       DB_VENDOR: postgres
       DB_ADDR: db
@@ -114,11 +114,11 @@ services:
       DB_PASSWORD: ${POSTGRES_PASSWORD}
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: 123
-      KEYCLOAK_IMPORT: /tmp/realm-export.json -Dkeycloak.profile.feature.upload_scripts=enabled -Dkeycloak.migration.strategy=IGNORE_EXISTING
+      KEYCLOAK_IMPORT: /tmp/realm-export.json
     volumes:
       - ./keycloak-server:/tmp
     ports:
-      - ${KEYCLOAK_OUT_PORT}:8443
+      - ${KEYCLOAK_PORT}:${KEYCLOAK_PORT}
     depends_on:
       - db
     networks:

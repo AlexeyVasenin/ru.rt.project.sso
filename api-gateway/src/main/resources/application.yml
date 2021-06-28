@@ -9,7 +9,7 @@ server:
   port: 8080
 
 keycloak-client:
-  server-url: https://localhost:8180/auth
+  server-url: http://localhost:8180/auth
   realm: sso_realm
 
 spring:
@@ -24,21 +24,21 @@ spring:
             client-id: microservice-cinema
             client-secret: 192f9bc9-7617-4b97-a549-92dc40d091be
             authorization-grant-type: authorization_code
-            redirect-uri: https://localhost:8081/login/oauth2/code/keycloak
+            redirect-uri: http://localhost:8081/login/oauth2/code/keycloak
             scope: openid
           microservice-library:
             provider: keycloak
             client-id: microservice-library
             client-secret: 57d301ff-8ed2-4c6c-92e7-3a25794705d6
             authorization-grant-type: authorization_code
-            redirect-uri: https://localhost:8082/login/oauth2/code/keycloak
+            redirect-uri: http://localhost:8082/login/oauth2/code/keycloak
             scope: openid
           microservice-music:
             provider: keycloak
             client-id: microservice-music
             client-secret: 72ede50c-2a17-414d-85a5-d70bf42925f3
             authorization-grant-type: authorization_code
-            redirect-uri: https://localhost:8083/login/oauth2/code/keycloak
+            redirect-uri: http://localhost:8083/login/oauth2/code/keycloak
             scope: openid
           #Тут надо цеполять admin cli или чет такое
           #main-service:
