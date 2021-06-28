@@ -11,7 +11,7 @@ eureka:
       defaultZone: http://localhost:8761/eureka
 
 keycloak-client:
-  server-url: http://localhost:8180/auth
+  server-url: https://localhost:8180/auth
   realm: sso_realm
 
 spring:
@@ -27,7 +27,7 @@ spring:
             client-secret: 192f9bc9-7617-4b97-a549-92dc40d091be
             authorization-grant-type: authorization_code
             #redirect-uri: http://localhost:8081/login/oauth2/code/microservice-cinema
-            redirect-uri: http://localhost:8081/login/oauth2/code/keycloak
+            redirect-uri: https://localhost:8081/login/oauth2/code/keycloak
             scope: openid
         provider:
           keycloak:

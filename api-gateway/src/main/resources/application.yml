@@ -9,7 +9,7 @@ server:
   port: 8080
 
 keycloak-client:
-  server-url: http://localhost:8180/auth
+  server-url: https://localhost:8180/auth
   realm: sso_realm
 
 spring:
@@ -25,7 +25,7 @@ spring:
             client-secret: f72c02ca-7321-4397-8959-398dedcfb073
             authorization-grant-type: authorization_code
             # redirect-uri: http://localhost:8080/login/oauth2/code/service-gateway
-            redirect-uri: http://localhost:8080/login/oauth2/code/keycloak
+            redirect-uri: https://localhost:8080/login/oauth2/code/keycloak
             scope: openid
         provider:
           keycloak:
@@ -42,26 +42,25 @@ spring:
     gateway:
       routes:
         - id: microservice-cinema
-          uri: http://localhost:8081
+          uri: https://localhost:8081
           predicates:
             - Path=/cinema/**
           filters:
-            - TokenRelay=
             - RemoveRequestHeader=Cookie
         - id: microservice-library
-          uri: http://localhost:8082
+          uri: https://localhost:8082
           predicates:
             - Path=/library/**
           filters:
-            - TokenRelay=
             - RemoveRequestHeader=Cookie
         - id: microservice-music
-          uri: http://localhost:8083
+          uri: https://localhost:8083
           predicates:
-            - Path=/library/**
+            - Path=/muisc/**
           filters:
-            - TokenRelay=
             - RemoveRequestHeader=Cookie
+      default-filters:
+        - TokenRelay
   main:
     allow-bean-definition-overriding: true
     web-application-type: reactive

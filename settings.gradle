@@ -4,6 +4,5 @@ include 'microservice-cinema'
 include 'eureka-server'
 include 'api-gateway'
 
-include 'test_service'
 include 'main_service'
 
