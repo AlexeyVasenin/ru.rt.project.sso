@@ -19,13 +19,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - ${API_GATEWAY_PORT}:${API_GATEWAY_PORT}
-    environment:
-      - eureka.client.serviceUrl.defaultZone=http://eureka-server:${EUREKA_SERVER_PORT}/eureka
-      - keycloak-client.server-url=http://keycloak:${KEYCLOAK_OUT_PORT}/auth
+    #environment:
+    #  - eureka.client.serviceUrl.defaultZone=http://eureka-server:${EUREKA_SERVER_PORT}/eureka
+    #  - keycloak-client.server-url=http://localhost:${KEYCLOAK_OUT_PORT}/auth
     depends_on:
       - eureka-server
       - microservice-cinema
-      - microservice-library
     networks:
       - sso-net
 
@@ -36,43 +35,43 @@ services:
       dockerfile: Dockerfile
     ports:
       - ${CINEMA_MICROSERVICE_PORT}:${CINEMA_MICROSERVICE_PORT}
-    environment:
-      - eureka.client.serviceUrl.defaultZone=http://eureka-server:${EUREKA_SERVER_PORT}/eureka
-      - keycloak-client.server-url=http://keycloak:${KEYCLOAK_OUT_PORT}/auth
+    #environment:
+     # - eureka.client.serviceUrl.defaultZone=http://eureka-server:${EUREKA_SERVER_PORT}/eureka
+      #- keycloak-client.server-url=http://localhost:${KEYCLOAK_OUT_PORT}/auth
     depends_on:
       - eureka-server
     networks:
       - sso-net
 
-  microservice-library:
-    container_name: microservice-library
-    build:
-      context: microservice-library
-      dockerfile: Dockerfile
-    ports:
-      - ${LIBRARY_MICROSERVICE_PORT}:${LIBRARY_MICROSERVICE_PORT}
-    environment:
-      - eureka.client.serviceUrl.defaultZone=http://eureka-server:${EUREKA_SERVER_PORT}/eureka
-      - keycloak-client.server-url=http://keycloak:${KEYCLOAK_OUT_PORT}/auth
-    depends_on:
-      - eureka-server
-    networks:
-      - sso-net
+  #microservice-library:
+   # container_name: microservice-library
+    #build:
+     # context: microservice-library
+     # dockerfile: Dockerfile
+    #ports:
+    #  - ${LIBRARY_MICROSERVICE_PORT}:${LIBRARY_MICROSERVICE_PORT}
+    #environment:
+    #  - eureka.client.serviceUrl.defaultZone=http://eureka-server:${EUREKA_SERVER_PORT}/eureka
+    #  - keycloak-client.server-url=http://keycloak:${KEYCLOAK_OUT_PORT}/auth
+    #depends_on:
+     # - eureka-server
+    #networks:
+    #  - sso-net
 
-  microservice-music:
-    container_name: microservice-music
-    build:
-      context: microservice-music
-      dockerfile: Dockerfile
-    ports:
-      - ${MUSIC_MICROSERVICE_PORT}:${MUSIC_MICROSERVICE_PORT}
-    environment:
-      - eureka.client.serviceUrl.defaultZone=http://eureka-server:${EUREKA_SERVER_PORT}/eureka
-      - keycloak-client.server-url=http://keycloak:${KEYCLOAK_OUT_PORT}/auth
-    depends_on:
-      - eureka-server
-    networks:
-      - sso-net
+  #microservice-music:
+   # container_name: microservice-music
+    #build:
+     # context: microservice-music
+      #dockerfile: Dockerfile
+    #ports:
+     # - ${MUSIC_MICROSERVICE_PORT}:${MUSIC_MICROSERVICE_PORT}
+    #environment:
+    #  - eureka.client.serviceUrl.defaultZone=http://eureka-server:${EUREKA_SERVER_PORT}/eureka
+    #  - keycloak-client.server-url=http://keycloak:${KEYCLOAK_OUT_PORT}/auth
+   # depends_on:
+    #  - eureka-server
+    #networks:
+    #  - sso-net
 
   db:
     image: 'postgres:latest'
