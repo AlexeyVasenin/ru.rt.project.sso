@@ -59,6 +59,12 @@ spring:
             - Path=/muisc/**
           filters:
             - RemoveRequestHeader=Cookie
+        - id: main-service
+          uri: https://localhost:8085
+          predicates:
+            - Path=/api/**
+          filters:
+            - RemoveRequestHeader=Cookie
       default-filters:
         - TokenRelay
   main:

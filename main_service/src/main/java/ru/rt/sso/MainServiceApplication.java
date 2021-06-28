@@ -2,12 +2,14 @@ package ru.rt.sso;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
-public class Application {
+@EnableEurekaClient
+public class MainServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(MainServiceApplication.class, args);
 	}
 
 }

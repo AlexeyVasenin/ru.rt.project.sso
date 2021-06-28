@@ -1,4 +1,4 @@
-package com.hi5code.example.models;
+package ru.rt.sso.domain;
 
 import lombok.Getter;
 import lombok.Setter;
