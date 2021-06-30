@@ -75,7 +75,8 @@ public class KeycloakAdminClientService {
         // Get realm
         RealmResource realmResource = keycloak.realm(keycloakAdminClientConfig.getRealm());
         UsersResource usersResource = realmResource.users();
-        UserResource userResource = usersResource.get(userProvider.getCurrentUser().getUserName());
+        UserResource userResource =
+                usersResource.get(userProvider.getCurrentUser().getUsername());
         UserRepresentation userRepresentation = userResource.toRepresentation();
 
         return userRepresentation;
