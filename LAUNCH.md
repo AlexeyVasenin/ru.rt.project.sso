@@ -22,3 +22,12 @@
 
 *docker-compose down*
 
+
+
+##### Запустить второй docker-compose
+
+docker-compose -f docker-compose-keycloak.yml -p sso_project_keycloak up -d
+
+##### Остановка и удаление второго контейнера
+
+docker-compose -f docker-compose-keycloak.yml -p sso_project_keycloak down
