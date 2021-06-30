@@ -22,23 +22,23 @@ spring:
           microservice-cinema:
             provider: keycloak
             client-id: microservice-cinema
-            client-secret:
+            client-secret: 6405e2e7-39be-48e8-91c4-0666fec6bc99
             authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:8081/login/oauth2/code/keycloak
+            redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
             scope: openid
           microservice-library:
             provider: keycloak
             client-id: microservice-library
             client-secret: 57d301ff-8ed2-4c6c-92e7-3a25794705d6
             authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:8082/login/oauth2/code/keycloak
+            redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
             scope: openid
           microservice-music:
             provider: keycloak
             client-id: microservice-music
             client-secret: 72ede50c-2a17-414d-85a5-d70bf42925f3
             authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:8083/login/oauth2/code/keycloak
+            redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
             scope: openid
           #Тут надо цеполять admin cli или чет такое
           #main-service:
@@ -49,11 +49,8 @@ spring:
             token-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/token
             user-info-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/userinfo
             jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
-            user-name-attribute: name
+            user-name-attribute: preferred_username
             user-info-authentication-method: header
-      resourceserver:
-        jwt:
-          jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
 
   cloud:
     gateway:

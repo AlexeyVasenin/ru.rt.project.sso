@@ -22,24 +22,7 @@ spring:
     name: microservice-cinema
   security:
     oauth2:
-      client:
-        registration:
-          microservice-cinema:
-            provider: keycloak
-            client-id: microservice-cinema
-            client-secret:
-            authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:8081/login/oauth2/code/keycloak
-            scope: openid
-        provider:
-          keycloak:
-            authorization-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/auth
-            token-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/token
-            user-info-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/userinfo
-            jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
-            user-name-attribute: name
-            user-info-authentication-method: header
       resourceserver:
         jwt:
-          jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
+          issuer-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}
 

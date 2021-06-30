@@ -15,21 +15,19 @@ public class OAuth2ResourceServerConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .anyRequest().authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .cors()
-                .and()
-                .csrf().disable()
-                .oauth2ResourceServer()
-                .jwt();
 //        http
-//                .authorizeRequests(authorize ->
-//                        authorize.anyRequest().authenticated())
-//                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+//                .authorizeRequests()
+//                .anyRequest().authenticated()
+//                .and()
+//                .sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                .cors()
+//                .and()
+//                .csrf().disable()
+//                .oauth2ResourceServer()
+//                .jwt();
+        http.authorizeRequests(authorize -> authorize.anyRequest().authenticated())
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
     }
 }
