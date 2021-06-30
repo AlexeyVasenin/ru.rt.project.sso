@@ -22,7 +22,7 @@ spring:
           microservice-cinema:
             provider: keycloak
             client-id: microservice-cinema
-            client-secret: 192f9bc9-7617-4b97-a549-92dc40d091be
+            client-secret:
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8081/login/oauth2/code/keycloak
             scope: openid
@@ -48,8 +48,12 @@ spring:
             authorization-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/auth
             token-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/token
             user-info-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/userinfo
-            user-name-attribute: preferred_username
-            #user-info-authentication-method: header
+            jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
+            user-name-attribute: name
+            user-info-authentication-method: header
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
 
   cloud:
     gateway:
@@ -85,8 +89,11 @@ spring:
     web-application-type: reactive
 
 eureka:
+  instance:
+    #    hostname: ${DOCKER_HOST:localhost}
+    hostname: localhost
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/

@@ -14,16 +14,16 @@ public class OAuth2ResourceServerConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        /*http.authorizeRequests()
+        http.authorizeRequests()
                 .anyRequest().authenticated()
-                .and()
+                    .and()
                 .oauth2Login()
-                .and()
+                    .and()
                 .oauth2ResourceServer()
-                .jwt();*/
-        http
-                .authorizeRequests(authorize ->
-                        authorize.anyRequest().authenticated())
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+                .jwt();
+//        http
+//                .authorizeRequests(authorize ->
+//                        authorize.anyRequest().authenticated())
+//                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
     }
 }

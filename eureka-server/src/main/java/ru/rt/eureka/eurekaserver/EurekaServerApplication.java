@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-// (exclude = {SecurityAutoConfiguration.class})
 @SpringBootApplication
 @EnableEurekaServer
 public class EurekaServerApplication {
@@ -18,7 +17,7 @@ public class EurekaServerApplication {
         protected void configure(HttpSecurity http) throws Exception {
             http
                     .authorizeRequests().anyRequest().permitAll()
-                        .and()
+                    .and()
                     .csrf().disable();
         }
     }
