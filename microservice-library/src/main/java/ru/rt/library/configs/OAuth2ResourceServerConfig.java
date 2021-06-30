@@ -8,22 +8,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 
 @Configuration
-//@EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class OAuth2ResourceServerConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .anyRequest().authenticated()
-                .and()
-                .oauth2Login()
-                .and()
-                .oauth2ResourceServer()
-                .jwt();
-//        http
-//                .authorizeRequests(authorize ->
-//                        authorize.anyRequest().authenticated())
-//                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+        http.authorizeRequests(authorize -> authorize.anyRequest().authenticated())
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
     }
 }

@@ -53,6 +53,7 @@ services:
       - ${LIBRARY_MICROSERVICE_PORT}:${LIBRARY_MICROSERVICE_PORT}
     environment:
       - eureka.client.serviceUrl.defaultZone=http://eureka-server:${EUREKA_SERVER_PORT}/eureka
+      - spring.oauth2.resourceserver.jwt.issuer-uri=http://keycloak:${KEYCLOAK_PORT}/auth/realms/sso_realm
     depends_on:
       - eureka-server
     networks:
@@ -67,6 +68,7 @@ services:
       - ${MUSIC_MICROSERVICE_PORT}:${MUSIC_MICROSERVICE_PORT}
     environment:
       - eureka.client.serviceUrl.defaultZone=http://eureka-server:${EUREKA_SERVER_PORT}/eureka
+      - spring.oauth2.resourceserver.jwt.issuer-uri=http://keycloak:${KEYCLOAK_PORT}/auth/realms/sso_realm
     depends_on:
       - eureka-server
     networks:

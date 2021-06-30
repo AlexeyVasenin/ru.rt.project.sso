@@ -22,7 +22,7 @@ spring:
           microservice-cinema:
             provider: keycloak
             client-id: microservice-cinema
-            client-secret: 6405e2e7-39be-48e8-91c4-0666fec6bc99
+            client-secret: 192f9bc9-7617-4b97-a549-92dc40d091be
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
             scope: openid
@@ -87,8 +87,8 @@ spring:
 
 eureka:
   instance:
-    #    hostname: ${DOCKER_HOST:localhost}
-    hostname: localhost
+    hostname: ${DOCKER_HOST:localhost}
+#    hostname: localhost
   client:
     register-with-eureka: true
     fetch-registry: true

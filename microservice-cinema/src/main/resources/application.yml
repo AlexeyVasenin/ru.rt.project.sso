@@ -5,8 +5,8 @@ server:
 
 eureka:
   instance:
-    #    hostname: ${DOCKER_HOST:localhost}
-    hostname: localhost
+    hostname: ${DOCKER_HOST:localhost}
+#    hostname: localhost
   client:
     register-with-eureka: true
     fetch-registry: true
@@ -25,4 +25,5 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}
+          jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
 
