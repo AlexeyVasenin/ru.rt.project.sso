@@ -6,7 +6,6 @@ server:
 eureka:
   instance:
     hostname: ${DOCKER_HOST:localhost}
-#    hostname: localhost
   client:
     register-with-eureka: true
     fetch-registry: true

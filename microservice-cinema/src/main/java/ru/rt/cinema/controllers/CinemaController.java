@@ -14,6 +14,11 @@ import java.net.http.HttpHeaders;
 @RequestMapping("/cinema")
 public class CinemaController {
 
+    @GetMapping
+    public String index() {
+        return "index";
+    }
+
     @GetMapping("/ping")
     public String getTokenDetails(@RequestHeader HttpHeaders headers) {
         SecurityContext context = SecurityContextHolder.getContext();

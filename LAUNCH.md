@@ -1,33 +1,39 @@
 ### Инструкция по использованию (на Windows)
 
-##### Подготовка (текущая директория: <project_dir>/main_service)
+#### Подготовка 
 
 1. Построить проект:
 
-*gradlew bootJar*
+gradlew assemble
 
-2. (После нового билда) Удалить существующий (если он есть) образ docker-spring-boot-postgres
-
-*docker rmi docker-spring-boot-postgres:latest*
+2. (После нового билда) Удалить измененные образы в Docker
 
 ##### Создание и запуск контейнера основного сервиса (detached mode)
 
-*docker-compose up -d*
+#### Запуск 2 контейнеров
 
-##### Панель администратора Keycloak
+##### Создание и запуск контейнера с микросервисами (detached mode)
 
-*https://localhost:8180/auth/*
+docker-compose up -d
 
-##### Остановка и удаление контейнера
+##### Остановка и удаление первого контейнера
 
-*docker-compose down*
+docker-compose down
 
-
-
-##### Запустить второй docker-compose
+##### Запустить второй docker-compose (с keycloak и БД)
 
 docker-compose -f docker-compose-keycloak.yml -p sso_project_keycloak up -d
 
 ##### Остановка и удаление второго контейнера
 
 docker-compose -f docker-compose-keycloak.yml -p sso_project_keycloak down
+
+#### Запуск 1 контейнера
+
+##### Запустить общий контейнер
+
+docker-compose -f docker-compose-one-container.yml up -d
+
+##### Остановка и удаление общего контейнера
+
+docker-compose -f docker-compose-one-container.yml down
