@@ -20,7 +20,7 @@ public class CinemaController {
     }
 
     @GetMapping("/ping")
-    public String getTokenDetails(@RequestHeader HttpHeaders headers) {
+    public String getTokenDetails() {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
         return "Scopes: " + authentication.getAuthorities();

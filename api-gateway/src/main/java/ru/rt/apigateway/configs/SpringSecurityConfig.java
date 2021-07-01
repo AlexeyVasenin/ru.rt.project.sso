@@ -46,12 +46,12 @@ public class SpringSecurityConfig {
 //        return source;
 //    }
 
-    @Bean
-    public RouteLocator customRouteLocator(RouteLocatorBuilder builder, TokenRelayGatewayFilterFactory filterFactory) {
-        return builder.routes()
-                .route("microservice-cinema", r -> r.path("/cinema")
-                        .filters(f -> f.filter(filterFactory.apply()))
-                        .uri("lb://microservice-cinema/cinema"))
-                .build();
-    }
+//    @Bean
+//    public RouteLocator customRouteLocator(RouteLocatorBuilder builder, TokenRelayGatewayFilterFactory filterFactory) {
+//        return builder.routes()
+//                .route("microservice-cinema", r -> r.path("/cinema")
+//                        .filters(f -> f.filter(filterFactory.apply()))
+//                        .uri("lb://microservice-cinema/cinema"))
+//                .build();
+//    }
 }

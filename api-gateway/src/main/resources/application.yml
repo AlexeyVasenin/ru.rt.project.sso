@@ -53,35 +53,35 @@ spring:
             user-name-attribute: preferred_username
             user-info-authentication-method: header
 
-#  cloud:
-#    gateway:
-#      routes:
-#        - id: microservice-cinema
-#          uri: https://localhost:8081
-#          predicates:
-#            - Path=/cinema/**
-#          filters:
-#            - RemoveRequestHeader=Cookie
-#        - id: microservice-library
-#          uri: https://localhost:8082
-#          predicates:
-#            - Path=/library/**
-#          filters:
-#            - RemoveRequestHeader=Cookie
-#        - id: microservice-music
-#          uri: https://localhost:8083
-#          predicates:
-#            - Path=/music/**
-#          filters:
-#            - RemoveRequestHeader=Cookie
-#        #- id: main-service
-#        #  uri: https://localhost:8085
-#        #  predicates:
-#        #    - Path=/api/**
-#        #  filters:
-#        #    - RemoveRequestHeader=Cookie
-#      default-filters:
-#        - TokenRelay
+  cloud:
+    gateway:
+      default-filters:
+        - TokenRelay
+      routes:
+        - id: microservice-cinema
+          uri: http://localhost:8081
+          predicates:
+            - Path=/cinema/**
+          filters:
+            - RemoveRequestHeader=Cookie
+        - id: microservice-library
+          uri: http://localhost:8082
+          predicates:
+            - Path=/library/**
+          filters:
+            - RemoveRequestHeader=Cookie
+        - id: microservice-music
+          uri: http://localhost:8083
+          predicates:
+            - Path=/music/**
+          filters:
+            - RemoveRequestHeader=Cookie
+        #- id: main-service
+        #  uri: https://localhost:8085
+        #  predicates:
+        #    - Path=/api/**
+        #  filters:
+        #    - RemoveRequestHeader=Cookie
   main:
     allow-bean-definition-overriding: true
 #    web-application-type: reactive
