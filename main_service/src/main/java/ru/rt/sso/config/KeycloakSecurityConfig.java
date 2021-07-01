@@ -1,6 +1,7 @@
 package ru.rt.sso.config;
 
 import org.keycloak.adapters.KeycloakConfigResolver;
+import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootProperties;
 import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
@@ -27,7 +28,9 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy;
+import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
@@ -36,11 +39,11 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
-    private final KeycloakClientRequestFactory keycloakClientRequestFactory;
-
     @Autowired
-    public KeycloakSecurityConfig(KeycloakClientRequestFactory keycloakClientRequestFactory) {
-        this.keycloakClientRequestFactory = keycloakClientRequestFactory;
+    public void configureGlobal(AuthenticationManagerBuilder auth) {
+        KeycloakAuthenticationProvider authenticationProvider = keycloakAuthenticationProvider();
+        authenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
+        auth.authenticationProvider(authenticationProvider);
 
         // to use principal and authentication together with @async
         SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
@@ -59,101 +62,23 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
     }
 
     @Bean
-    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    public KeycloakRestTemplate keycloakRestTemplate() {
-        return new KeycloakRestTemplate(keycloakClientRequestFactory);
+    public KeycloakSpringBootConfigResolver keycloakConfigResolver() {
+        return new KeycloakSpringBootConfigResolver();
     }
 
-    public SimpleAuthorityMapper grantedAuthority() {
-        SimpleAuthorityMapper mapper = new SimpleAuthorityMapper();
-        mapper.setConvertToUpperCase(true);
-        return mapper;
-    }
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) {
-        KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
-        keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(grantedAuthority());
-        auth.authenticationProvider(keycloakAuthenticationProvider);
-    }
-
-    /**
-     * Use NullAuthenticatedSessionStrategy for bearer-only tokens. Otherwise, use
-     * RegisterSessionAuthenticationStrategy.
-     */
     @Bean
     @Override
     protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
-        return new NullAuthenticatedSessionStrategy();
+        return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
     }
 
-    /**
-     * Secure appropriate endpoints
-     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         super.configure(http);
-        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry expressionInterceptUrlRegistry = http.cors() //
-                .and() //
-                .csrf().disable() //
-                //                .anonymous().disable() //
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //
-                .and() //
-                .authorizeRequests();
-
-        expressionInterceptUrlRegistry = expressionInterceptUrlRegistry.antMatchers("/iam/accounts/promoters*").hasRole("PROMOTER");
-        expressionInterceptUrlRegistry = expressionInterceptUrlRegistry.antMatchers("/iam/accounts/supervisors*").hasRole("SUPERVISOR");
-
-        expressionInterceptUrlRegistry.anyRequest().permitAll();
-    }
-
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    @Bean
-    public FilterRegistrationBean keycloakAuthenticationProcessingFilterRegistrationBean(KeycloakAuthenticationProcessingFilter filter) {
-
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
-        registrationBean.setEnabled(false);
-        return registrationBean;
-    }
-
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    @Bean
-    public FilterRegistrationBean keycloakPreAuthActionsFilterRegistrationBean(KeycloakPreAuthActionsFilter filter) {
-
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
-        registrationBean.setEnabled(false);
-        return registrationBean;
-    }
-
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    @Bean
-    public FilterRegistrationBean keycloakAuthenticatedActionsFilterBean(KeycloakAuthenticatedActionsFilter filter) {
-
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
-        registrationBean.setEnabled(false);
-        return registrationBean;
-    }
-
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    @Bean
-    public FilterRegistrationBean keycloakSecurityContextRequestFilterBean(KeycloakSecurityContextRequestFilter filter) {
-
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
-        registrationBean.setEnabled(false);
-        return registrationBean;
-    }
-
-    @Bean
-    @Override
-    @ConditionalOnMissingBean(HttpSessionManager.class)
-    protected HttpSessionManager httpSessionManager() {
-        return new HttpSessionManager();
-    }
-
-    @Bean
-    public ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {
-        return new ServletListenerRegistrationBean<>(new HttpSessionEventPublisher());
+        http.cors().and().csrf().disable();
+        http.authorizeRequests()
+                .anyRequest()
+                .permitAll();
     }
 
 }

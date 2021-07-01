@@ -2,8 +2,10 @@ package ru.rt.sso.controller;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import ru.rt.sso.domain.User;
 import ru.rt.sso.service.KeycloakAdminClientService;
 
 import java.util.Collection;
@@ -23,28 +25,11 @@ public class KeycloakController {
         return "Hello";
     }
 
-    @GetMapping(path = "/roles")
-    public Collection<String> rolesOfUser() {
-        return keycloakAdminClientService.getUserRoles();
-    }
-
-    @GetMapping(path = "/profile")
-    public Object profileOfUser() {
-        return keycloakAdminClientService.getUserProfileOfLoggedUser();
-    }
-
-    @Getter
-    @Setter
-    public static class SaveNewUsers {
-        private String userName;
-        private String email;
-        private String password;
-    }
 
     @PostMapping(path = "/users")
     @ResponseBody
-    public void addUser(@RequestBody SaveNewUsers newUsers) {
-        keycloakAdminClientService.addUser(newUsers);
+    public UserRepresentation createUser(@RequestBody User user) {
+        return keycloakAdminClientService.addUser(user);
     }
 
 }
