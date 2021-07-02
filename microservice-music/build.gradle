@@ -17,11 +17,14 @@ ext {
 
 dependencies {
     // микросервисы - это resource servers
+    // oauth2:
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    // spring cloud:
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-    implementation 'org.springframework.security:spring-security-oauth2-jose:5.5.1'
-
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    // web:
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // security:
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 }
 
 dependencyManagement {

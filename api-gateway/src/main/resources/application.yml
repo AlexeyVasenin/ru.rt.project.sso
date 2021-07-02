@@ -24,7 +24,6 @@ spring:
             client-id: microservice-cinema
             client-secret: 192f9bc9-7617-4b97-a549-92dc40d091be
             authorization-grant-type: authorization_code
-#            redirect-uri: http://localhost:${server.port}/login/oauth2/code/keycloak
             redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
             scope: openid
           microservice-library:

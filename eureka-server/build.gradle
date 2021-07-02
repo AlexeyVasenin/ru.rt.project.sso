@@ -10,8 +10,11 @@ ext {
 }
 
 dependencies {
+    // eureka-server:
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+    // jaxb api:
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
+    // jaxb implementation (still fails while launching):
     implementation 'org.glassfish.jaxb:jaxb-runtime:3.0.1'
 }
 
