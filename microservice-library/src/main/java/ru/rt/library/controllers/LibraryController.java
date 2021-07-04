@@ -1,32 +1,47 @@
 package ru.rt.library.controllers;
 
-import net.minidev.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.function.client.WebClient;
+import ru.rt.library.domain.Book;
 
-import java.net.http.HttpHeaders;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@RestController
+@Controller
 @RequestMapping("/library")
 public class LibraryController {
 
+    @Value("${resource-server.api.url}")
+    private String libraryApiUrl;
+
+    @Autowired
+    private WebClient webClient;
+
     @GetMapping
-    public String index() {
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        Jwt principalJwt = (Jwt) authentication.getPrincipal();
-        String username = (String) principalJwt.getClaims().get("preferred_username");
-        String email = (String) principalJwt.getClaims().get("email");
-        String authorizedParty = (String) principalJwt.getClaims().get("azp");
-        String scopeValues = (String) principalJwt.getClaims().get("scope");
-        JSONObject realmAccess = (JSONObject) principalJwt.getClaims().get("realm_access");
-        return String.format("authorized party: %s;\nprincipal username: %s;\nprincipal email: %s;\nprincipal scopes: %s;\nprincipal realm access: %s",
-                authorizedParty, username, email, scopeValues, realmAccess);
+    public String getAllBooks(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        DefaultOidcUser p = (DefaultOidcUser) authentication.getPrincipal();
+        model.addAttribute("email", p.getClaims().get("email"));
+        model.addAttribute("authorities",
+                p.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(", ")));
+
+        List<Book> books = this.webClient.get()
+                .uri(libraryApiUrl)
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<Book>>() {
+                })
+                .block();
+        model.addAttribute("books", books);
+        return "index";
     }
 }

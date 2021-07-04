@@ -27,17 +27,10 @@ subprojects {
     }
 
     dependencies {
-        // пока закомментил общие зависимости
-//        implementation 'org.springframework.boot:spring-boot-starter-web'
-//        implementation 'org.springframework.security:spring-security-config'
-//        implementation 'org.springframework.security:spring-security-web'
-//        implementation 'org.yaml:snakeyaml:1.29'
-
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
         compileOnly 'org.projectlombok:lombok'
-
         annotationProcessor 'org.projectlombok:lombok'
-        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+        // annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     }
 }

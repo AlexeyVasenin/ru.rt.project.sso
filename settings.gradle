@@ -2,7 +2,8 @@ include 'microservice-library'
 include 'microservice-music'
 include 'microservice-cinema'
 include 'eureka-server'
-include 'api-gateway'
+include 'resource-server'
 
+// main-service = resource-server ???
 include 'main_service'
 

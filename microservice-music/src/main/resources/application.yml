@@ -1,6 +1,7 @@
-debug: true
 server:
   port: 8083
+  servlet:
+    context-path: /music
 
 eureka:
   instance:
@@ -12,7 +13,7 @@ eureka:
       defaultZone: http://${eureka.instance.hostname}:8761/eureka/
 
 keycloak-client:
-  server-url: http://localhost:8180/auth
+  server-url: http://keycloak-java-school.apps.okd.stage.digital.rt.ru/auth
   realm: sso_realm
 
 spring:
@@ -20,6 +21,23 @@ spring:
     name: microservice-music
   security:
     oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
+      client:
+        registration:
+          microservice-music:
+            provider: keycloak
+            client-id: microservice-music
+            client-secret: 72ede50c-2a17-414d-85a5-d70bf42925f3
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
+            scope: openid
+        provider:
+          keycloak:
+            authorization-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/auth
+            token-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/token
+            user-info-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/userinfo
+            jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
+            user-name-attribute: preferred_username
+
+resource-server:
+  api:
+    url: http://localhost:8080/resource-server/api/music/

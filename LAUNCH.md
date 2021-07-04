@@ -27,13 +27,3 @@ docker-compose -f docker-compose-keycloak.yml -p sso_project_keycloak up -d
 ##### Остановка и удаление второго контейнера
 
 docker-compose -f docker-compose-keycloak.yml -p sso_project_keycloak down
-
-#### Запуск 1 контейнера
-
-##### Запустить общий контейнер
-
-docker-compose -f docker-compose-one-container.yml up -d
-
-##### Остановка и удаление общего контейнера
-
-docker-compose -f docker-compose-one-container.yml down

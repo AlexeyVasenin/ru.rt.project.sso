@@ -12,13 +12,13 @@ services:
     networks:
       - sso-net
 
-  api-gateway:
-    container_name: api-gateway
+  resource-server:
+    container_name: resource-server
     build:
-      context: api-gateway
+      context: resource-server
       dockerfile: Dockerfile
     ports:
-      - ${API_GATEWAY_PORT}:${API_GATEWAY_PORT}
+      - ${RESOURCE_SERVER_PORT}:${RESOURCE_SERVER_PORT}
     environment:
       - eureka.client.serviceUrl.defaultZone=http://eureka-server:${EUREKA_SERVER_PORT}/eureka
     depends_on:
