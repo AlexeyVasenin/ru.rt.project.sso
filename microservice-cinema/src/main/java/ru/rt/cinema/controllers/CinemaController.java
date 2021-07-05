@@ -48,8 +48,8 @@ public class CinemaController {
         return "model";
     }
 
-    /*@GetMapping("/logout")
+    @GetMapping("/logout")
     public void logout(HttpServletRequest request) throws ServletException {
         request.logout();
-    }*/
+    }
 }
