@@ -13,7 +13,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.antMatcher("/**")
+        http
+                //.antMatcher("/**")
                 .authorizeRequests()
                     .antMatchers("/")
                     .permitAll()

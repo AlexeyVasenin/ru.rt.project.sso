@@ -9,24 +9,25 @@
 <h3>Email: <span th:text="${email}"> Email </span></h3>
 <h3>Authorities: <span th:text="${authorities}"> Authorities </span></h3>
 
-<div th:if="${movies == null || movies.empty}">
-    <h1>Фильмы:</h1>
-    <table>
-        <thead>
-        <tr>
-            <td>ID</td>
-            <td>Название</td>
-            <td>Год создания</td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="movie : ${movies}">
-            <td><span th:text="${movie.id}"> ID </span></td>
-            <td><span th:text="${movie.title}"> Название </span></td>
-            <td><span th:text="${movie.creationYear}"> Год создания </span></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+<h1>Фильмы:</h1>
+<table>
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>Название</td>
+        <td>Дата премьеры</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${movies == null || movies.empty}">
+        <td colspan="4">Книг нет!</td>
+    </tr>
+    <tr th:each="movie : ${movies}">
+        <td><span th:text="${movie.id}"> ID </span></td>
+        <td><span th:text="${movie.title}"> Название </span></td>
+        <td><span th:text="${movie.creationYear}"> Дата премьеры </span></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

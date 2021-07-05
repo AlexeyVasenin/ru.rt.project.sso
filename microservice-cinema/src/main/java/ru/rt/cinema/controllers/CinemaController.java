@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.rt.cinema.domain.Movie;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,4 +47,9 @@ public class CinemaController {
         model.addAttribute("movies", movies);
         return "model";
     }
+
+    /*@GetMapping("/logout")
+    public void logout(HttpServletRequest request) throws ServletException {
+        request.logout();
+    }*/
 }

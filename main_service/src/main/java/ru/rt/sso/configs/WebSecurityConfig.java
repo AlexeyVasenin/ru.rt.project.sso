@@ -1,4 +1,4 @@
-package ru.rt.library.configs;
+package ru.rt.sso.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,18 +9,18 @@ import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepo
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 
+
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-                //.antMatcher("/**")
                 .authorizeRequests()
-                    .antMatchers("/")
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated()
-                    .and()
+                .antMatchers("/")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
                 .oauth2Login();
     }
 
@@ -33,3 +33,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return WebClient.builder().apply(oauth2.oauth2Configuration()).build();
     }
 }
+
