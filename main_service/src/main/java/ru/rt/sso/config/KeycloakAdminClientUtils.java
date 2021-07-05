@@ -90,7 +90,7 @@ public class KeycloakAdminClientUtils {
         return KeycloakBuilder.builder() //
                 .serverUrl(config.getServerUrl()) //
                 .realm(config.getRealm()) //
-                .grantType(OAuth2Constants.PASSWORD) //
+                .grantType(OAuth2Constants.CLIENT_CREDENTIALS) //
                 .username(config.getUserName())
                 .clientId(config.getClientId()) //
                 .clientSecret(config.getClientSecret()) //
