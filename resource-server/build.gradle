@@ -1,0 +1,39 @@
+plugins {
+    id 'org.springframework.boot' version '2.4.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+ext.moduleName = 'resource-server'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+ext {
+    set('springCloudVersion', "2020.0.3")
+}
+
+dependencies {
+    // oauth2:
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    // spring cloud:
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    // web:
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // production-ready features:
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    // security:
+    implementation 'org.springframework.security:spring-security-test'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

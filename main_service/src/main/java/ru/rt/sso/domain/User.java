@@ -1,26 +1,29 @@
 package ru.rt.sso.domain;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.Set;
 
-@Entity
-@Table(name = "users")
 @Getter
 @Setter
-@NoArgsConstructor
 public class User {
+    private String username;
+    private String email;
+    private String fullName;
+    private Set<String> roles;
 
-    @Id
-    private long id;
-    private String name;
-    private String birthdate;
-    private String pass;
-    private boolean active;
+    public User(String username){
+        this.username = username;
+    }
 
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
 }

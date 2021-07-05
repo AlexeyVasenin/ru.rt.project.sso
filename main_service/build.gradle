@@ -1,19 +1,9 @@
 plugins {
     id 'org.springframework.boot' version '2.4.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'java'
 }
 
-group = 'ru.rt.main'
-version = '0.0.1-SNAPSHOT'
-
-apply plugin: 'java'
-sourceCompatibility = '11'
-targetCompatibility = '11'
-
-repositories {
-    mavenCentral()
-}
+ext.moduleName = 'main_service'
 
 configurations {
     compileOnly {
@@ -21,26 +11,28 @@ configurations {
     }
 }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'org.liquibase:liquibase-core'
-    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.5.0'
-    implementation 'org.postgresql:postgresql:42.2.20'
-    // https://mvnrepository.com/artifact/org.yaml/snakeyaml
-    implementation 'org.yaml:snakeyaml:1.29'
-
-    // для настройки keycloak:
-    implementation 'org.keycloak:keycloak-spring-boot-starter:13.0.1'
-    implementation 'org.keycloak:keycloak-spring-boot-2-adapter:13.0.1'
+ext {
+    set('springCloudVersion', "2020.0.3")
 }
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+    // reactive-spring
+    implementation 'org.springframework:spring-webflux'
+    implementation 'io.projectreactor.netty:reactor-netty'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
 
 test {
     useJUnitPlatform()

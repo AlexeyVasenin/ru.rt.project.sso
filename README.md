@@ -29,7 +29,7 @@ _Есть несколько различных систем (с разными 
     - src
         - main
             - java
-                - ru.rt.plug - sources
+                - ru.rt.cinema - sources
             - resources
                 - templates
                 - application.properties
