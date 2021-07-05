@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/cinema")
+@RequestMapping
 public class CinemaController {
 
     @Value("${resource-server.api.url}")
@@ -27,7 +27,7 @@ public class CinemaController {
     @Autowired
     private WebClient webClient;
 
-    @GetMapping
+    @GetMapping("/model")
     public String getAllFilms(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         DefaultOidcUser p = (DefaultOidcUser) authentication.getPrincipal();
@@ -42,6 +42,6 @@ public class CinemaController {
                 })
                 .block();
         model.addAttribute("movies", movies);
-        return "index";
+        return "model";
     }
 }

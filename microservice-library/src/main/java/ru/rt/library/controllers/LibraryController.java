@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/library")
+@RequestMapping
 public class LibraryController {
 
     @Value("${resource-server.api.url}")
@@ -27,7 +27,7 @@ public class LibraryController {
     @Autowired
     private WebClient webClient;
 
-    @GetMapping
+    @GetMapping("/model")
     public String getAllBooks(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         DefaultOidcUser p = (DefaultOidcUser) authentication.getPrincipal();
@@ -42,6 +42,6 @@ public class LibraryController {
                 })
                 .block();
         model.addAttribute("books", books);
-        return "index";
+        return "model";
     }
 }

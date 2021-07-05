@@ -1,32 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Cinema page</title>
+    <title>Index page</title>
 </head>
 <body>
-<h3>Hi, <span sec:authentication="name">preferred_username</span></h3>
-<h3>Email: <span th:text="${email}"> Email </span></h3>
-<h3>Authorities: <span th:text="${authorities}"> Authorities </span></h3>
-
-<div th:if="${movies == null || movies.empty}">
-    <h1>Фильмы:</h1>
-    <table>
-        <thead>
-        <tr>
-            <td>ID</td>
-            <td>Название</td>
-            <td>Год создания</td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="movie : ${movies}">
-            <td><span th:text="${movie.id}"> ID </span></td>
-            <td><span th:text="${movie.title}"> Название </span></td>
-            <td><span th:text="${movie.creationYear}"> Год создания </span></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+<a class="navbar-brand" th:href="@{/cinema/}">Cinema client</a>
+<label>Welcome !</label><br/>
+<a th:href="@{/model/}">Login</a>
 </body>
 </html>

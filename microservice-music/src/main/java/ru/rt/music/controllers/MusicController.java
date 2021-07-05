@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/music")
+@RequestMapping
 public class MusicController {
 
     @Value("${resource-server.api.url}")
@@ -27,7 +27,7 @@ public class MusicController {
     @Autowired
     private WebClient webClient;
 
-    @GetMapping
+    @GetMapping("/model")
     public String getAllSongs(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         DefaultOidcUser p = (DefaultOidcUser) authentication.getPrincipal();
@@ -42,6 +42,6 @@ public class MusicController {
                 })
                 .block();
         model.addAttribute("songs", songs);
-        return "index";
+        return "model";
     }
 }
