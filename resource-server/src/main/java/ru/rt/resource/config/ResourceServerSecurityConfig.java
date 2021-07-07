@@ -60,7 +60,7 @@ public class ResourceServerSecurityConfig extends WebSecurityConfigurerAdapter {
                 JSONArray roles = (JSONArray) realmAccess.get("roles");
 
                 final List<SimpleGrantedAuthority> keycloakAuthorities = roles.stream()
-                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                        .map(role -> new SimpleGrantedAuthority("TEST_" + role))
                         .collect(Collectors.toList());
 
                 grantedAuthorities.addAll(keycloakAuthorities);
