@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
-
 
 @Getter
 @Setter
@@ -19,6 +16,4 @@ public class Entry {
     private long entryTypeId;
     private long userId;
     private String entryValue;
-
-
 }

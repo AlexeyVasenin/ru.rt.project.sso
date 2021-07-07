@@ -16,11 +16,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
+                    .antMatchers("/")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
+                    .and()
                 .oauth2Login();
     }
 

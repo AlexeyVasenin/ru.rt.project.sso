@@ -16,7 +16,6 @@ import ru.rt.cinema.domain.Movie;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,8 +26,12 @@ public class CinemaController {
     @Value("${resource-server.api.url}")
     private String cinemaApiUrl;
 
+    private final WebClient webClient;
+
     @Autowired
-    private WebClient webClient;
+    public CinemaController(WebClient webClient) {
+        this.webClient = webClient;
+    }
 
     @GetMapping("/model")
     public String getAllFilms(Model model) {
