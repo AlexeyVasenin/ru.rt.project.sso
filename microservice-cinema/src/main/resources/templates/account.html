@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Cinema page</title>
+</head>
+<body>
+
+<div id="content" style="width:60%; margin:0 auto;">
+
+    <h2 align="center" style="color:dodgerblue;margin-top: 90px;">Данные аккаунта</h2>
+
+    <div id="table-attr">
+        <table align="center">
+            <tr>
+                <th style="text-align:center;">Attributes</th>
+                <th style="text-align:center;">Value</th>
+            </tr>
+            <tr>
+                <td style="text-align:center;">Username</td>
+                <td style="text-align:center;"><span th:text="${user.getPreferredUsername()}"> preferred_username </span></td>
+                <!--<span sec:authentication="name">preferred_username</span>-->
+            </tr>
+            <tr>
+                <td style="text-align:center;">Name</td>
+                <td style="text-align:center;"><span th:text="${user.getFullName()}"> Name </span></td>
+            </tr>
+            <tr>
+                <td style="text-align:center;">Email</td>
+                <td style="text-align:center;"><span th:text="${user.getEmail()}"> Email </span></td>
+            </tr>
+
+            <tr>
+                <td style="text-align:center;">Birth Date</td>
+                <td style="text-align:center;"><span th:text="${user.getBirthdate()}"> Birth Date </span></td>
+            </tr>
+
+            <tr>
+                <td style="text-align:center;">Roles</td>
+                <td style="text-align:center;"><span th:text="${authorities}"> authorities </span></td>
+
+               <!-- <td th:each="role : ${authorities}">
+                    <td style="text-align:center;">${role}</td>-->
+            </tr>
+
+
+        <!-- <tr>
+             <td style="text-align:center;">Roles</td>
+
+             <#list user.roles as role>
+         <tr>
+             <td></td>
+             <td style="text-align:center;">${role}</td>
+         </tr>
+
+         <tr th:if="${movies == null || movies.empty}">
+             <td colspan="4">Фильмов нет!</td>
+         </tr>
+         <tr th:each="movie : ${movies}">
+             <td><span th:text="${movie.id}"> ID </span></td>
+             <td><span th:text="${movie.title}"> Название </span></td>
+             <td><span th:text="${movie.creationYear}"> Дата премьеры </span></td>
+         </tr>-->
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
+import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -39,6 +40,8 @@ public class KeycloakOauth2UserService extends OidcUserService {
         authorities.addAll(user.getAuthorities());
         authorities.addAll(extractKeycloakAuthorities(userRequest));
 
+        OidcUserInfo userInfo = user.getUserInfo();
+
         return new DefaultOidcUser(authorities, userRequest.getIdToken(), user.getUserInfo(), "preferred_username");
     }
 
@@ -55,8 +58,8 @@ public class KeycloakOauth2UserService extends OidcUserService {
         JSONArray clientRoles = (JSONArray) clientAccess.get("roles");
 
         Collection<? extends GrantedAuthority> authorities = clientRoles.stream()
-                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
-                        .collect(Collectors.toList());
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .collect(Collectors.toList());
 
         return authoritiesMapper.mapAuthorities(authorities);
     }

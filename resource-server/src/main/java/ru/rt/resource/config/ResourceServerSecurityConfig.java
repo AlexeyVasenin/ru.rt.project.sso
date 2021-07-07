@@ -28,7 +28,9 @@ public class ResourceServerSecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .authorizeRequests()
                     .anyRequest()
-                    .authenticated()
+                /*Сейчас эта штука ничего не дает взять с ресурсов, то бишь блочит 401 на все api/** */
+                    //.authenticated()
+                    .permitAll()
                     .and()
                 .oauth2ResourceServer()
                     .jwt().jwtAuthenticationConverter(jwtAuthenticationConverter());

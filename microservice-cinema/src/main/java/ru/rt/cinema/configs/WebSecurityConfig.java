@@ -16,6 +16,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import ru.rt.cinema.handlers.KeycloakLogoutHandler;
 import ru.rt.cinema.sevices.KeycloakOauth2UserService;
 
+import static org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI;
+
 @EnableWebSecurity
 @Configuration
 public class WebSecurityConfig {
@@ -28,6 +30,7 @@ public class WebSecurityConfig {
 
                 http
                         .authorizeRequests()
+                        .antMatchers("/admin").hasRole("SUBSCRIBER")
                         .antMatchers("/").permitAll()
                         .anyRequest().authenticated()
                         .and()
@@ -41,7 +44,6 @@ public class WebSecurityConfig {
             }
         };
     }
-
 
     @Bean
     WebClient webClient(ClientRegistrationRepository clientRegistrationRepository, OAuth2AuthorizedClientRepository authorizedClientRepository) {
