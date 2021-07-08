@@ -3,6 +3,7 @@ package ru.rt.cinema.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,6 +49,7 @@ public class CinemaController {
 
     @GetMapping("/account")
     public String accountPage(Model model, Authentication authentication) {
+        model.addAttribute("principal", authentication.getPrincipal());
         userDetailsCollectorService.getUserDetails(model, authentication);
         return "account";
     }
@@ -57,10 +59,15 @@ public class CinemaController {
         return new ModelAndView("admin", Collections.singletonMap("principal", principal));
     }
 
-    //@PreAuthorize("hasRole('ROLE_SUBSCRIBER')")
-    public String subscribePage(Principal principal) {
-       return "subscribe";
+    @PreAuthorize("hasRole('ROLE_SUBSCRIBER')")
+    @GetMapping("/subscribe")
+    public ModelAndView subscribePage(Principal principal) {
+        return new ModelAndView("subscribe", Collections.singletonMap("principal", principal));
+        //return "subscribe";
     }
 
-
+    @GetMapping("/about")
+    public ModelAndView aboutPage(Principal principal) {
+        return new ModelAndView("subscribe", Collections.singletonMap("principal", principal));
+    }
 }

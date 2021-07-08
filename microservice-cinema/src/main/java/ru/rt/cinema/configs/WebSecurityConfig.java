@@ -30,17 +30,19 @@ public class WebSecurityConfig {
 
                 http
                         .authorizeRequests()
-                        .antMatchers("/admin").hasRole("SUBSCRIBER")
+                        .antMatchers("/admin").hasRole("ADMIN")
                         .antMatchers("/").permitAll()
                         .anyRequest().authenticated()
                         .and()
                         .logout().addLogoutHandler(keycloakLogoutHandler)
                         .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .deleteCookies("JSESSIONID")
                         .and()
-                        .oauth2Login().userInfoEndpoint().oidcUserService(keycloakOidcUserService);
+                        .oauth2Login().userInfoEndpoint().oidcUserService(keycloakOidcUserService)
+                .and().defaultSuccessUrl("/",true);
             }
         };
     }
