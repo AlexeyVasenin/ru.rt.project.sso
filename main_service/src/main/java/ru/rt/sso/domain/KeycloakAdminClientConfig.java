@@ -9,7 +9,5 @@ public class KeycloakAdminClientConfig {
 
     private String serverUrl;
     private String realm;
-    private String userName;
     private String clientId;
-    private String clientSecret;
 }

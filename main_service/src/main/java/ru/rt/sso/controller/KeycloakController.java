@@ -30,10 +30,6 @@ public class KeycloakController {
         return keycloakAdminClientService.getUsers();
     }
 
-    @GetMapping(path = "users/{name}")
-    @ResponseBody
-    public UserRepresentation getUser(@PathVariable String name){
-        return keycloakAdminClientService.getUser(name);
-    }
+
 
 }

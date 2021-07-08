@@ -1,4 +1,9 @@
-rootProject.name = 'sso'
+include 'microservice-library'
+include 'microservice-music'
+include 'microservice-cinema'
+include 'eureka-server'
+include 'resource-server'
 
+// main-service = resource-server ???
 include 'main_service'
-include 'plug_service'
+

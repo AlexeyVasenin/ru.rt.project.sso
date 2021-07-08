@@ -12,28 +12,27 @@ configurations {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'org.liquibase:liquibase-core'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.5.0'
-    implementation 'org.postgresql:postgresql:42.2.20'
-    // https://mvnrepository.com/artifact/org.yaml/snakeyaml
-    implementation 'org.yaml:snakeyaml:1.29'
 
     // для настройки keycloak:
     implementation 'org.keycloak:keycloak-spring-boot-starter:13.0.1'
-    implementation 'org.keycloak:keycloak-spring-boot-2-adapter:13.0.1'
-    // https://mvnrepository.com/artifact/org.keycloak/keycloak-admin-client
+    // https://mvnrepository.com/artifact/org.keycloak.bom/keycloak-adapter-bom
+    implementation group: 'org.keycloak.bom', name: 'keycloak-adapter-bom', version: '13.0.1', ext: 'pom'
+
     implementation 'org.keycloak:keycloak-admin-client:13.0.1'
-    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+    // https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-eureka-client
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:3.0.3'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'io.projectreactor.netty:reactor-netty'
+    implementation 'org.springframework:spring-webflux'
 
 
 }

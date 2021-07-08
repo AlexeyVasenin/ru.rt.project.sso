@@ -4,35 +4,23 @@ import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
+import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import ru.rt.sso.config.KeycloakAdminClientUtils;
-import ru.rt.sso.config.KeycloakPropertyReader;
+import ru.rt.sso.configs.KeycloakAdminClientUtils;
 import ru.rt.sso.domain.KeycloakAdminClientConfig;
 import ru.rt.sso.domain.User;
 
-import java.awt.*;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class KeycloakAdminClientService {
-    @Value("${keycloak.resource}")
-    private String keycloakClient;
-
-    private final KeycloakPropertyReader keycloakPropertyReader;
-
-    @Autowired
-    public KeycloakAdminClientService(KeycloakPropertyReader keycloakPropertyReader) {
-        this.keycloakPropertyReader = keycloakPropertyReader;
-    }
 
     //Создать нового пользователя
     public UserRepresentation addUser(User user) {
@@ -56,22 +44,36 @@ public class KeycloakAdminClientService {
         return kcUser;
     }
 
+    //Обновление данных пользователя
+    public void updateUser(String username, String description) {
+        Optional<UserRepresentation> user = getBuildKeycloak().users().search(username).stream()
+                .filter(u -> u.getUsername().equals(username)).findFirst();
+        if (user.isPresent()) {
+            UserRepresentation userRepresentation = user.get();
+            UserResource userResource = getBuildKeycloak().users().get(userRepresentation.getId());
+            Map<String, List<String>> attributes = new HashMap<>();
+            attributes.put("description", Arrays.asList(description));
+            userRepresentation.setAttributes(attributes);
+            userResource.update(userRepresentation);
+            System.out.println("Ок");
+        } else {
+            System.out.println("User not found");
+        }
+    }
+
+    //Удаление пользователя
+    public void deleteUser(String username) {
+        UsersResource users = getBuildKeycloak().users();
+        users.search(username).stream()
+                .forEach(user -> getBuildKeycloak().users().delete(user.getId()));
+    }
+
     //Получить всех пользователей
     public List<UserRepresentation> getUsers() {
-
         List<UserRepresentation> allUsers = getBuildKeycloak().users().list();
         return allUsers;
     }
 
-    //Создание нового Client
-    public void createClient() {
-        ClientRepresentation client = new ClientRepresentation();
-        client.setId("testClientId01");
-        client.setBearerOnly(false);
-        client.setPublicClient(false);
-        client.setSecret("******");
-        client.setProtocol("openid-connect");
-    }
 
     //Создание Role in Client
     public void createRoleInClient(String name, String title) {
@@ -81,14 +83,21 @@ public class KeycloakAdminClientService {
 
     }
 
-    // Поиск пользователя по имени
-    public UserRepresentation getUser(String name) {
-        UserRepresentation getUser = getBuildKeycloak()
-                .users()
-                .search(name)
-                .get(0);
-        return getUser;
+    //Получение списка ролей пользователя в определенном клиенте
+    public void getRolesByUsername(String username, String clientId){
+        Optional<UserRepresentation> user = getBuildKeycloak().users().search(username).stream()
+                .filter(u -> u.getUsername().equals(username)).findFirst();
+        if (user.isPresent()) {
+            UserRepresentation userRepresentation = user.get();
+            UserResource userResource = getBuildKeycloak().users().get(userRepresentation.getId());
+            ClientRepresentation clientRepresentation = getBuildKeycloak().clients().findByClientId(clientId).get(0);
+            List<RoleRepresentation> roles = userResource.roles().clientLevel(clientRepresentation.getId()).listAll();
+
+        } else {
+
+        }
     }
+
 
     private static CredentialRepresentation createPasswordCredentials(String password) {
         CredentialRepresentation passwordCredentials = new CredentialRepresentation();
@@ -100,21 +109,13 @@ public class KeycloakAdminClientService {
 
     private RealmResource getBuildKeycloak() {
         KeycloakPrincipal<RefreshableKeycloakSecurityContext> principal =
-                (KeycloakPrincipal<RefreshableKeycloakSecurityContext>)
-                        SecurityContextHolder.getContext()
-                                .getAuthentication()
-                                .getPrincipal();
+                (KeycloakPrincipal<RefreshableKeycloakSecurityContext>) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
 
-        KeycloakAdminClientConfig keycloakAdminClientConfig =
-                KeycloakAdminClientUtils.loadConfig(keycloakPropertyReader);
 
-        Keycloak keycloak = KeycloakAdminClientUtils.getKeycloakClient
-                (principal.getKeycloakSecurityContext(),
-                        keycloakAdminClientConfig);
 
-        RealmResource realmResource = keycloak.realm(keycloakAdminClientConfig.getRealm());
+        Keycloak keycloak = KeycloakAdminClientUtils.getKeycloakClient(principal.getKeycloakSecurityContext());
+        RealmResource realmResource = keycloak.realm("${keycloak-client.realm}");
         return realmResource;
     }
-
-
 }

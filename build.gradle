@@ -7,6 +7,16 @@ allprojects {
     version = '0.0.1-SNAPSHOT'
 }
 
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
 subprojects {
     apply plugin: 'java'
     sourceCompatibility = '11'
@@ -14,5 +24,13 @@ subprojects {
 
     repositories {
         mavenCentral()
+    }
+
+    dependencies {
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        // annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     }
 }

@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+
+  #main-service:
+  #  container_name: main-service
+  #  build:
+  #    context: main_service
+  #    dockerfile: Dockerfile
+  #  ports:
+  #    - ${MAIN_SERVICE_PORT}:${MAIN_SERVICE_PORT}
+  #  environment:
+  #    - eureka.client.serviceUrl.defaultZone=http://eureka-server:${EUREKA_SERVER_PORT}/eureka
+  #  depends_on:
+  #    - eureka-server
+  #    - db
+  #  networks:
+  #    - sso-net
+
+  db:
+    image: 'postgres:latest'
+    container_name: db
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    networks:
+      - sso-net
+
+  keycloak:
+    image: 'jboss/keycloak'
+    container_name: keycloak
+    command:
+      - "-b"
+      - "0.0.0.0"
+      - "-Djboss.socket.binding.port-offset=100"
+    environment:
+      DB_VENDOR: postgres
+      DB_ADDR: db
+      DB_DATABASE: ${POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: 123
+      KEYCLOAK_IMPORT: /tmp/realm-export.json
+    volumes:
+      - ./keycloak-server:/tmp
+    ports:
+      - ${KEYCLOAK_PORT}:${KEYCLOAK_PORT}
+    depends_on:
+      - db
+    networks:
+      - sso-net
+
+networks:
+  sso-net:
+    name: sso-net
+    driver: bridge
