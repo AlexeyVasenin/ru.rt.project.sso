@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>Account page</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/navbar-fixed/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../static/navbar-top-fixed.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#" th:href="@{/}">Cinema microservice</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{/}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" th:href="@{/subscribe}">Подписка</a>
+                </li>
+            </ul>
+        </div>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" th:if="${principal}">
+                    <a class="nav-link active" href="#" th:href="@{/account}">Аккаунт</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a class="nav-link" href="#" th:href="@{/admin}">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a th:unless="${principal}" class="nav-link" href="#" th:href="@{/account}">Вход</a>
+                    <a action="logout" methods="post" th:if="${principal}" class="nav-link" href="#"
+                       th:href="@{/logout}">Выйти</a>
+                    <!--<form class="nav-link" th:action="@{/logout}" method="post" th:if="${principal}">
+                        <input type="submit" th:name="${_csrf.parameterName}"
+                               th:value="Logout"/>
+                    </form>-->
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="container">
+    <div class="bg-light p-5 rounded" id="content" style="width:60%; margin:0 auto;">
+
+        <div class="row align-items-md-stretch">
+
+            <p></p>
+            <div class="col-md-6">
+                <div class="h-100 p-5 bg-light border rounded-3">
+                    <h2 class="table">Данные аккаунта</h2>
+                    <div class="table">
+                        <table>
+                            <tr>
+                                <th>Attributes</th>
+                                <th>Value</th>
+                            </tr>
+                            <tr>
+                                <td>Username</td>
+                                <td><span th:text="${user.getPreferredUsername()}"> preferred_username </span></td>
+                                <!--<span sec:authentication="name">preferred_username</span>-->
+                            </tr>
+                            <tr>
+                                <td>Name</td>
+                                <td><span th:text="${user.getFullName()}"> Name </span></td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td><span th:text="${user.getEmail()}"> Email </span></td>
+                            </tr>
+                            <tr>
+                                <td>Reviews</td>
+                                <td><span th:text="${user.getClaim('reviews_count')}"> Reviews </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Subscribe Active</td>
+                                <td><span th:text="${user.getClaim('sub_active')}"> Subscribe Active </span>
+                                </td>
+                            </tr>
+                            <tr sec:authorize="hasRole('ROLE_SUBSCRIBER')">
+                                <td>Subscribe End</td>
+                                <td><span th:text="${user.getClaim('sub_end')}"> Subscribe End </span>
+                                </td>
+                            </tr>
+                            <tr sec:authorize="hasRole('ROLE_SUBSCRIBER')">
+                                <td>Subscribe LVL</td>
+                                <td><span th:text="${user.getClaim('sub_lvl')}"> Subscribe LVL </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Roles</td>
+                                <td><span th:text="${roles}"> roles </span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="h-100 p-5 bg-light border rounded-3">
+                    <h2>Client Scopes</h2>
+                    <div class="table">
+                        <table>
+                            <tr>
+                                <td>Scopes</td>
+                                <td><span th:text="${scopes}"> scopes </span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p></p>
+
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

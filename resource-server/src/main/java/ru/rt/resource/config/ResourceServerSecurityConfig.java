@@ -28,7 +28,9 @@ public class ResourceServerSecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .authorizeRequests()
                     .anyRequest()
-                    .authenticated()
+                /*Сейчас эта штука ничего не дает взять с ресурсов, то бишь блочит 401 на все api/** */
+                    //.authenticated()
+                    .permitAll()
                     .and()
                 .oauth2ResourceServer()
                     .jwt().jwtAuthenticationConverter(jwtAuthenticationConverter());
@@ -60,7 +62,7 @@ public class ResourceServerSecurityConfig extends WebSecurityConfigurerAdapter {
                 JSONArray roles = (JSONArray) realmAccess.get("roles");
 
                 final List<SimpleGrantedAuthority> keycloakAuthorities = roles.stream()
-                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                        .map(role -> new SimpleGrantedAuthority("TEST_" + role))
                         .collect(Collectors.toList());
 
                 grantedAuthorities.addAll(keycloakAuthorities);
