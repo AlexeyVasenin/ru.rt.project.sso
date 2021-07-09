@@ -10,11 +10,9 @@ import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.rt.sso.configs.KeycloakAdminClientUtils;
-import ru.rt.sso.domain.KeycloakAdminClientConfig;
 import ru.rt.sso.domain.User;
 
 import java.util.*;
@@ -30,8 +28,8 @@ public class KeycloakAdminClientService {
         CredentialRepresentation credentialRepresentation = createPasswordCredentials(user.getPassword());
 
         UserRepresentation kcUser = new UserRepresentation();
-        kcUser.setUsername(user.getEmail());
 
+        kcUser.setUsername(user.getEmail());
         kcUser.setCredentials(Collections.singletonList(credentialRepresentation));
         kcUser.setFirstName(user.getFirstName());
         kcUser.setLastName(user.getLastName());
@@ -48,13 +46,16 @@ public class KeycloakAdminClientService {
     public void updateUser(String username, String description) {
         Optional<UserRepresentation> user = getBuildKeycloak().users().search(username).stream()
                 .filter(u -> u.getUsername().equals(username)).findFirst();
+
         if (user.isPresent()) {
             UserRepresentation userRepresentation = user.get();
             UserResource userResource = getBuildKeycloak().users().get(userRepresentation.getId());
             Map<String, List<String>> attributes = new HashMap<>();
+
             attributes.put("description", Arrays.asList(description));
             userRepresentation.setAttributes(attributes);
             userResource.update(userRepresentation);
+
             System.out.println("Ок");
         } else {
             System.out.println("User not found");
@@ -84,35 +85,37 @@ public class KeycloakAdminClientService {
     }
 
     //Получение списка ролей пользователя в определенном клиенте
-    public void getRolesByUsername(String username, String clientId){
+    public Object getRolesByUsername(String username, String clientId) {
         Optional<UserRepresentation> user = getBuildKeycloak().users().search(username).stream()
                 .filter(u -> u.getUsername().equals(username)).findFirst();
+
         if (user.isPresent()) {
             UserRepresentation userRepresentation = user.get();
             UserResource userResource = getBuildKeycloak().users().get(userRepresentation.getId());
             ClientRepresentation clientRepresentation = getBuildKeycloak().clients().findByClientId(clientId).get(0);
             List<RoleRepresentation> roles = userResource.roles().clientLevel(clientRepresentation.getId()).listAll();
 
+            return roles;
         } else {
-
+            return "Roles not found";
         }
     }
 
 
     private static CredentialRepresentation createPasswordCredentials(String password) {
         CredentialRepresentation passwordCredentials = new CredentialRepresentation();
+
         passwordCredentials.setTemporary(false);
         passwordCredentials.setType(CredentialRepresentation.PASSWORD);
         passwordCredentials.setValue(password);
+
         return passwordCredentials;
     }
 
     private RealmResource getBuildKeycloak() {
         KeycloakPrincipal<RefreshableKeycloakSecurityContext> principal =
                 (KeycloakPrincipal<RefreshableKeycloakSecurityContext>) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-
-
+                        .getAuthentication().getPrincipal();
 
         Keycloak keycloak = KeycloakAdminClientUtils.getKeycloakClient(principal.getKeycloakSecurityContext());
         RealmResource realmResource = keycloak.realm("${keycloak-client.realm}");

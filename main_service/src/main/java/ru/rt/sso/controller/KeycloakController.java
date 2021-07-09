@@ -24,12 +24,31 @@ public class KeycloakController {
         return keycloakAdminClientService.addUser(user);
     }
 
+    @PutMapping(path = "/user")
+    @ResponseBody
+    public void updateUser(@RequestParam String name,
+                           @RequestParam String description){
+        keycloakAdminClientService.updateUser(name, description);
+    }
+
+    @DeleteMapping(path = "user/del/{username}")
+    @ResponseBody
+    public void deleteUser(@PathVariable String username){
+        keycloakAdminClientService.deleteUser(username);
+    }
+
     @GetMapping(path = "/users")
     @ResponseBody
     public List<UserRepresentation> getAllUsers() {
         return keycloakAdminClientService.getUsers();
     }
 
+    @GetMapping(path = "/user/roles")
+    @ResponseBody
+    public Object getRolesByUserName(@RequestParam String username,
+                                     @RequestParam String clientId){
+        return keycloakAdminClientService.getRolesByUsername(username, clientId);
+    }
 
 
 }
