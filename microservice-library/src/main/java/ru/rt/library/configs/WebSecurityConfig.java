@@ -1,6 +1,7 @@
 package ru.rt.library.configs;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -9,19 +10,32 @@ import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepo
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 
+@Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http
-                //.antMatcher("/**")
-                .authorizeRequests()
-                    .antMatchers("/")
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated()
-                    .and()
-                .oauth2Login();
+public class WebSecurityConfig {
+
+    @Bean
+    public WebSecurityConfigurerAdapter webSecurityConfigurer(KeycloakLogoutHandler keycloakLogoutHandler) {
+        return new WebSecurityConfigurerAdapter() {
+            @Override
+            public void configure(HttpSecurity http) throws Exception {
+                http
+                        .authorizeRequests()
+                            .antMatchers("/", "/back-channel-logout")
+                            .permitAll()
+                            .anyRequest().authenticated()
+                            .and()
+                        .oauth2Login()
+                            .and()
+                        .logout()
+                            .addLogoutHandler(keycloakLogoutHandler)
+                            .logoutUrl("/logout")
+                            .logoutSuccessUrl("/")
+                            //.deleteCookies("JSESSIONID")
+                            .clearAuthentication(true)
+                            .invalidateHttpSession(true);
+            }
+        };
     }
 
     @Bean
@@ -32,4 +46,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         oauth2.setDefaultOAuth2AuthorizedClient(true);
         return WebClient.builder().apply(oauth2.oauth2Configuration()).build();
     }
+
+    @Bean
+    KeycloakLogoutHandler keycloakLogoutHandler() {
+        return new KeycloakLogoutHandler("JSESSIONID");
+    }
 }
+
+
