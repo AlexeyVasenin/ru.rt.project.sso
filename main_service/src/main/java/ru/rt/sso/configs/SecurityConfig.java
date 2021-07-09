@@ -104,37 +104,7 @@ class KeycloakLogoutHandler extends SecurityContextLogoutHandler {
         if (logoutResponse.getStatusCode().is2xxSuccessful()) {
             System.out.println("Successfulley logged out in Keycloak");
         } else {
-            System.out.println("Could not pro\n" +
-                    "\n" +
-                    "/*class KeycloakLogoutHandler extends SecurityContextLogoutHandler {\n" +
-                    "\n" +
-                    "    //private Logger logger = LoggerFactory.getLogger(ru.rt.cinema.KeycloakLogoutHandler.class);" +
-                    "\n" +
-                    "    @Autowired\n" +
-                    "    private final WebClient webClient;\n" +
-                    "\n" +
-                    "    KeycloakLogoutHandler(WebClient webClient) {\n" +
-                    "        this.webClient = webClient;\n" +
-                    "    }\n" +
-                    "\n" +
-                    "    @Override\n" +
-                    "    public void logout(HttpServletRequest request, HttpServletResponse response, Authentication " +
-                    "authentication) {\n" +
-                    "        super.logout(request, response, authentication);\n" +
-                    "        logoutFromKeyCloak(authentication);\n" +
-                    "    }\n" +
-                    "\n" +
-                    "    private void logoutFromKeyCloak(Authentication authentication) {\n" +
-                    "        OidcUser oidcUser = (OidcUser)authentication.getPrincipal();\n" +
-                    "        URI logoutUri = UriComponentsBuilder\n" +
-                    "                .fromUriString(oidcUser.getIssuer()+\"/protocol/openid-connect/logout\")\n" +
-                    "                .queryParam(\"id_token_hint\", oidcUser.getIdToken().getTokenValue()).build()" +
-                    ".toUri();\n" +
-                    "        ClientResponse response = this.webClient.get().uri(logoutUri).exchange().doOnError" +
-                    "(clientResponse -> clientResponse.printStackTrace()).block();\n" +
-                    "    //    logger.info(\"Log out response: \"+response.statusCode());\n" +
-                    "    }\n" +
-                    "}*/\npagate logout to Keycloak");
+            System.out.println("Could not propagate logout to Keycloak");
         }
     }
 
