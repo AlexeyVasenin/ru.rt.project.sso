@@ -16,8 +16,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import ru.rt.cinema.handlers.KeycloakLogoutHandler;
 import ru.rt.cinema.sevices.KeycloakOauth2UserService;
 
-import static org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI;
-
 @EnableWebSecurity
 @Configuration
 public class WebSecurityConfig {
@@ -41,8 +39,8 @@ public class WebSecurityConfig {
                         .clearAuthentication(true)
                         .deleteCookies("JSESSIONID")
                         .and()
-                        .oauth2Login().userInfoEndpoint().oidcUserService(keycloakOidcUserService)
-                .and().defaultSuccessUrl("/",true);
+                        .oauth2Login().userInfoEndpoint().oidcUserService(keycloakOidcUserService);
+                //.and().defaultSuccessUrl("/", true);
             }
         };
     }

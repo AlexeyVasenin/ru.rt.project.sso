@@ -43,29 +43,3 @@ public class KeycloakLogoutHandler extends SecurityContextLogoutHandler {
         }
     }
 }
-
-/*class KeycloakLogoutHandler extends SecurityContextLogoutHandler {
-
-    //private Logger logger = LoggerFactory.getLogger(ru.rt.cinema.KeycloakLogoutHandler.class);
-    @Autowired
-    private final WebClient webClient;
-
-    KeycloakLogoutHandler(WebClient webClient) {
-        this.webClient = webClient;
-    }
-
-    @Override
-    public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        super.logout(request, response, authentication);
-        logoutFromKeyCloak(authentication);
-    }
-
-    private void logoutFromKeyCloak(Authentication authentication) {
-        OidcUser oidcUser = (OidcUser)authentication.getPrincipal();
-        URI logoutUri = UriComponentsBuilder
-                .fromUriString(oidcUser.getIssuer()+"/protocol/openid-connect/logout")
-                .queryParam("id_token_hint", oidcUser.getIdToken().getTokenValue()).build().toUri();
-        ClientResponse response = this.webClient.get().uri(logoutUri).exchange().doOnError(clientResponse -> clientResponse.printStackTrace()).block();
-    //    logger.info("Log out response: "+response.statusCode());
-    }
-}*/

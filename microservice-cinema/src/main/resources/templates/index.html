@@ -50,21 +50,25 @@
                     <a th:unless="${principal}" class="nav-link" href="#" th:href="@{/account}">Вход</a>
                     <a action="logout" methods="post" th:if="${principal}" class="nav-link" href="#"
                        th:href="@{/logout}">Выйти</a>
-                </li>
-
-                <li class="nav-item">
-                    <form th:action="@{/logout}" method="post" th:if="${principal}">
+                    <!--<form class="nav-link" th:action="@{/logout}" method="post" th:if="${principal}">
                         <input type="submit" th:name="${_csrf.parameterName}"
                                th:value="Logout"/>
-                    </form>
+                    </form>-->
                 </li>
-
             </ul>
         </div>
     </div>
 </nav>
 
 <main class="container">
+
+    <div class=" p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Cinema SERVICE by AUTH3</h1>
+            <p class="col-md-8 fs-4">Фильмы, сериалы, аниме....</p>
+        </div>
+    </div>
+
     <div class="bg-light p-5 rounded">
         <h1>Смотри любимые фильмы уже сегодня!</h1>
         <table>

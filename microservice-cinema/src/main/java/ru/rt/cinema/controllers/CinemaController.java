@@ -54,6 +54,7 @@ public class CinemaController {
         return "account";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/admin")
     public ModelAndView accountPage(Principal principal) {
         return new ModelAndView("admin", Collections.singletonMap("principal", principal));
@@ -63,7 +64,6 @@ public class CinemaController {
     @GetMapping("/subscribe")
     public ModelAndView subscribePage(Principal principal) {
         return new ModelAndView("subscribe", Collections.singletonMap("principal", principal));
-        //return "subscribe";
     }
 
     @GetMapping("/about")
