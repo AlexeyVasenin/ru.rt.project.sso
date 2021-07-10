@@ -20,9 +20,12 @@
 
 <div th:insert="~{index :: navbar}"></div>
 
-<div>
-    <h1>Здесь будет страница фильма</h1>
-</div>
+<main class="container">
+    <div class="bg-light p-5 rounded">
+        <h1>Здесь будет страница фильма</h1>
+        <a th:href="@{/}">Вернуться на главную</a>
+    </div>
+</main>
 
 </body>
 </html>

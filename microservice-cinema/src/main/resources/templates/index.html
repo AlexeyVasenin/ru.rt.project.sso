@@ -66,19 +66,19 @@
         </div>
     </div>
 
-    <div class="bg-light p-5 rounded">
+    <div class="px-5 pt-5 py-5 mb-4 bg-light rounded">
         <div class="mb-4">
             <h1>Смотри любимые фильмы уже сегодня!</h1>
         </div>
-        <div class="row">
-            <div th:each="movie : ${movies}" class="col-4 pb-5">
+        <div th:fragment="movie-cards" class="row">
+            <div th:each="movie : ${movies}" class="col-4 pt-2 pb-2">
                 <div class="card movie-card">
                     <img class="card-img-top" th:src="@{${movie.getPosterImageSrc()}}" alt="Movie card">
                     <div class="card-body">
                         <h3 class="card-title" th:text="${movie.title}">Название фильма</h3>
                         <p><span class="card-text" th:text="${movie.creationYear}">Год создания</span></p>
                         <div class="d-flex justify-content-between">
-                            <a th:href="@{/movie/${movie.id}}" class="btn btn-lg btn-primary">Смотреть</a>
+                            <a th:href="@{'/movies/' + ${movie.id}}" class="btn btn-lg btn-primary">Смотреть</a>
                             <div class="movie-rating-div">
                                 <div class="movie-rating">
                                     Рейтинг: <span class="movie-rating-value" th:text="${movie.rating}">Рейтинг</span>

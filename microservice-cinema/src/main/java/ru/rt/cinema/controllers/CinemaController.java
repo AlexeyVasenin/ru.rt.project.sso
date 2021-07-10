@@ -1,8 +1,6 @@
 package ru.rt.cinema.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -10,26 +8,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.ModelAndView;
-import ru.rt.cinema.domain.Movie;
+import ru.rt.cinema.handlers.RestRequestHandler;
 import ru.rt.cinema.sevices.UserDetailsCollectorService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.Collections;
-import java.util.List;
 
 @Controller
 @RequestMapping
 public class CinemaController {
 
-    @Value("${resource-server.api.url}")
-    private String cinemaApiUrl;
-
     @Autowired
-    private WebClient webClient;
+    private RestRequestHandler restRequestHandler;
 
     @Autowired
     UserDetailsCollectorService userDetailsCollectorService;
@@ -38,24 +31,9 @@ public class CinemaController {
     public String mainPage(Model model, Principal principal) {
         /*Отобразится если principal, положенный в модель не пуст th:if="${principal}"*/
         model.addAttribute("principal", principal);
-        model.addAttribute("movies", requestToGetAllMovies());
+        model.addAttribute("movies", restRequestHandler.requestToGetAllMovies());
 
         return "index";
-    }
-
-    private List<Movie> requestToGetAllMovies() {
-        List<Movie> movies = this.webClient.get()
-                .uri(cinemaApiUrl)
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<Movie>>() {
-                })
-                .block();
-
-        if (movies != null) {
-            movies.forEach(Movie::savePosterImageLocally);
-        }
-
-        return movies;
     }
 
     @GetMapping("/account")

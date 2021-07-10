@@ -27,18 +27,21 @@ public class WebSecurityConfig {
 
                 http
                         .authorizeRequests()
-                        .antMatchers("/", "/back-channel-logout", "/static/**").permitAll()
-                        .antMatchers("/admin").hasRole("ADMIN")
-                        .anyRequest().authenticated()
-                        .and()
-                        .logout().addLogoutHandler(keycloakLogoutHandler)
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true)
-                        .clearAuthentication(true)
-                        //.deleteCookies("JSESSIONID")
-                        .and()
-                        .oauth2Login().userInfoEndpoint().oidcUserService(keycloakOidcUserService);
+                            .antMatchers("/", "/back-channel-logout", "/static/**").permitAll()
+                            .antMatchers("/admin").hasRole("ADMIN")
+                            .anyRequest().authenticated()
+                            .and()
+                        .logout()
+                            .addLogoutHandler(keycloakLogoutHandler)
+                            .logoutUrl("/logout")
+                            .logoutSuccessUrl("/")
+                            .invalidateHttpSession(true)
+                            .clearAuthentication(true)
+                            //.deleteCookies("JSESSIONID")
+                            .and()
+                        .oauth2Login()
+                            .userInfoEndpoint()
+                            .oidcUserService(keycloakOidcUserService);
                 //.and().defaultSuccessUrl("/", true);
             }
         };
