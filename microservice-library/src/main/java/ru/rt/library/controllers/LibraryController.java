@@ -11,9 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.rt.library.domain.Book;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,5 +47,14 @@ public class LibraryController {
                 .block();
         model.addAttribute("books", books);
         return "model";
+    }
+
+    @GetMapping("/back-channel-logout")
+    public String logout(@RequestParam String issuer, @RequestParam String token, HttpServletRequest request) throws ServletException {
+        request.setAttribute("back-channel-logout", true);
+        request.setAttribute("issuer", issuer);
+        request.setAttribute("token", token);
+        request.logout();
+        return "redirect:/model";
     }
 }

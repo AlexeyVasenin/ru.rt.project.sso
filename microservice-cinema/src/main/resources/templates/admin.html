@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.84.0">
-    <title>Fixed top navbar example · Bootstrap v5.0</title>
+    <title>Subscribe Page</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/navbar-fixed/">
 
@@ -31,7 +31,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#" th:href="@{/}">Home</a>
+                    <a class="nav-link" href="#" th:href="@{/}">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" th:href="@{/subscribe}">Подписка</a>
@@ -44,7 +44,7 @@
                     <a class="nav-link" href="#" th:href="@{/account}">Аккаунт</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a class="nav-link" href="#" th:href="@{/admin}">Admin</a>
+                    <a class="nav-link active" href="#" th:href="@{/admin}">Admin</a>
                 </li>
                 <li class="nav-item">
                     <a th:unless="${principal}" class="nav-link" href="#" th:href="@{/account}">Вход</a>
@@ -55,41 +55,15 @@
                                th:value="Logout"/>
                     </form>-->
                 </li>
+
             </ul>
         </div>
     </div>
 </nav>
 
 <main class="container">
-
-    <div class=" p-5 mb-4 bg-light rounded-3">
-        <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold">Cinema SERVICE by AUTH3</h1>
-            <p class="col-md-8 fs-4">Фильмы, сериалы, аниме....</p>
-        </div>
-    </div>
-
     <div class="bg-light p-5 rounded">
-        <h1>Смотри любимые фильмы уже сегодня!</h1>
-        <table>
-            <thead>
-            <tr>
-                <td>ID</td>
-                <td>Название</td>
-                <td>Дата премьеры</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:if="${movies == null || movies.empty}">
-                <td colspan="4">Фильмов нет!</td>
-            </tr>
-            <tr th:each="movie : ${movies}">
-                <td><span th:text="${movie.id}"> ID </span></td>
-                <td><span th:text="${movie.title}"> Название </span></td>
-                <td><span th:text="${movie.creationYear}"> Дата премьеры </span></td>
-            </tr>
-            </tbody>
-        </table>
+        <h1>Hi admin!</h1>
     </div>
 </main>
 
