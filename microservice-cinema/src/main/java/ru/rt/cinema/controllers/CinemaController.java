@@ -38,16 +38,24 @@ public class CinemaController {
     public String mainPage(Model model, Principal principal) {
         /*Отобразится если principal, положенный в модель не пуст th:if="${principal}"*/
         model.addAttribute("principal", principal);
+        model.addAttribute("movies", requestToGetAllMovies());
 
+        return "index";
+    }
+
+    private List<Movie> requestToGetAllMovies() {
         List<Movie> movies = this.webClient.get()
                 .uri(cinemaApiUrl)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<Movie>>() {
                 })
                 .block();
-        model.addAttribute("movies", movies);
 
-        return "index";
+        if (movies != null) {
+            movies.forEach(Movie::savePosterImageLocally);
+        }
+
+        return movies;
     }
 
     @GetMapping("/account")

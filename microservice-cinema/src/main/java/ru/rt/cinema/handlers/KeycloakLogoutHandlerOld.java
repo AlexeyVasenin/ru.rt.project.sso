@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  * Хендлер для логаута кейклока и локально
  */
 @RequiredArgsConstructor
-public class KeycloakLogoutHandler extends SecurityContextLogoutHandler {
+public class KeycloakLogoutHandlerOld extends SecurityContextLogoutHandler {
 
     private final RestTemplate restTemplate;
 

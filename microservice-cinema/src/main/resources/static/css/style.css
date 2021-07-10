@@ -22,3 +22,23 @@ table {
     margin: auto;
     text-align: center;
 }
+
+.movie-card {
+    width: 100%;
+}
+
+.movie-rating-div {
+    display: table;
+    font-family: Tahoma, serif;
+}
+
+.movie-rating {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.movie-rating-value {
+    font-style: italic;
+    font-size: 18px;
+    color: #ee0101;
+}

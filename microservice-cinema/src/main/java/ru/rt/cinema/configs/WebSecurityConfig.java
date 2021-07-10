@@ -1,28 +1,19 @@
 package ru.rt.cinema.configs;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoderJwkSupport;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.util.UriComponentsBuilder;
 import ru.rt.cinema.sevices.KeycloakOauth2UserService;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @EnableWebSecurity
 @Configuration
@@ -36,7 +27,7 @@ public class WebSecurityConfig {
 
                 http
                         .authorizeRequests()
-                        .antMatchers("/", "/back-channel-logout").permitAll()
+                        .antMatchers("/", "/back-channel-logout", "/static/**").permitAll()
                         .antMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated()
                         .and()
@@ -59,7 +50,14 @@ public class WebSecurityConfig {
                 new ServletOAuth2AuthorizedClientExchangeFilterFunction(clientRegistrationRepository,
                         authorizedClientRepository);
         oauth2.setDefaultOAuth2AuthorizedClient(true);
-        return WebClient.builder().apply(oauth2.oauth2Configuration()).build();
+
+        ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder()
+                .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(1024 * 1024 * 10)).build();
+
+        return WebClient.builder()
+                .exchangeStrategies(exchangeStrategies)
+                .apply(oauth2.oauth2Configuration())
+                .build();
     }
 
     @Bean
