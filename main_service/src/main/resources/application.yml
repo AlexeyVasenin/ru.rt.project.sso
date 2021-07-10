@@ -1,7 +1,7 @@
 server:
   port: 8085
   servlet:
-    context-path: /main
+    context-path: main_service
 
 eureka:
   instance:
@@ -18,14 +18,15 @@ keycloak-client:
 
 spring:
   application:
-    name: main-service
+    name: main_service
   security:
     oauth2:
       client:
         registration:
-          microservice-library:
+          microservice-cinema:
             provider: keycloak
-            client-id: admin_cli
+            client-id: admin-cli
+#            client-secret:
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
             scope: openid
@@ -36,3 +37,13 @@ spring:
             user-info-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/userinfo
             jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
             user-name-attribute: preferred_username
+            resource: admin-cli
+            bearer-only: true
+            confidential-port: 0
+            use-resource-role-mappings: false
+            cors: true
+
+resource-server:
+  api:
+    url: http://localhost:8080/resource-server/api/admin
+

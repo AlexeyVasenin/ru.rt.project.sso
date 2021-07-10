@@ -1,29 +1,21 @@
 package ru.rt.sso.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import java.util.List;
 
-import java.util.Set;
 
-@Getter
-@Setter
+
+@Data
 public class User {
+
+    private String userId;
     private String username;
+    private String firstName;
+    private String lastName;
     private String email;
-    private String fullName;
-    private Set<String> roles;
+    private String password;
+    private List<String> roles;
 
-    public User(String username){
-        this.username = username;
-    }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", roles=" + roles +
-                '}';
-    }
+
 }
