@@ -84,6 +84,8 @@ public class KeycloakAdminClientService {
 
     }
 
+
+
     //Получение списка ролей пользователя в определенном клиенте
     public Object getRolesByUsername(String username, String clientId) {
         Optional<UserRepresentation> user = getBuildKeycloak().users().search(username).stream()
