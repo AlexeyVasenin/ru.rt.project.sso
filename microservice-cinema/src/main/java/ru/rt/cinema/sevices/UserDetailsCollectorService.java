@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 @Service
 public class UserDetailsCollectorService {
 
+    // Legacy service
+
     /**
      * Собирает готовое представление {@link OidcUserInfo} в модель на UI
      *
