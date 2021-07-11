@@ -1,39 +1,21 @@
 package ru.rt.resource.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Movie {
-    public Long id;
+    public Integer id;
+    public String fileName;
     public String title;
-    public Long creationYear;
-
-    public Movie() {}
-
-    public Movie(Long id, String title, Long creationYear) {
-        this.id = id;
-        this.title = title;
-        this.creationYear = creationYear;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Long getCreationYear() {
-        return creationYear;
-    }
-
-    public void setCreationYear(Long creationYear) {
-        this.creationYear = creationYear;
-    }
+    public Integer creationYear;
+    public Double rating;
+    public byte[] posterImage;
+    public String youtubeCode;
+    public String description;
 }
