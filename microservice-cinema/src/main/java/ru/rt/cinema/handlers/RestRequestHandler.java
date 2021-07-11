@@ -31,4 +31,12 @@ public class RestRequestHandler {
 
         return movies;
     }
+
+    public Movie requestToGetMovieById(Integer id) {
+        return this.webClient.get()
+                .uri(cinemaApiUrl + "/" + id)
+                .retrieve()
+                .bodyToMono(Movie.class)
+                .block();
+    }
 }

@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.rt.cinema.handlers.RestRequestHandler;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/movies")
 public class MovieController {
@@ -15,9 +17,9 @@ public class MovieController {
     private RestRequestHandler restRequestHandler;
 
     @GetMapping("/{id}")
-    public String getMoviePage(@PathVariable Integer id, Model model) {
-        // TODO сделать запрос к resource server и получить информацию о фильме по его id -> добавить ее в модель
-
+    public String getMoviePage(@PathVariable Integer id, Model model, Principal principal) {
+        model.addAttribute("principal", principal);
+        model.addAttribute("movie", restRequestHandler.requestToGetMovieById(id));
         return "movie_page";
     }
 }

@@ -42,3 +42,8 @@ table {
     font-size: 18px;
     color: #ee0101;
 }
+
+.movie-title {
+    font-family: Tahoma, serif;
+    color: #1f1919;
+}

@@ -22,8 +22,22 @@
 
 <main class="container">
     <div class="bg-light p-5 rounded">
-        <h1>Здесь будет страница фильма</h1>
-        <a th:href="@{/}">Вернуться на главную</a>
+        <div class="row mb-3">
+            <a th:href="@{/}">Вернуться на главную</a>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <iframe th:src="@{'https://www.youtube.com/embed/' + ${movie.youtubeCode} + '?vq=hd1080&autoplay=1&rel=0&iv_load_policy=3'}"
+                    width="1280" height="720" frameborder="0"></iframe>
+        </div>
+        <div class="row mb-3">
+            <h1><span class="movie-title" th:text="@{${movie.title} + ' (' + ${movie.creationYear} + ')'}">Название фильма и год создания</span></h1>
+            <p><i><span th:text="${movie.description}">Описание фильма</span></i></p>
+        </div>
+        <div class="row justify-content-center">
+            <button class="btn btn-lg btn-success" disabled>
+                Смотреть онлайн
+            </button>
+        </div>
     </div>
 </main>
 

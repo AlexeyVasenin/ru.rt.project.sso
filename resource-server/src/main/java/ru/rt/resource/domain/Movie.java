@@ -16,4 +16,6 @@ public class Movie {
     public Integer creationYear;
     public Double rating;
     public byte[] posterImage;
+    public String youtubeCode;
+    public String description;
 }

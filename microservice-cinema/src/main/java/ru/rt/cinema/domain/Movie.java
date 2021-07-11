@@ -16,6 +16,8 @@ public class Movie {
     public Double rating;
     public byte[] posterImage;
     public Path posterFilePath;
+    public String youtubeCode;
+    public String description;
 
     public void savePosterImageLocally() {
         try {
