@@ -46,8 +46,16 @@ public class CinemaController {
         userInfo.add(new AbstractMap.SimpleEntry<>("Username:", oidcUserInfo.getPreferredUsername()));
         userInfo.add(new AbstractMap.SimpleEntry<>("Full name:", oidcUserInfo.getFullName()));
         userInfo.add(new AbstractMap.SimpleEntry<>("Email:", oidcUserInfo.getEmail()));
-        userInfo.add(new AbstractMap.SimpleEntry<>("Review counts:", oidcUserInfo.getClaim("reviews_count")));
-        userInfo.add(new AbstractMap.SimpleEntry<>("Is subscription active?", oidcUserInfo.getClaim("sub_active")));
+        // reviews_count - Integer
+        Object reviewCounts = oidcUserInfo.getClaim("reviews_count");
+        if (reviewCounts != null) {
+            userInfo.add(new AbstractMap.SimpleEntry<>("Review counts:", reviewCounts.toString()));
+        }
+        // sub_active - Boolean
+        Object subActive = oidcUserInfo.getClaim("sub_active");
+        if (subActive != null) {
+            userInfo.add(new AbstractMap.SimpleEntry<>("Is subscription active?", (Boolean) subActive ? "Yes" : "No"));
+        }
 
         List<String> roles = principal.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -86,8 +94,22 @@ public class CinemaController {
 
     @PreAuthorize("hasRole('ROLE_SUBSCRIBER')")
     @GetMapping("/subscribe")
-    public ModelAndView subscribePage(Principal principal) {
-        return new ModelAndView("subscribe", Collections.singletonMap("principal", principal));
+    public String subscribePage(Model model, Authentication authentication) {
+        DefaultOidcUser principal = (DefaultOidcUser) authentication.getPrincipal();
+        model.addAttribute("principal", principal);
+
+        boolean hasSubscriberRole = principal.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(authority -> authority.contains("ROLE_SUBSCRIBER"));
+
+        if (hasSubscriberRole) {
+            model.addAttribute("subscriptionEnd", principal.getUserInfo().getClaim("sub_end"));
+        }
+
+        model.addAttribute("hasSubscriberRole", hasSubscriberRole);
+        model.addAttribute("movies", restRequestHandler.requestToGetAllMovies());
+
+        return "subscribe";
     }
 
     @GetMapping("/about")
