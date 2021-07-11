@@ -1,4 +1,4 @@
-package ru.rt.cinema.sevices;
+package ru.rt.cinema.services;
 
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONArray;

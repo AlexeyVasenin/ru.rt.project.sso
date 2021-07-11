@@ -1,4 +1,4 @@
-package ru.rt.cinema.sevices;
+package ru.rt.cinema.services;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,6 +7,10 @@ import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -14,8 +18,6 @@ import java.util.stream.Collectors;
  */
 @Service
 public class UserDetailsCollectorService {
-
-    // Legacy service
 
     /**
      * Собирает готовое представление {@link OidcUserInfo} в модель на UI
@@ -47,5 +49,40 @@ public class UserDetailsCollectorService {
                         .map(GrantedAuthority::getAuthority)
                         .filter(authority -> authority.contains("SCOPE"))
                         .collect(Collectors.joining(", ")));
+    }
+
+    public List<Map.Entry<String, String>> getUserInfo(DefaultOidcUser principal) {
+        OidcUserInfo oidcUserInfo = principal.getUserInfo();
+        List<Map.Entry<String, String>> userInfo = new ArrayList<>();
+        userInfo.add(new AbstractMap.SimpleEntry<>("Username:", oidcUserInfo.getPreferredUsername()));
+        userInfo.add(new AbstractMap.SimpleEntry<>("Full name:", oidcUserInfo.getFullName()));
+        userInfo.add(new AbstractMap.SimpleEntry<>("Email:", oidcUserInfo.getEmail()));
+        // reviews_count - Integer
+        Object reviewCounts = oidcUserInfo.getClaim("reviews_count");
+        if (reviewCounts != null) {
+            userInfo.add(new AbstractMap.SimpleEntry<>("Review counts:", reviewCounts.toString()));
+        }
+        // sub_active - Boolean
+        Object subActive = oidcUserInfo.getClaim("sub_active");
+        if (subActive != null) {
+            userInfo.add(new AbstractMap.SimpleEntry<>("Is subscription active?", (Boolean) subActive ? "Yes" : "No"));
+        }
+
+        List<String> roles = principal.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .filter(authority -> authority.contains("ROLE"))
+                .collect(Collectors.toList());
+        List<String> scopes = principal.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .filter(authority -> authority.contains("SCOPE"))
+                .collect(Collectors.toList());
+
+        if (roles.contains("ROLE_SUBSCRIBER")) {
+            userInfo.add(new AbstractMap.SimpleEntry<>("End of subscription:", oidcUserInfo.getClaim("sub_end")));
+            userInfo.add(new AbstractMap.SimpleEntry<>("Level of subscription:", oidcUserInfo.getClaim("sub_lvl")));
+        }
+        userInfo.add(new AbstractMap.SimpleEntry<>("Roles:", String.join(", ", roles)));
+        userInfo.add(new AbstractMap.SimpleEntry<>("Scopes:", String.join(", ", scopes)));
+        return userInfo;
     }
 }
