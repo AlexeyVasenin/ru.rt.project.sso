@@ -12,13 +12,13 @@ import java.util.List;
 @RequestMapping(value = "/api/library")
 public class LibraryController {
 
-    private final List<Book> books = new ArrayList<>() {{
-        add(new Book(1L, "Евгений Онегин", "А.С. Пушкин"));
-        add(new Book(2L, "Идиот", "Ф.М. Достоевский"));
-    }};
-
-    @GetMapping
-    public List<Book> findAll() {
-        return books;
-    }
+//    private final List<Book> books = new ArrayList<>() {{
+//        add(new Book(1L, "Евгений Онегин", "А.С. Пушкин"));
+//        add(new Book(2L, "Идиот", "Ф.М. Достоевский"));
+//    }};
+//
+//    @GetMapping
+//    public List<Book> findAll() {
+//        return books;
+//    }
 }

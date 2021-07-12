@@ -12,13 +12,13 @@ import java.util.List;
 @RequestMapping(value = "/api/music")
 public class MusicController {
 
-    private final List<Song> songs = new ArrayList<>() {{
-        add(new Song(1L, "Bohemian Rhapsody", "Queen"));
-        add(new Song(2L, "Never Gonna Give You Up", "Rick Astley"));
-    }};
-
-    @GetMapping
-    public List<Song> findAll() {
-        return songs;
-    }
+//    private final List<Song> songs = new ArrayList<>() {{
+//        add(new Song(1L, "Bohemian Rhapsody", "Queen"));
+//        add(new Song(2L, "Never Gonna Give You Up", "Rick Astley"));
+//    }};
+//
+//    @GetMapping
+//    public List<Song> findAll() {
+//        return songs;
+//    }
 }

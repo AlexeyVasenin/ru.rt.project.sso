@@ -1,39 +1,20 @@
 package ru.rt.resource.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Song {
-    public Long id;
+    public Integer id;
     public String title;
     public String musicianName;
-
-    public Song() {}
-
-    public Song(Long id, String title, String musicianName) {
-        this.id = id;
-        this.title = title;
-        this.musicianName = musicianName;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getMusicianName() {
-        return musicianName;
-    }
-
-    public void setMusicianName(String musicianName) {
-        this.musicianName = musicianName;
-    }
+    public Double rating;
+    public String duration;
+    public byte[] albumCover;
+    public String filename;
 }
