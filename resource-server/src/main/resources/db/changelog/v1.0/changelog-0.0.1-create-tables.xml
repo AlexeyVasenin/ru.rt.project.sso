@@ -16,6 +16,7 @@
             <column name="cover_image" type="BYTEA"/>
             <column name="genres" type="VARCHAR"/>
             <column name="description" type="VARCHAR"/>
+            <column name="volume" type="INTEGER"/>
         </createTable>
     </changeSet>
 

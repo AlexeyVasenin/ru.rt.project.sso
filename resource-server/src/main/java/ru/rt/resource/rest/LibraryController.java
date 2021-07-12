@@ -3,14 +3,12 @@ package ru.rt.resource.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.rt.resource.domain.Book;
 import ru.rt.resource.services.BookService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/library")
@@ -35,8 +33,14 @@ public class LibraryController {
                 new ResponseEntity<>(bookById, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/{id}")
+    public ResponseEntity<Void> setByteArrayToImageOfBookCoverById(@RequestParam byte[] coverImage, @PathVariable Long id) {
+        bookService.setByteArrayToImageOfBookCoverById(coverImage, id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping(value = "/preload/filenames")
-    public List<String> getAllBooksFilenames() {
-        return bookService.getAllBooksFilenames();
+    public List<Map.Entry<Long, String>> getAllBooksIdsAndFilenames() {
+        return bookService.getAllBooksIdsAndFilenames();
     }
 }

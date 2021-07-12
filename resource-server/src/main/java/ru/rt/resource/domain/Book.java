@@ -24,4 +24,5 @@ public class Book {
     public byte[] coverImage;
     public String genres;
     public String description;
+    public Integer volume;
 }

@@ -6,5 +6,7 @@
 
     <include file="v1.0/changelog-0.0.1-create-tables.xml" relativeToChangelogFile="true"/>
     <include file="v1.0/changelog-0.0.2-add-movies.xml" relativeToChangelogFile="true"/>
+    <include file="v1.0/changelog-0.0.3-add-songs.xml" relativeToChangelogFile="true"/>
+    <include file="v1.0/changelog-0.0.4-add-books.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
