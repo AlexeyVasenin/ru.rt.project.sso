@@ -81,7 +81,7 @@
                             <a th:href="@{'/movies/' + ${movie.id}}" class="btn btn-lg btn-primary">Смотреть</a>
                             <div class="movie-rating-div">
                                 <div class="movie-rating">
-                                    Рейтинг: <span class="movie-rating-value" th:text="${movie.rating}">Рейтинг</span>
+                                    Рейтинг: <span class="movie-rating-value" th:text="${#numbers.formatDecimal(movie.rating, 0, 1)}">Рейтинг</span>
                                 </div>
                             </div>
                         </div>
