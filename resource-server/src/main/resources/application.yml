@@ -17,6 +17,15 @@ keycloak-client:
   realm: sso_realm
 
 spring:
+  profiles:
+    active: local # убрать при продакшене
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
   application:
     name: resource-server
   security:
@@ -24,3 +33,7 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
+
+resource-server:
+  database:
+    secret: 93b7e095-43ef-426d-af76-6814d4a147e0

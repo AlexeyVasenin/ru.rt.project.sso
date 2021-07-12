@@ -1,24 +1,33 @@
 package ru.rt.resource.rest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.rt.resource.domain.Song;
+import ru.rt.resource.services.SongService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/music")
 public class MusicController {
+    private final SongService songService;
 
-//    private final List<Song> songs = new ArrayList<>() {{
-//        add(new Song(1L, "Bohemian Rhapsody", "Queen"));
-//        add(new Song(2L, "Never Gonna Give You Up", "Rick Astley"));
-//    }};
-//
-//    @GetMapping
-//    public List<Song> findAll() {
-//        return songs;
-//    }
+    @Autowired
+    public MusicController(SongService songService) {
+        this.songService = songService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Song>> getAllSongs() {
+        return new ResponseEntity<>(songService.getAllSongs(), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/preload/filenames")
+    public List<String> getAllSongsFilenames() {
+        return songService.getAllSongsFilenames();
+    }
 }

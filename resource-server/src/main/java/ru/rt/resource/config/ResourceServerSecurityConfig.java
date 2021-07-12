@@ -24,8 +24,6 @@ public class ResourceServerSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors()
-                    .and()
                 .authorizeRequests()
                     .anyRequest()
                 /*Сейчас эта штука ничего не дает взять с ресурсов, то бишь блочит 401 на все api/** */

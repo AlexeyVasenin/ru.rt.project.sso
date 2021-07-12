@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 
 public class Movie {
     public Integer id;
-    public String fileName;
+    public String filename;
     public String title;
     public Integer creationYear;
     public Double rating;
@@ -21,7 +21,7 @@ public class Movie {
 
     public void savePosterImageLocally() {
         try {
-            this.posterFilePath = Paths.get("microservice-cinema/src/main/resources/static/images/" + this.fileName + ".jpg");
+            this.posterFilePath = Paths.get("microservice-cinema/src/main/resources/static/images/" + this.filename + ".jpg");
             if (Files.notExists(this.posterFilePath)) {
                 ByteArrayInputStream is = new ByteArrayInputStream(this.posterImage);
                 BufferedImage image = ImageIO.read(is);

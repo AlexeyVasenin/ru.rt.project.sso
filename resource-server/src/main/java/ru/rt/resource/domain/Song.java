@@ -5,12 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "songs")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Song {
-    public Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long id;
     public String title;
     public String musicianName;
     public Double rating;
