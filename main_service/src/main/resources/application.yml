@@ -1,49 +1,23 @@
 server:
   port: 8085
   servlet:
-    context-path: main_service
-
-eureka:
-  instance:
-    hostname: ${DOCKER_HOST:localhost}
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+    context-path: /main
 
 keycloak-client:
   server-url: http://keycloak-java-school.apps.okd.stage.digital.rt.ru/auth
   realm: sso_realm
 
-spring:
-  application:
-    name: main_service
-  security:
-    oauth2:
-      client:
-        registration:
-          microservice-cinema:
-            provider: keycloak
-            client-id: admin-cli
-#            client-secret:
-            authorization-grant-type: authorization_code
-            redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
-            scope: openid
-        provider:
-          keycloak:
-            authorization-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/auth
-            token-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/token
-            user-info-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/userinfo
-            jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
-            user-name-attribute: preferred_username
-            resource: admin-cli
-            bearer-only: true
-            confidential-port: 0
-            use-resource-role-mappings: false
-            cors: true
+spring.security.oauth2:
+  resourceserver:
+    jwt:
+      issuer-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}
+      jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
 
-resource-server:
-  api:
-    url: http://localhost:8080/resource-server/api/admin
-
+admin:
+  auth-server-url: ${keycloak-client.server-url}
+  keycloak:
+    realm: sso_realm
+    clientId: admin-cli
+    username: administrator
+    password: password
+    secret: 589f6f4c-d006-4bf1-9978-c133ac87447a
