@@ -21,6 +21,13 @@ dependencies {
 //    implementation 'org.keycloak:keycloak-spring-boot-starter:13.0.1'
     implementation 'org.keycloak:keycloak-admin-client:13.0.1'
 
+    // https://mvnrepository.com/artifact/io.springfox/springfox-swagger2
+    implementation 'io.springfox:springfox-swagger2:3.0.0'
+
+    // https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
+
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:3.0.3'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'io.projectreactor.netty:reactor-netty'
