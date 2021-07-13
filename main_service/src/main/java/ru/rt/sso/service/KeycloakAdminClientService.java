@@ -1,17 +1,14 @@
 package ru.rt.sso.service;
 
 import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.resource.RealmResource;
-import org.keycloak.admin.client.resource.UserResource;
-import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.admin.client.resource.*;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import ru.rt.sso.configs.KeycloakBuild;
+import ru.rt.sso.clients.KeycloakAdminClient;
 import ru.rt.sso.domain.User;
 
 import java.util.*;
@@ -19,12 +16,13 @@ import java.util.*;
 @Service
 public class KeycloakAdminClientService {
 
-    private final KeycloakBuild getKeycloakClient;
+    private final KeycloakAdminClient keycloakAdminClient;
 
-    public KeycloakAdminClientService(KeycloakBuild getKeycloakClient) {
-        this.getKeycloakClient = getKeycloakClient;
+    public KeycloakAdminClientService(KeycloakAdminClient keycloakAdminClient) {
+        this.keycloakAdminClient = keycloakAdminClient;
     }
 
+    //todo ЮЗЕРА заменить на OidcUser !!!!!!!
     //Создать нового пользователя
     public UserRepresentation addUser(User user) {
 
@@ -34,7 +32,8 @@ public class KeycloakAdminClientService {
 
         UserRepresentation kcUser = new UserRepresentation();
 
-        kcUser.setUsername(user.getUsername());
+
+        kcUser.setUsername(user.getEmail());
         kcUser.setCredentials(Collections.singletonList(credentialRepresentation));
         kcUser.setFirstName(user.getFirstName());
         kcUser.setLastName(user.getLastName());
@@ -108,8 +107,6 @@ public class KeycloakAdminClientService {
     }
 
 
-    //
-
     private static CredentialRepresentation createPasswordCredentials(String password) {
         CredentialRepresentation passwordCredentials = new CredentialRepresentation();
 
@@ -120,14 +117,9 @@ public class KeycloakAdminClientService {
         return passwordCredentials;
     }
 
-    @Value("${keycloak-client.realm}")
-    private String realmName;
-
     private RealmResource getBuildKeycloak() {
-
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Keycloak keycloak = getKeycloakClient.getAdminClient();
+        Keycloak keycloak = keycloakAdminClient.getAdminClient();
         keycloak.tokenManager().getAccessToken();
-        return keycloak.realm(getKeycloakClient.getChildRealm());
+        return keycloak.realm(keycloakAdminClient.getRealm());
     }
 }

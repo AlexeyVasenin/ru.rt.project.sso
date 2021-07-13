@@ -6,9 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.84.0">
-    <title>Fixed top navbar example · Bootstrap v5.0</title>
+    <meta name="author" content="AUTH3 Team">
+    <title>AUTH3 Cinema Service</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/navbar-fixed/">
 
@@ -16,86 +15,84 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="../static/navbar-top-fixed.css" rel="stylesheet">
+    <link th:href="@{/static/css/style.css}" rel="stylesheet">
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="#" th:href="@{/}">Cinema microservice</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#" th:href="@{/}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" th:href="@{/subscribe}">Подписка</a>
-                </li>
-            </ul>
+<div th:fragment="navbar">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">Cinema microservice</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="fstNavbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/subscribe}">Подписка</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse justify-content-end" id="sndNavbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item" th:if="${principal}">
+                        <a class="nav-link" th:href="@{/account}">Аккаунт</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a class="nav-link" th:href="@{/admin}">Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:unless="${principal}" class="nav-link" th:href="@{/account}">Вход</a>
+                        <a action="logout" methods="post" th:if="${principal}" class="nav-link" href="#"
+                           th:href="@{/logout}">Выйти</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item" th:if="${principal}">
-                    <a class="nav-link" href="#" th:href="@{/account}">Аккаунт</a>
-                </li>
-                <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a class="nav-link" href="#" th:href="@{/admin}">Admin</a>
-                </li>
-                <li class="nav-item">
-                    <a th:unless="${principal}" class="nav-link" href="#" th:href="@{/account}">Вход</a>
-                    <a action="logout" methods="post" th:if="${principal}" class="nav-link" href="#"
-                       th:href="@{/logout}">Выйти</a>
-                    <!--<form class="nav-link" th:action="@{/logout}" method="post" th:if="${principal}">
-                        <input type="submit" th:name="${_csrf.parameterName}"
-                               th:value="Logout"/>
-                    </form>-->
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+    </nav>
+</div>
 
 <main class="container">
 
-    <div class=" p-5 mb-4 bg-light rounded-3">
+    <div class="p-5 mb-4 bg-light rounded-3">
         <div class="container-fluid py-5">
             <h1 class="display-5 fw-bold">Cinema SERVICE by AUTH3</h1>
-            <p class="col-md-8 fs-4">Фильмы, сериалы, аниме....</p>
+            <p class="fs-4">Фильмы, сериалы, аниме....</p>
         </div>
     </div>
 
-    <div class="bg-light p-5 rounded">
-        <h1>Смотри любимые фильмы уже сегодня!</h1>
-        <table>
-            <thead>
-            <tr>
-                <td>ID</td>
-                <td>Название</td>
-                <td>Дата премьеры</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:if="${movies == null || movies.empty}">
-                <td colspan="4">Фильмов нет!</td>
-            </tr>
-            <tr th:each="movie : ${movies}">
-                <td><span th:text="${movie.id}"> ID </span></td>
-                <td><span th:text="${movie.title}"> Название </span></td>
-                <td><span th:text="${movie.creationYear}"> Дата премьеры </span></td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="px-5 pt-5 py-5 mb-4 bg-light rounded">
+        <div class="mb-4">
+            <h1>Смотри любимые фильмы уже сегодня!</h1>
+        </div>
+        <div th:fragment="movie-cards" class="row">
+            <div th:each="movie : ${movies}" class="col-4 pt-2 pb-2">
+                <div class="card movie-card">
+                    <img class="card-img-top" th:src="@{${movie.getPosterImageSrc()}}" alt="Movie card">
+                    <div class="card-body">
+                        <h3 class="card-title" th:text="${movie.title}">Название фильма</h3>
+                        <p><span class="card-text" th:text="${movie.creationYear}">Год создания</span></p>
+                        <div class="d-flex justify-content-between">
+                            <a th:href="@{'/movies/' + ${movie.id}}" class="btn btn-lg btn-primary">Смотреть</a>
+                            <div class="movie-rating-div">
+                                <div class="movie-rating">
+                                    Рейтинг: <span class="movie-rating-value" th:text="${movie.rating}">Рейтинг</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
 
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
-
 
 </body>
 </html>

@@ -1,4 +1,4 @@
-package ru.rt.cinema.handlers;
+package ru.rt.sso.handlers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
