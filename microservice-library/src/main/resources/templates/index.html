@@ -1,12 +1,98 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8">
-    <title>Index page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="AUTH3 Team">
+    <title>AUTH3 Library Service</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/navbar-fixed/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/static/css/style.css}" rel="stylesheet">
 </head>
 <body>
-<a class="navbar-brand" th:href="@{/}">Library client</a>
-<label>Welcome !</label><br/>
-<a th:href="@{/model/}">Login</a>
+
+<div th:fragment="navbar">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-success">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">Library microservice</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="fstNavbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/subscribe}">Подписка</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse justify-content-end" id="sndNavbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item" th:if="${principal}">
+                        <a class="nav-link" th:href="@{/account}">Аккаунт</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a class="nav-link" th:href="@{/admin}">Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:unless="${principal}" class="nav-link" th:href="@{/account}">Вход</a>
+                        <a action="logout" methods="post" th:if="${principal}" class="nav-link" href="#"
+                           th:href="@{/logout}">Выйти</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<main class="container">
+
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Online-Library SERVICE by AUTH3</h1>
+            <p class="fs-4">Романы, рассказы, повести...</p>
+        </div>
+    </div>
+
+    <div class="px-5 pt-5 py-5 mb-4 bg-light rounded">
+        <div class="mb-4">
+            <h1>Читайте книги онлайн только у нас!</h1>
+        </div>
+        <div th:fragment="book-cards" class="row">
+            <div th:each="book : ${books}" class="col-4 pt-2 pb-2">
+                <div class="card book-card">
+                    <img class="card-img-top" th:src="@{${book.getCoverImageSrc()}}" alt="Book card">
+                    <div class="card-body">
+                        <h3 class="card-title" th:text="${book.title}">Название книги</h3>
+                        <p><span class="card-text" th:text="${book.authorName}">Автор книги</span></p>
+                        <div class="d-flex justify-content-between">
+                            <a th:href="@{'/books/' + ${book.id}}" class="btn btn-lg btn-primary">Читать онлайн</a>
+                            <div class="book-rating-div">
+                                <div class="book-rating">
+                                    Рейтинг: <span class="book-rating-value" th:text="${#numbers.formatDecimal(book.rating, 0, 1)}">Рейтинг</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
