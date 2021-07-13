@@ -9,14 +9,21 @@ import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import ru.rt.sso.configs.KeycloakAdminClientUtils;
+import ru.rt.sso.configs.KeycloakBuild;
 import ru.rt.sso.domain.User;
 
 import java.util.*;
 
 @Service
 public class KeycloakAdminClientService {
+
+    private final KeycloakBuild getKeycloakClient;
+
+    public KeycloakAdminClientService(KeycloakBuild getKeycloakClient) {
+        this.getKeycloakClient = getKeycloakClient;
+    }
 
     //Создать нового пользователя
     public UserRepresentation addUser(User user) {
@@ -118,9 +125,9 @@ public class KeycloakAdminClientService {
 
     private RealmResource getBuildKeycloak() {
 
-        Keycloak keycloak = KeycloakAdminClientUtils.getKeycloakClient();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Keycloak keycloak = getKeycloakClient.getAdminClient();
         keycloak.tokenManager().getAccessToken();
-        RealmResource realmResource = keycloak.realm(realmName);
-        return realmResource;
+        return keycloak.realm(getKeycloakClient.getChildRealm());
     }
 }
