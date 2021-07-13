@@ -32,24 +32,6 @@
                     <li class="nav-item">
                         <a class="nav-link active" th:href="@{/}">Home</a>
                     </li>
-                    <!--<li class="nav-item">
-                        <a class="nav-link" th:href="@{/subscribe}">Подписка</a>
-                    </li>-->
-                </ul>
-            </div>
-            <div class="collapse navbar-collapse justify-content-end" id="sndNavbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <!--li class="nav-item" th:if="${principal}">
-                        <a class="nav-link" th:href="@{/account}">Аккаунт</a>
-                    </li>
-                    <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-                        <a class="nav-link" th:href="@{/admin}">Admin</a>
-                    </li>-->
-                    <li class="nav-item">
-                        <a th:unless="${principal}" class="nav-link" th:href="@{/account}">Вход</a>
-                        <a action="logout" methods="post" th:if="${principal}" class="nav-link" href="#"
-                           th:href="@{/logout}">Выйти</a>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -60,8 +42,7 @@
 
     <div class="p-5 mb-4 bg-light rounded-3">
         <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold">Admin Client by AUTH3</h1>
-            <p class="fs-4">Welcome admin!</p>
+            <h1 class="display-5 fw-bold">Неизвестная ошибка!</h1>
         </div>
     </div>
 </main>

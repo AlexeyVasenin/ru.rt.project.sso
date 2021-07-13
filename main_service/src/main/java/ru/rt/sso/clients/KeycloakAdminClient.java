@@ -1,5 +1,6 @@
 package ru.rt.sso.clients;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.OAuth2Constants;
@@ -10,43 +11,35 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@Getter
 public class KeycloakAdminClient {
 
-    //todo на ленивый синглтон
     private Keycloak keycloak = null;
 
-    @Value("${admin.auth-server-url}")
+    @Value("${keycloak-client.server-url}")
     private String authServerUrl;
 
-    @Value("${admin.keycloak.realm}")
-    private String childRealm;
+    @Value("${keycloak-client.realm}")
+    private String realm;
 
-    @Value("${admin.keycloak.clientId}")
+    @Value("${keycloak-client.admin.clientId}")
     private String clientId;
 
-    @Value("${admin.keycloak.username}")
+    @Value("${keycloak-client.admin.username}")
     private String username;
 
-    @Value("${admin.keycloak.password}")
+    @Value("${keycloak-client.admin.password}")
     private String password;
 
-    @Value("${admin.keycloak.secret}")
+    @Value("${keycloak-client.admin.secret}")
     private String secret;
-
-    public String getChildRealm() {
-        return childRealm;
-    }
-
-    public String getClientId() {
-        return clientId;
-    }
 
     public Keycloak getAdminClient() {
         if (keycloak == null) {
             keycloak = KeycloakBuilder.builder()
                     .serverUrl(authServerUrl)
                     .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
-                    .realm(childRealm)
+                    .realm(realm)
                     .clientId(clientId)
                     .clientSecret(secret)
                     .username(username)
@@ -56,7 +49,7 @@ public class KeycloakAdminClient {
                             .build())
                     .build();
 
-            log.info("[REALM] : " + childRealm);
+            log.info("[REALM] : " + realm);
         }
         return keycloak;
     }

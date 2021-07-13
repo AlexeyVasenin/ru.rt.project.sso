@@ -1,9 +1,7 @@
 package ru.rt.sso.service;
 
 import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.resource.RealmResource;
-import org.keycloak.admin.client.resource.UserResource;
-import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.admin.client.resource.*;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
@@ -33,6 +31,7 @@ public class KeycloakAdminClientService {
         CredentialRepresentation credentialRepresentation = createPasswordCredentials(user.getPassword());
 
         UserRepresentation kcUser = new UserRepresentation();
+
 
         kcUser.setUsername(user.getEmail());
         kcUser.setCredentials(Collections.singletonList(credentialRepresentation));
@@ -119,13 +118,8 @@ public class KeycloakAdminClientService {
     }
 
     private RealmResource getBuildKeycloak() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         Keycloak keycloak = keycloakAdminClient.getAdminClient();
         keycloak.tokenManager().getAccessToken();
-
-        //todo only realm sso
-        return keycloak.realm(keycloakAdminClient.getChildRealm());
-        //Keycloak keycloak = KeycloakAdminClient
+        return keycloak.realm(keycloakAdminClient.getRealm());
     }
 }

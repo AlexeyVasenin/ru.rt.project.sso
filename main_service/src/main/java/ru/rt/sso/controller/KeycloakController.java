@@ -2,6 +2,7 @@ package ru.rt.sso.controller;
 
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.rt.sso.domain.User;
 import ru.rt.sso.service.KeycloakAdminClientService;
@@ -38,6 +39,7 @@ public class KeycloakController {
     }
 
     @GetMapping(path = "/users")
+    @PreAuthorize("hasRole('ROLE_REALM-ADMIN')")
     @ResponseBody
     public List<UserRepresentation> getAllUsers() {
         return keycloakAdminClientService.getUsers();
