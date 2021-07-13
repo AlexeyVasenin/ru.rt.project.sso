@@ -14,6 +14,8 @@ public class KeycloakController {
 
     private final KeycloakAdminClientService keycloakAdminClientService;
 
+
+
     public KeycloakController(KeycloakAdminClientService keycloakAdminClientService) {
         this.keycloakAdminClientService = keycloakAdminClientService;
     }
@@ -49,6 +51,8 @@ public class KeycloakController {
                                      @RequestParam String clientId){
         return keycloakAdminClientService.getRolesByUsername(username, clientId);
     }
+
+
 
 
 }

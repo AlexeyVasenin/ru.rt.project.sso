@@ -1,7 +1,5 @@
 package ru.rt.sso.service;
 
-import org.keycloak.KeycloakPrincipal;
-import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
@@ -10,7 +8,7 @@ import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.rt.sso.configs.KeycloakAdminClientUtils;
 import ru.rt.sso.domain.User;
@@ -29,7 +27,7 @@ public class KeycloakAdminClientService {
 
         UserRepresentation kcUser = new UserRepresentation();
 
-        kcUser.setUsername(user.getEmail());
+        kcUser.setUsername(user.getUsername());
         kcUser.setCredentials(Collections.singletonList(credentialRepresentation));
         kcUser.setFirstName(user.getFirstName());
         kcUser.setLastName(user.getLastName());
@@ -85,7 +83,6 @@ public class KeycloakAdminClientService {
     }
 
 
-
     //Получение списка ролей пользователя в определенном клиенте
     public Object getRolesByUsername(String username, String clientId) {
         Optional<UserRepresentation> user = getBuildKeycloak().users().search(username).stream()
@@ -104,6 +101,8 @@ public class KeycloakAdminClientService {
     }
 
 
+    //
+
     private static CredentialRepresentation createPasswordCredentials(String password) {
         CredentialRepresentation passwordCredentials = new CredentialRepresentation();
 
@@ -114,13 +113,14 @@ public class KeycloakAdminClientService {
         return passwordCredentials;
     }
 
-    private RealmResource getBuildKeycloak() {
-        KeycloakPrincipal<RefreshableKeycloakSecurityContext> principal =
-                (KeycloakPrincipal<RefreshableKeycloakSecurityContext>) SecurityContextHolder.getContext()
-                        .getAuthentication().getPrincipal();
+    @Value("${keycloak-client.realm}")
+    private String realmName;
 
-        Keycloak keycloak = KeycloakAdminClientUtils.getKeycloakClient(principal.getKeycloakSecurityContext());
-        RealmResource realmResource = keycloak.realm("${keycloak-client.realm}");
+    private RealmResource getBuildKeycloak() {
+
+        Keycloak keycloak = KeycloakAdminClientUtils.getKeycloakClient();
+        keycloak.tokenManager().getAccessToken();
+        RealmResource realmResource = keycloak.realm(realmName);
         return realmResource;
     }
 }

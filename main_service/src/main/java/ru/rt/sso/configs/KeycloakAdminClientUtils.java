@@ -1,35 +1,35 @@
 package ru.rt.sso.configs;
 
 
-import org.keycloak.KeycloakSecurityContext;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 
 public class KeycloakAdminClientUtils {
 
+    //@Value("${keycloak-client.server-url}")
+    //private static String serverUrl;
+    //
+    //@Value("${keycloak-client.realm}")
+    //private static String realm;
+    //
+    //@Value("${keycloak.resource}")
+    //  private static String clientId;
 
-
-    /**
-     * It builds a {@link Keycloak} client from a given configuration. This client
-     * is used to communicate with the Keycloak instance via REST API.
-     *
-     * @param session the security context
-     * @param config  keycloak configuration
-     * @return Keycloak instance
-     * @see Keycloak
-     * @see KeycloakAdminClientConfig
-     */
-    public static Keycloak getKeycloakClient(KeycloakSecurityContext session) {
+    public static Keycloak getKeycloakClient() {
 
         return KeycloakBuilder.builder() //
-                .serverUrl("${keycloak-client.server-url}") //
-                .realm("${keycloak-client.realm}") //
-                .grantType(OAuth2Constants.CLIENT_CREDENTIALS) //
+                .serverUrl("http:\\//keycloak-java-school.apps.okd.stage.digital.rt.ru/auth") //
+                .realm("sso_realm") //
+                .grantType(OAuth2Constants.PASSWORD) //
                 .username("admin")
                 .password("password")
-                .clientId("${keycloak.resource}") //
-                .authorization(session.getTokenString()) //
+                .clientId("admin-cli")
+                .clientSecret("589f6f4c-d006-4bf1-9978-c133ac87447a")//
+                .resteasyClient(
+                        new ResteasyClientBuilder()
+                                .connectionPoolSize(10).build())//
                 .build();
     }
 
