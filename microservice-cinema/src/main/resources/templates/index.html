@@ -59,10 +59,10 @@
 
 <main class="container">
 
-    <div class="p-5 mb-4 bg-light rounded-3">
+    <div class="p-2 mb-4 bg-light rounded-3">
         <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold">Cinema SERVICE by AUTH3</h1>
-            <p class="fs-4">Фильмы, сериалы, аниме....</p>
+            <h1 class="display-5 fw-bold service-h1">Cinema SERVICE by AUTH3</h1>
+            <p class="fs-4 service-p">Фильмы, сериалы, аниме...</p>
         </div>
     </div>
 
@@ -78,12 +78,15 @@
                         <h3 class="card-title" th:text="${movie.title}">Название фильма</h3>
                         <p><span class="card-text" th:text="${movie.creationYear}">Год создания</span></p>
                         <div class="d-flex justify-content-between">
-                            <a th:href="@{'/movies/' + ${movie.id}}" class="btn btn-lg btn-primary">Смотреть</a>
+                            <a th:href="@{'/movies/' + ${movie.id}}" class="btn btn-lg btn-dark">Смотреть</a>
                             <div class="movie-rating-div">
                                 <div class="movie-rating">
                                     Рейтинг: <span class="movie-rating-value" th:text="${#numbers.formatDecimal(movie.rating, 0, 1)}">Рейтинг</span>
                                 </div>
                             </div>
+                        </div>
+                        <div th:if="${movie.withSubscriptionOnly}" class="mt-2">
+                            <p><span class="card-text movie-subscription-access">* Фильм доступен по подписке</span></p>
                         </div>
                     </div>
                 </div>

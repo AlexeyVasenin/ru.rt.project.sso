@@ -3,6 +3,9 @@ server:
   servlet:
     context-path: /music
 
+application:
+  url: http://localhost:${server.port}${server.servlet.context-path}
+
 eureka:
   instance:
     hostname: ${DOCKER_HOST:localhost}
@@ -40,4 +43,4 @@ spring:
 
 resource-server:
   api:
-    url: http://localhost:8080/resource-server/api/music/
+    url: http://localhost:8080/resource-server/api/music

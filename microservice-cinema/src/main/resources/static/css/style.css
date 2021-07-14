@@ -23,6 +23,14 @@ table {
     text-align: center;
 }
 
+.service-h1 {
+    text-align: center;
+}
+
+.service-p {
+    text-align: center;
+}
+
 .movie-card {
     width: 100%;
 }
@@ -38,7 +46,7 @@ table {
 }
 
 .movie-rating-value {
-    font-style: italic;
+    font-weight: bold;
     font-size: 18px;
     color: #ee0101;
 }
@@ -46,4 +54,9 @@ table {
 .movie-title {
     font-family: Tahoma, serif;
     color: #1f1919;
+}
+
+.movie-subscription-access {
+    font-style: italic;
+    color: #6d6d6d;
 }
