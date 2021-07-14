@@ -8,6 +8,7 @@ ext.moduleName = 'eureka-server'
 group = 'ru.rt'
 sourceCompatibility = '11'
 targetCompatibility = '11'
+version = '0.0.1-SNAPSHOT'
 
 repositories {
     mavenCentral()
