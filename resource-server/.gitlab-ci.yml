@@ -26,13 +26,13 @@ build-resource:
   image: bellsoft/liberica-openjdk-alpine:11.0.11
   stage: build
   before_script:
-    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - export GRADLE_USER_HOME=`pwd`/resource-server/.gradle
   script:
-    - chmod +x ./gradlew
-    - ./gradlew assemble
+    - chmod +x ./resource-server/gradlew
+    - cd resource-server && ./gradlew assemble
   artifacts:
     paths:
-      - build/libs/*.jar
+      - resource-server/build/libs/*.jar
     expire_in: 1 day
   only:
     - gitlab_ci_services
