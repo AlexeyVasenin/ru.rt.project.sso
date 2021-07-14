@@ -32,7 +32,7 @@ build-eureka:
     - cd eureka-server && ./gradlew assemble
   artifacts:
     paths:
-      - eureka-server/build/libs/*.jar
+      - build/libs/*.jar
     expire_in: 1 day
   only:
     - gitlab_ci_services
