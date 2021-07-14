@@ -17,8 +17,8 @@ keycloak-client:
   realm: sso_realm
 
 spring:
-  profiles:
-    active: local # убрать при продакшене
+  #profiles:
+  #  active: local # убрать при продакшене
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
   datasource:

@@ -9,11 +9,16 @@ group = 'ru.rt'
 sourceCompatibility = '11'
 targetCompatibility = '11'
 
+repositories {
+    mavenCentral()
+}
+
 ext {
     set('springCloudVersion', "2020.0.3")
 }
 
 dependencies {
+    //test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     // eureka-server:
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
