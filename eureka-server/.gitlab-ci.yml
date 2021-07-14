@@ -26,7 +26,7 @@ cache:
 bridge-to-resource:
   stage: bridge
   trigger:
-    include: resource-server/.gitlab-ci.yml
+    project: resource-server
     strategy: depend
 
 build-eureka:
