@@ -25,6 +25,8 @@ cache:
 
 bridge-to-resource:
   stage: bridge
+  inherit:
+    variables: false
   trigger:
     include: resource-server/.gitlab-ci.yml
     strategy: depend

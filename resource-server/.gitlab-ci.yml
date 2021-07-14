@@ -19,8 +19,8 @@ stages:
 
 cache:
   paths:
-    - $APP_NAME/.gradle/wrapper
-    - $APP_NAME/.gradle/caches
+    - resource-server/.gradle/wrapper
+    - resource-server/.gradle/caches
 
 build-resource:
   image: bellsoft/liberica-openjdk-alpine:11.0.11
