@@ -26,7 +26,8 @@ cache:
 bridge-to-resource:
   stage: bridge
   trigger:
-    include : resource-server/.gitlab-ci.yml
+    include: resource-server/.gitlab-ci.yml
+    strategy: depend
 
 build-eureka:
   image: bellsoft/liberica-openjdk-alpine:11.0.11
