@@ -22,16 +22,16 @@
 <div th:insert="~{index :: navbar}"></div>
 
 <main class="container">
-    <div class="p-5 mb-4 bg-light rounded-3">
+    <div class="px-5 py-5 pt-2 pb-2 mb-4 bg-light rounded-3">
         <div class="container-fluid py-5">
             <div class="row mb-4">
-                <h1 class="display-5 fw-bold">Данные об аккаунте</h1>
+                <h1 class="display-5 fw-bold service-h1">Данные об аккаунте</h1>
             </div>
             <div class="row" th:each="info : ${userInfo}">
-                <div class="col-4">
+                <div class="col-3">
                     <p class="fs-4"><span th:text="${info.getKey()}"> Info key </span></p>
                 </div>
-                <div class="col-8">
+                <div class="col-9">
                     <p class="fs-4"><span th:text="${info.getValue()}"> Info value </span></p>
                 </div>
             </div>

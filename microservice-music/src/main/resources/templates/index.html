@@ -65,16 +65,17 @@
 
 <main class="container">
 
-    <div class="p-2 px-5 py-5 mb-4 bg-light rounded-3">
+    <div class="p-2 mb-4 bg-light rounded-3">
         <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold service-title">Hip-Hop Music SERVICE by AUTH3</h1>
-            <p class="fs-4 service-description">Только true gangsta hip-hop прямиком в твои колонки, homie!</p>
+            <h1 class="display-5 fw-bold service-h1">Hip-Hop Music SERVICE by AUTH3</h1>
+            <p class="fs-4 service-p">Rap, Hip-Hop, R&B...</p>
         </div>
     </div>
 
     <div class="px-5 pt-5 py-5 mb-8 bg-light rounded">
+        <input sec:authorize="hasRole('ROLE_SUBSCRIBER')" type="hidden" id="has-subscriber-role-input" />
         <div class="mb-4">
-            <h1 class="service-top">ТОП-10 лучших hip-hop песен по версии команды AUTH3:</h1>
+            <h1>ТОП-10 лучших hip-hop песен по версии команды AUTH3:</h1>
         </div>
         <div th:fragment="song-boxes">
             <div th:each="song : ${songs}" class="row p-3 song-box" th:id="@{'song_' + ${song.id}}">
@@ -134,17 +135,7 @@
     </nav>
 </div>
 
-<script>
-    $('body').on('mouseup', '.song-box', function (e) {
-        const id = e.currentTarget.id;
-        let elementsWithId = document.querySelectorAll("#" + id);
-        document.getElementById("logo-music-player").setAttribute("src", elementsWithId[1].src);
-        document.getElementById("title-music-player").innerHTML = elementsWithId[2].innerHTML;
-        document.getElementById("musicians-music-player").innerHTML = elementsWithId[3].innerHTML;
-        document.getElementById("duration-music-player").innerHTML = elementsWithId[4].innerHTML;
-        $("#music-player-navbar").removeClass("invisible");
-    });
-</script>
+<script th:src="@{/static/js/script.js}"></script>
 
 </body>
 </html>

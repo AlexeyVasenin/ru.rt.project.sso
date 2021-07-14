@@ -23,15 +23,11 @@ table {
     text-align: center;
 }
 
-.service-title {
+.service-h1 {
     text-align: center;
 }
 
-.service-description {
-    text-align: center;
-}
-
-.service-top {
+.service-p {
     text-align: center;
 }
 

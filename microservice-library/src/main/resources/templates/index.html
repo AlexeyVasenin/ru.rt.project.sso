@@ -59,10 +59,10 @@
 
 <main class="container">
 
-    <div class="p-5 mb-4 bg-light rounded-3">
+    <div class="p-2 mb-4 bg-light rounded-3">
         <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold">Online-Library SERVICE by AUTH3</h1>
-            <p class="fs-4">Романы, рассказы, повести...</p>
+            <h1 class="display-5 fw-bold service-h1">Online-Library SERVICE by AUTH3</h1>
+            <p class="fs-4 service-p">Романы, рассказы, повести...</p>
         </div>
     </div>
 
@@ -78,13 +78,18 @@
                         <h3 class="card-title" th:text="${book.title}">Название книги</h3>
                         <p><span class="card-text" th:text="${book.authorName}">Автор книги</span></p>
                         <div class="d-flex justify-content-between">
-                            <a th:href="@{'/books/' + ${book.id}}" class="btn btn-lg btn-primary">Читать онлайн</a>
+                            <a th:href="@{'/books/' + ${book.id}}" class="btn btn-lg btn-success">Читать онлайн</a>
                             <div class="book-rating-div">
                                 <div class="book-rating">
                                     Рейтинг: <span class="book-rating-value" th:text="${#numbers.formatDecimal(book.rating, 0, 1)}">Рейтинг</span>
                                 </div>
                             </div>
                         </div>
+                        <!-- TODO добавить атрибут книгам, которые можно читать только по подписке
+                        <div th:if="${book.withSubscriptionOnly}">
+                            <p><span class="card-text">* Доступно по подписке</span></p>
+                        </div>
+                        -->
                     </div>
                 </div>
             </div>

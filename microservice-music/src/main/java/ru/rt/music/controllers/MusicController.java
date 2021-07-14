@@ -38,9 +38,9 @@ public class MusicController {
 
     @GetMapping("/")
     public String mainPage(Model model, Principal principal) {
+        /*Отобразится если principal, положенный в модель не пуст th:if="${principal}"*/
         model.addAttribute("principal", principal);
         model.addAttribute("songs", restRequestHandler.requestToGetAllSongs());
-
         return "index";
     }
 

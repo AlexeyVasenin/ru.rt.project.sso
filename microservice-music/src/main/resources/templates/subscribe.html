@@ -28,14 +28,14 @@
 <div th:insert="~{index :: navbar}"></div>
 
 <main class="container">
-    <div class="p-2 px-5 py-5 mb-4 bg-light rounded-3">
+    <div class="p-2 mb-4 bg-light rounded-3">
         <div class="container-fluid py-5">
             <div th:if="${hasSubscriberRole}">
-                <h1 class="display-5 fw-bold mb-2">Ваша подписка заканчивается <span th:text="${subscriptionEnd}">Дата окончания подписки</span></h1>
+                <h1 class="display-5 fw-bold mb-2 service-h1">Ваша подписка активна до <span th:text="${subscriptionEnd}">Дата окончания подписки</span></h1>
             </div>
             <div th:unless="${hasSubscriberRole}">
-                <h1 class="display-5 fw-bold mb-3">Увы, у вас нет подписки...</h1>
-                <p class="fs-4 mb-3">Подключите подписку и откройте доступ к миллиону хип-хоп песен и альбомов, ain't shit you know!</p>
+                <h1 class="display-5 fw-bold mb-3 service-h1">Увы, у вас нет подписки...</h1>
+                <p class="fs-4 mb-3 service-p">Подключите подписку и откройте доступ к миллиону хип-хоп песен и альбомов, ain't shit you know!</p>
                 <div class="d-flex justify-content-center">
                     <button class="btn btn-lg btn-success" disabled>Оформить подписку</button>
                 </div>
@@ -43,9 +43,13 @@
         </div>
     </div>
 
-    <div th:if="${hasSubscriberRole}" class="px-5 pt-5 py-5 mb-4 bg-light rounded">
-        <div class="mb-4">
+    <div class="px-5 pt-5 py-5 mb-4 bg-light rounded">
+        <input sec:authorize="hasRole('ROLE_SUBSCRIBER')" type="hidden" id="has-subscriber-role-input" />
+        <div th:if="${hasSubscriberRole}" class="mb-4">
             <h1>Вам доступны полные треки по подписке!</h1>
+        </div>
+        <div th:unless="${hasSubscriberRole}" class="mb-4">
+            <h2>Без подписки можно слушать только 30-секундные фрагменты!</h2>
         </div>
         <div th:insert="~{index :: song-boxes}"></div>
     </div>
@@ -53,17 +57,7 @@
 
 <div th:insert="~{index :: music-player}"></div>
 
-<script>
-    $('body').on('mouseup', '.song-box', function (e) {
-        const id = e.currentTarget.id;
-        let elementsWithId = document.querySelectorAll("#" + id);
-        document.getElementById("logo-music-player").setAttribute("src", elementsWithId[1].src);
-        document.getElementById("title-music-player").innerHTML = elementsWithId[2].innerHTML;
-        document.getElementById("musicians-music-player").innerHTML = elementsWithId[3].innerHTML;
-        document.getElementById("duration-music-player").innerHTML = elementsWithId[4].innerHTML;
-        $("#music-player-navbar").removeClass("invisible");
-    });
-</script>
+<script th:src="@{/static/js/script.js}"></script>
 
 </body>
 </html>
