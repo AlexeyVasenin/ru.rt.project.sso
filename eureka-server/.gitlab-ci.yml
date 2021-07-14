@@ -28,8 +28,8 @@ build-eureka:
   before_script:
     - export GRADLE_USER_HOME=`pwd`/.gradle
   script:
-    - chmod +x gradlew
-    - gradlew assemble
+    - chmod +x ./eureka-server/gradlew
+    - ./gradlew assemble
   artifacts:
     paths:
       - build/libs/*.jar
