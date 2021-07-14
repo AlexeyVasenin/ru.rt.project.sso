@@ -12,7 +12,6 @@ variables:
 image: "$REGISTRY/openshift/cli:latest"
 
 stages:
-  - bridge
   - build
   - docker_build
   - deploy
@@ -22,14 +21,6 @@ cache:
   paths:
     - $APP_NAME/.gradle/wrapper
     - $APP_NAME/.gradle/caches
-
-bridge-to-resource:
-  stage: bridge
-  inherit:
-    variables: false
-  trigger:
-    include: resource-server/.gitlab-ci.yml
-    strategy: depend
 
 build-eureka:
   image: bellsoft/liberica-openjdk-alpine:11.0.11
