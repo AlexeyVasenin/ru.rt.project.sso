@@ -28,7 +28,7 @@ bridge-to-resource:
   inherit:
     variables: false
   trigger:
-    include: resource-server/.gitlab-ci.yml
+    project: ru.project.sso/resource-server
     strategy: depend
 
 build-eureka:
