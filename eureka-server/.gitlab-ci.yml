@@ -26,13 +26,13 @@ build-eureka:
   image: bellsoft/liberica-openjdk-alpine:11.0.11
   stage: build
   before_script:
-    - export GRADLE_USER_HOME=`pwd`/eureka-server/.gradle
+    - export GRADLE_USER_HOME=`pwd`/$APP_NAME/.gradle
   script:
-    - chmod +x ./eureka-server/gradlew
-    - cd eureka-server && ./gradlew assemble
+    - chmod +x ./$APP_NAME/gradlew
+    - cd $APP_NAME && ./gradlew assemble
   artifacts:
     paths:
-      - eureka-server/build/libs/*.jar
+      - $APP_NAME/build/libs/*.jar
     expire_in: 1 day
   only:
     - gitlab_ci_services
@@ -48,7 +48,7 @@ docker_build-eureka:
   script:
     - cat /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt >> $SSL_CERT_DIR/ca-certificates.crt
     - echo "{\"auths\":{\"$REGISTRY\":{\"username\":\"serviceaccount\",\"password\":\"$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)\"}}}" > $DOCKER_CONFIG/config.json
-    - /kaniko/executor --context $CI_PROJECT_DIR/test_service --dockerfile $CI_PROJECT_DIR/test_service/Dockerfile --destination $APP_IMAGE:$TEMP_IMAGE_TAG --cache=true --cache-repo ${APP_IMAGE}-cache
+    - /kaniko/executor --context $CI_PROJECT_DIR/$APP_NAME --dockerfile $CI_PROJECT_DIR/$APP_NAME/Dockerfile --destination $APP_IMAGE:$TEMP_IMAGE_TAG --cache=true --cache-repo ${APP_IMAGE}-cache
   only:
     - gitlab_ci_services
   tags:
