@@ -1,69 +1,46 @@
 package ru.rt.sso.configs;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import ru.rt.sso.handlers.KeycloakLogoutHandler;
+import ru.rt.sso.service.KeycloakOauth2UserService;
 
 
 @EnableWebSecurity
 @Configuration
-public class SecurityConfig{
+public class SecurityConfig {
 
     @Bean
-    public WebSecurityConfigurerAdapter webSecurityConfigurer(KeycloakLogoutHandler keycloakLogoutHandler) {
+    public WebSecurityConfigurerAdapter webSecurityConfigurer(KeycloakLogoutHandler keycloakLogoutHandler, KeycloakOauth2UserService keycloakOidcUserService) {
         return new WebSecurityConfigurerAdapter() {
             @Override
             public void configure(HttpSecurity http) throws Exception {
-
                 http
                         .authorizeRequests()
-                        .antMatchers("/")
-                        .permitAll()
+                        .antMatchers("/**").hasRole("REALM-ADMIN")
+                        //.antMatchers("/keycloak/users").hasRole("VIEW-USERS") по-другому как-то там...
                         .anyRequest().authenticated()
                         .and()
-                        .oauth2Login()
-                        .and()
                         .logout().addLogoutHandler(keycloakLogoutHandler)
-                        .logoutUrl("/logout")
-                        .invalidateHttpSession(true)
-                        .clearAuthentication(true)
-                        .deleteCookies("JSESSIONID");
+                        .logoutUrl("/logout").logoutSuccessUrl("/")
+                        .invalidateHttpSession(true).clearAuthentication(true)
+                        .and()
+                        .oauth2Login().userInfoEndpoint().oidcUserService(keycloakOidcUserService)
+                        .and().defaultSuccessUrl("/", true);
             }
         };
     }
-
-   /* @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .antMatchers("/")
-                .permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .oauth2Login()
-                .and()
-                .logout().addLogoutHandler(this.keycloakLogoutHandler)
-                .logoutUrl("/logout")
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .deleteCookies("JSESSIONID");
-    }*/
 
     @Bean
     WebClient webClient(ClientRegistrationRepository clientRegistrationRepository, OAuth2AuthorizedClientRepository authorizedClientRepository) {
@@ -75,106 +52,18 @@ public class SecurityConfig{
     }
 
     @Bean
+    KeycloakOauth2UserService keycloakOidcUserService(OAuth2ClientProperties oauth2ClientProperties) {
+        NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withJwkSetUri(oauth2ClientProperties.getProvider().get("keycloak").getJwkSetUri()).build();
+        SimpleAuthorityMapper authoritiesMapper = new SimpleAuthorityMapper();
+        authoritiesMapper.setConvertToUpperCase(true);
+        return new KeycloakOauth2UserService(jwtDecoder, authoritiesMapper);
+    }
+
+    //todo по аналогии с микросервисами?
+    @Bean
     KeycloakLogoutHandler keycloakLogoutHandler() {
         return new KeycloakLogoutHandler(new RestTemplate());
     }
-}
-
-@RequiredArgsConstructor
-class KeycloakLogoutHandler extends SecurityContextLogoutHandler {
-
-    private final RestTemplate restTemplate;
-
-    @Override
-    public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        super.logout(request, response, authentication);
-
-        propagateLogoutToKeycloak((OidcUser) authentication.getPrincipal());
-    }
-
-    private void propagateLogoutToKeycloak(OidcUser user) {
-
-        String endSessionEndpoint = user.getIssuer() + "/protocol/openid-connect/logout";
-
-        UriComponentsBuilder builder = UriComponentsBuilder //
-                .fromUriString(endSessionEndpoint) //
-                .queryParam("id_token_hint", user.getIdToken().getTokenValue());
-
-        ResponseEntity<String> logoutResponse = restTemplate.getForEntity(builder.toUriString(), String.class);
-        if (logoutResponse.getStatusCode().is2xxSuccessful()) {
-            System.out.println("Successfulley logged out in Keycloak");
-        } else {
-            System.out.println("Could not propagate logout to Keycloak");
-        }
-    }
-
-   /* @Override
-    protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
-
-        *//**
-         * Returning NullAuthenticatedSessionStrategy means app will not remember session
-         *//*
-
-        return new NullAuthenticatedSessionStrategy();
-    }
-
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        KeycloakAuthenticationProvider keycloakAuthenticationProvider =
-                keycloakAuthenticationProvider();
-
-        keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
-
-        auth.authenticationProvider(keycloakAuthenticationProvider);
-    }
-
-    @Bean
-    public FilterRegistrationBean<?> keycloakAuthenticationProcessingFilterRegistrationBean(
-            KeycloakAuthenticationProcessingFilter filter) {
-
-        FilterRegistrationBean<?> registrationBean = new FilterRegistrationBean<>(filter);
-
-        registrationBean.setEnabled(false);
-        return registrationBean;
-    }
-
-    @Bean
-    public FilterRegistrationBean<?> keycloakPreAuthActionsFilterRegistrationBean(
-            KeycloakPreAuthActionsFilter filter) {
-
-        FilterRegistrationBean<?> registrationBean = new FilterRegistrationBean<>(filter);
-        registrationBean.setEnabled(false);
-        return registrationBean;
-    }
-
-    @Bean
-    public FilterRegistrationBean<?> keycloakAuthenticatedActionsFilterBean(
-            KeycloakAuthenticatedActionsFilter filter) {
-
-        FilterRegistrationBean<?> registrationBean = new FilterRegistrationBean<>(filter);
-
-        registrationBean.setEnabled(false);
-        return registrationBean;
-    }
-
-    @Bean
-    public FilterRegistrationBean<?> keycloakSecurityContextRequestFilterBean(
-            KeycloakSecurityContextRequestFilter filter) {
-
-        FilterRegistrationBean<?> registrationBean = new FilterRegistrationBean<>(filter);
-
-        registrationBean.setEnabled(false);
-
-        return registrationBean;
-    }
-
-    @Bean
-    @Override
-    @ConditionalOnMissingBean(HttpSessionManager.class)
-    protected HttpSessionManager httpSessionManager() {
-        return new HttpSessionManager();
-    }*/
 }
 
 

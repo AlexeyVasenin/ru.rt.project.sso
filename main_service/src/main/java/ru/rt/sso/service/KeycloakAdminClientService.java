@@ -1,18 +1,14 @@
 package ru.rt.sso.service;
 
-import org.keycloak.KeycloakPrincipal;
-import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
 import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.resource.RealmResource;
-import org.keycloak.admin.client.resource.UserResource;
-import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.admin.client.resource.*;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import ru.rt.sso.configs.KeycloakAdminClientUtils;
+import ru.rt.sso.clients.KeycloakAdminClient;
 import ru.rt.sso.domain.User;
 
 import java.util.*;
@@ -20,6 +16,13 @@ import java.util.*;
 @Service
 public class KeycloakAdminClientService {
 
+    private final KeycloakAdminClient keycloakAdminClient;
+
+    public KeycloakAdminClientService(KeycloakAdminClient keycloakAdminClient) {
+        this.keycloakAdminClient = keycloakAdminClient;
+    }
+
+    //todo ЮЗЕРА заменить на OidcUser !!!!!!!
     //Создать нового пользователя
     public UserRepresentation addUser(User user) {
 
@@ -28,6 +31,7 @@ public class KeycloakAdminClientService {
         CredentialRepresentation credentialRepresentation = createPasswordCredentials(user.getPassword());
 
         UserRepresentation kcUser = new UserRepresentation();
+
 
         kcUser.setUsername(user.getEmail());
         kcUser.setCredentials(Collections.singletonList(credentialRepresentation));
@@ -85,7 +89,6 @@ public class KeycloakAdminClientService {
     }
 
 
-
     //Получение списка ролей пользователя в определенном клиенте
     public Object getRolesByUsername(String username, String clientId) {
         Optional<UserRepresentation> user = getBuildKeycloak().users().search(username).stream()
@@ -115,12 +118,8 @@ public class KeycloakAdminClientService {
     }
 
     private RealmResource getBuildKeycloak() {
-        KeycloakPrincipal<RefreshableKeycloakSecurityContext> principal =
-                (KeycloakPrincipal<RefreshableKeycloakSecurityContext>) SecurityContextHolder.getContext()
-                        .getAuthentication().getPrincipal();
-
-        Keycloak keycloak = KeycloakAdminClientUtils.getKeycloakClient(principal.getKeycloakSecurityContext());
-        RealmResource realmResource = keycloak.realm("${keycloak-client.realm}");
-        return realmResource;
+        Keycloak keycloak = keycloakAdminClient.getAdminClient();
+        keycloak.tokenManager().getAccessToken();
+        return keycloak.realm(keycloakAdminClient.getRealm());
     }
 }
