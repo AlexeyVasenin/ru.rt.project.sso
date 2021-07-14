@@ -1,3 +1,3 @@
 include:
   - "eureka-server/.gitlab-ci.yml"
-  - "resource-server/.gitlab-ci.yml"
+  #- "resource-server/.gitlab-ci.yml"
