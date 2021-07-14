@@ -55,3 +55,8 @@ table {
     font-family: Tahoma, serif;
     color: #1f1919;
 }
+
+.movie-subscription-access {
+    font-style: italic;
+    color: #6d6d6d;
+}

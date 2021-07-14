@@ -25,4 +25,5 @@ public class Book {
     public String genres;
     public String description;
     public Integer volume;
+    public Boolean withSubscriptionOnly;
 }

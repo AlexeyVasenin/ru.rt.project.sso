@@ -17,6 +17,7 @@ public class Movie {
     public byte[] posterImage;
     public String youtubeCode;
     public String description;
+    public Boolean withSubscriptionOnly;
 
     public void savePosterImageLocally() {
         try {

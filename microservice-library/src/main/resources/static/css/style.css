@@ -59,3 +59,8 @@ table {
 .book-image {
     width: 40%;
 }
+
+.book-subscription-access {
+    font-style: italic;
+    color: #6d6d6d;
+}

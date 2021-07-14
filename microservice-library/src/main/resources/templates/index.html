@@ -85,11 +85,9 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- TODO добавить атрибут книгам, которые можно читать только по подписке
-                        <div th:if="${book.withSubscriptionOnly}">
-                            <p><span class="card-text">* Доступно по подписке</span></p>
+                        <div th:if="${book.withSubscriptionOnly}" class="mt-2">
+                            <p><span class="card-text book-subscription-access">* Книга доступна по подписке</span></p>
                         </div>
-                        -->
                     </div>
                 </div>
             </div>

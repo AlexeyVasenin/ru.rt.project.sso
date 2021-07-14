@@ -17,6 +17,7 @@
             <column name="genres" type="VARCHAR"/>
             <column name="description" type="VARCHAR"/>
             <column name="volume" type="INTEGER"/>
+            <column name="with_subscription_only" type="BOOLEAN"/>
         </createTable>
     </changeSet>
 
@@ -32,6 +33,7 @@
             <column name="poster_image" type="BYTEA"/>
             <column name="youtube_code" type="VARCHAR"/>
             <column name="description" type="VARCHAR"/>
+            <column name="with_subscription_only" type="BOOLEAN"/>
         </createTable>
     </changeSet>
 

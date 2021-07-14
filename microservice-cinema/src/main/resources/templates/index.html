@@ -85,11 +85,9 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- TODO добавить атрибут фильмам, которые можно смотреть только по подписке
-                        <div th:if="${movie.withSubscriptionOnly}">
-                            <p><span class="card-text">* Доступно по подписке</span></p>
+                        <div th:if="${movie.withSubscriptionOnly}" class="mt-2">
+                            <p><span class="card-text movie-subscription-access">* Фильм доступен по подписке</span></p>
                         </div>
-                        -->
                     </div>
                 </div>
             </div>
