@@ -16,6 +16,7 @@ stages:
   - docker_build
   - deploy
   - clean
+  - bridge
 
 cache:
   paths:
@@ -72,3 +73,8 @@ clean-eureka:
   only:
     - gitlab_ci_services
   when: always
+
+bridge-to-resource:
+  stage: bridge
+  trigger:
+    include : "./resource-server/.gitlab-ci.yml"
