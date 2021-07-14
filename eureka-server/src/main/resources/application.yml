@@ -7,7 +7,7 @@ spring:
 
 eureka:
   instance:
-    hostname: ${DOCKER_HOST:localhost}
+    hostname: eureka-server-keycloak-java-school.apps.okd.stage.digital.rt.ru
   client:
     register-with-eureka: false
     fetch-registry: false
