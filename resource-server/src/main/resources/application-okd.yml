@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/sso_resource_server
+    url: jdbc:postgresql://localhost:5433/sso_resource
     username: # set value
     password: # set value
     driver-class-name: org.postgresql.Driver

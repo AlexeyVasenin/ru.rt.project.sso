@@ -18,7 +18,7 @@ keycloak-client:
 
 spring:
   profiles:
-    active: local # убрать при продакшене
+    active: local
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
   datasource:
