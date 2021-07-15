@@ -1,9 +1,9 @@
-FROM adoptopenjdk:11-jre-hotspot
+FROM bellsoft/liberica-openjdk-alpine:11.0.11
 
-RUN mkdir /usr/share/app
+ARG JAR_FILE=build/libs/main_service-0.0.1-SNAPSHOT.jar
 
-WORKDIR /usr/share/app
+COPY ${JAR_FILE} app.jar
 
-COPY build/libs/main_service-0.0.1-SNAPSHOT.jar /usr/share/app/app.jar
+EXPOSE 8085
 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","-Xms256m","-Xmx512m","/app.jar"]

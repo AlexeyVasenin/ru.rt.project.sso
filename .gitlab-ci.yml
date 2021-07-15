@@ -9,42 +9,34 @@ variables:
   KUBERNETES_MEMORY_LIMIT: '1Gi'
 
 stages:
-  - bridge-eureka
-  - bridge-resource
+  #- bridge-eureka
+  #- bridge-resource
   - bridge-microservices
 
 eureka-server:
   stage: bridge-eureka
-  #inherit:
-  #  variables: true
-  #variables:
-  #  APP_NAME: "eureka-server"
-  #trigger:
-  #  include: eureka-server/.gitlab-ci.yml
-  #  strategy: depend
-  script:
-    - echo "Complete stage bridge-eureka"
+  inherit:
+    variables: true
+  variables:
+    APP_NAME: "eureka-server"
+  trigger:
+    include: .sso-apps.gitlab-ci.yml
+    strategy: depend
 
 resource-server:
   stage: bridge-resource
-  #inherit:
-  #  variables: true
-  #variables:
-  #  APP_NAME: "resource-server"
-  #trigger:
-  #  include: resource-server/.gitlab-ci.yml
-  #  strategy: depend
-  script:
-    - echo "Complete stage bridge-resource"
+  inherit:
+    variables: true
+  variables:
+    APP_NAME: "resource-server"
+  trigger:
+    include: .sso-apps.gitlab-ci.yml
+    strategy: depend
 
 bridge-to-microservices:
   stage: bridge-microservices
-  #inherit:
-  #  variables: true
-  #variables:
-  #  APP_NAME: "resource-server"
+  inherit:
+    variables: true
   trigger:
-    include: .microservices.gitlab-ci.yml
+    include: .sso-apps.gitlab-ci.yml
     strategy: depend
-  script:
-    - echo "Complete stage bridge-microservices"

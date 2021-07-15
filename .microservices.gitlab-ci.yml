@@ -1,47 +1,41 @@
 admin-service:
   stage: bridge-admin
-  #inherit:
-  #  variables: true
-  #variables:
-  #  APP_NAME: "eureka-server"
-  #trigger:
-  #  include: eureka-server/.gitlab-ci.yml
-  #  strategy: depend
-  script:
-    - echo "Complete stage bridge-admin"
+  inherit:
+    variables: true
+  variables:
+    APP_NAME: "main_service"
+  trigger:
+    include: .sso-apps.gitlab-ci.yml
+    strategy: depend
+
 
 microservice-cinema:
   stage: bridge-cinema
-  #inherit:
-  #  variables: true
-  #variables:
-  #  APP_NAME: "eureka-server"
-  #trigger:
-  #  include: eureka-server/.gitlab-ci.yml
-  #  strategy: depend
-  script:
-    - echo "Complete stage bridge-cinema"
+  inherit:
+    variables: true
+  variables:
+    APP_NAME: "microservice-cinema"
+  trigger:
+    include: .sso-apps.gitlab-ci.yml
+    strategy: depend
+
 
 microservice-library:
   stage: bridge-library
-  #inherit:
-  #  variables: true
-  #variables:
-  #  APP_NAME: "eureka-server"
-  #trigger:
-  #  include: eureka-server/.gitlab-ci.yml
-  #  strategy: depend
-  script:
-    - echo "Complete stage bridge-library"
+  inherit:
+    variables: true
+  variables:
+    APP_NAME: "microservice-library"
+  trigger:
+    include: .sso-apps.gitlab-ci.yml
+    strategy: depend
 
 microservice-music:
   stage: bridge-music
-  #inherit:
-  #  variables: true
-  #variables:
-  #  APP_NAME: "eureka-server"
-  #trigger:
-  #  include: eureka-server/.gitlab-ci.yml
-  #  strategy: depend
-  script:
-    - echo "Complete stage bridge-music"
+  inherit:
+    variables: true
+  variables:
+    APP_NAME: "microservice-music"
+  trigger:
+    include: .sso-apps.gitlab-ci.yml
+    strategy: depend
