@@ -12,7 +12,7 @@ stages:
   - bridge-eureka
   - bridge-resource
 
-bridge-to-eureka:
+eureka-server:
   stage: bridge-eureka
   inherit:
     variables: true
@@ -21,8 +21,10 @@ bridge-to-eureka:
   trigger:
     include: eureka-server/.gitlab-ci.yml
     strategy: depend
+  script:
+    - echo "Complete stage bridge-eureka"
 
-bridge-to-resource:
+resource-server:
   stage: bridge-resource
   inherit:
     variables: true
@@ -31,3 +33,5 @@ bridge-to-resource:
   trigger:
     include: resource-server/.gitlab-ci.yml
     strategy: depend
+  script:
+    - echo "Complete stage bridge-resource"
