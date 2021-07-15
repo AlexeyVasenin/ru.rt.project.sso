@@ -10,7 +10,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://${EUREKA_HOST}:${EUREKA_PORT}/eureka/
+      defaultZone: http://${EUREKA_HOST}/eureka/
 
 keycloak-client:
   server-url: http://keycloak-java-school.apps.okd.stage.digital.rt.ru/auth

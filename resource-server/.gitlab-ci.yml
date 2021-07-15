@@ -1,18 +1,6 @@
-variables:
-  REGISTRY: "image-registry.openshift-image-registry.svc:5000"
-  NAMESPACE: 'java-school'
-  APP_NAME: "resource-server"
-  APP_IMAGE: "$REGISTRY/$NAMESPACE/$APP_NAME"
-  TEMP_IMAGE_TAG: "temp_$CI_PIPELINE_ID"
-  KUBERNETES_CPU_REQUEST: '1'
-  KUBERNETES_CPU_LIMIT: '1'
-  KUBERNETES_MEMORY_REQUEST: '1Gi'
-  KUBERNETES_MEMORY_LIMIT: '1Gi'
-
 image: "$REGISTRY/openshift/cli:latest"
 
 stages:
-  - bridge
   - build
   - docker_build
   - deploy
@@ -20,16 +8,8 @@ stages:
 
 cache:
   paths:
-    - resource-server/.gradle/wrapper
-    - resource-server/.gradle/caches
-
-bridge-to-eureka:
-  stage: bridge
-  inherit:
-    variables: false
-  trigger:
-    include: eureka-server/.gitlab-ci.yml
-    strategy: depend
+    - $APP_NAME/.gradle/wrapper
+    - $APP_NAME/.gradle/caches
 
 build-resource:
   image: bellsoft/liberica-openjdk-alpine:11.0.11
