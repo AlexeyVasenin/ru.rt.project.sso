@@ -26,7 +26,7 @@
             <a th:href="@{/}">Вернуться на главную</a>
         </div>
         <div class="row justify-content-center mb-3">
-            <img class="book-image" th:src="@{${book.getCoverImageSrc()}}" alt="Book image">
+            <img class="book-image" th:src="${book.imageSrc}" alt="Book image">
         </div>
         <div class="row mb-3">
             <h1><span class="book-title" th:text="@{${book.authorName} + '. ' + ${book.title}}">Автор и название книги</span></h1>

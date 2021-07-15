@@ -12,17 +12,17 @@ import javax.annotation.PostConstruct;
 @EnableEurekaClient
 public class MicroserviceCinemaApplication {
 
-    @Autowired
-    private RestRequestHandler restRequestHandler;
+//    @Autowired
+//    private RestRequestHandler restRequestHandler;
 
     public static void main(String[] args) {
         SpringApplication.run(MicroserviceCinemaApplication.class, args);
     }
 
-    @PostConstruct
-    private void postConstruct() {
-        // локальная загрузка изображений с сервера ресурсов
-        restRequestHandler.requestToGetAllMovies();
-    }
+//    @PostConstruct
+//    private void postConstruct() {
+//        // локальная загрузка изображений с сервера ресурсов
+//        restRequestHandler.requestToGetAllMovies();
+//    }
 
 }

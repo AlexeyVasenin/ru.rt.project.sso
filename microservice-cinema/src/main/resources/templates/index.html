@@ -73,7 +73,7 @@
         <div th:fragment="movie-cards" class="row">
             <div th:each="movie : ${movies}" class="col-4 pt-2 pb-2">
                 <div class="card movie-card">
-                    <img class="card-img-top" th:src="@{${movie.getPosterImageSrc()}}" alt="Movie card">
+                    <img class="card-img-top" th:src="${movie.imageSrc}" alt="Movie card">
                     <div class="card-body">
                         <h3 class="card-title" th:text="${movie.title}">Название фильма</h3>
                         <p><span class="card-text" th:text="${movie.creationYear}">Год создания</span></p>

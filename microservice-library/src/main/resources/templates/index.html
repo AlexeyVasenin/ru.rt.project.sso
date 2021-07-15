@@ -73,7 +73,7 @@
         <div th:fragment="book-cards" class="row">
             <div th:each="book : ${books}" class="col-4 pt-2 pb-2">
                 <div class="card book-card">
-                    <img class="card-img-top" th:src="@{${book.getCoverImageSrc()}}" alt="Book card">
+                    <img class="card-img-top" th:src="${book.imageSrc}" alt="Book card">
                     <div class="card-body">
                         <h3 class="card-title" th:text="${book.title}">Название книги</h3>
                         <p><span class="card-text" th:text="${book.authorName}">Автор книги</span></p>

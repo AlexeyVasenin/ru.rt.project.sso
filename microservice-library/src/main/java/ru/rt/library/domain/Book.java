@@ -19,6 +19,7 @@ public class Book {
     public String description;
     public Integer volume;
     public Boolean withSubscriptionOnly;
+    public String imageSrc;
 
     public void saveCoverImageLocally() {
         try {

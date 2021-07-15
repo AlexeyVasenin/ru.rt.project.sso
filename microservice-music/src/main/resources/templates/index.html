@@ -80,7 +80,7 @@
         <div th:fragment="song-boxes">
             <div th:each="song : ${songs}" class="row p-3 song-box" th:id="@{'song_' + ${song.id}}">
                 <div class="d-flex justify-content-center col-sm-2">
-                    <img class="song-album-logo" th:id="@{'song_' + ${song.id}}" th:src="@{${song.getCoverImageSrc()}}" alt="Song logo">
+                    <img class="song-album-logo" th:id="@{'song_' + ${song.id}}" th:src="${song.imageSrc}" alt="Song logo">
                 </div>
                 <div class="col-sm-9 song-box-title-musicians">
                     <div class="row">

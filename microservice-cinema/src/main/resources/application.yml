@@ -4,16 +4,16 @@ server:
     context-path: /cinema
 
 application:
-  url: http://localhost:${server.port}${server.servlet.context-path}
+  url: http://localhost:${server.port}${server.servlet.context-path} # изменить
 
 eureka:
   instance:
-    hostname: ${DOCKER_HOST:localhost}
+    hostname: ${DOCKER_HOST:localhost} # изменить
   client:
     register-with-eureka: true
     fetch-registry: true
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/ # изменить
 
 keycloak-client:
   server-url: http://keycloak-java-school.apps.okd.stage.digital.rt.ru/auth
@@ -43,5 +43,5 @@ spring:
 
 resource-server:
   api:
-    url: http://localhost:8080/resource-server/api/cinema
+    url: http://localhost:8080/resource-server/api/cinema # изменить
 
