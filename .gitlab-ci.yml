@@ -8,6 +8,12 @@ variables:
   KUBERNETES_MEMORY_REQUEST: '1Gi'
   KUBERNETES_MEMORY_LIMIT: '1Gi'
 
+stages:
+  - bridge-admin
+  - bridge-cinema
+  - bridge-library
+  - bridge-music
+
 #eureka-server:
 #  stage: bridge-eureka
 #  inherit:
@@ -27,6 +33,7 @@ variables:
 #  trigger:
 #    include: .sso-apps.gitlab-ci.yml
 #    strategy: depend
+
 
 admin-service:
   stage: bridge-admin
