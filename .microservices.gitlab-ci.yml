@@ -1,3 +1,9 @@
+stages:
+  - bridge-admin
+  - bridge-cinema
+  - bridge-library
+  - bridge-music
+
 admin-service:
   stage: bridge-admin
   inherit:
@@ -8,7 +14,6 @@ admin-service:
     include: .sso-apps.gitlab-ci.yml
     strategy: depend
 
-
 microservice-cinema:
   stage: bridge-cinema
   inherit:
@@ -18,7 +23,6 @@ microservice-cinema:
   trigger:
     include: .sso-apps.gitlab-ci.yml
     strategy: depend
-
 
 microservice-library:
   stage: bridge-library
