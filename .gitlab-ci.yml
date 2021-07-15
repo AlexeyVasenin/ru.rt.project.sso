@@ -13,25 +13,25 @@ stages:
   #- bridge-resource
   - bridge-microservices
 
-eureka-server:
-  stage: bridge-eureka
-  inherit:
-    variables: true
-  variables:
-    APP_NAME: "eureka-server"
-  trigger:
-    include: .sso-apps.gitlab-ci.yml
-    strategy: depend
+#eureka-server:
+#  stage: bridge-eureka
+#  inherit:
+#    variables: true
+#  variables:
+#    APP_NAME: "eureka-server"
+#  trigger:
+#    include: .sso-apps.gitlab-ci.yml
+#    strategy: depend
 
-resource-server:
-  stage: bridge-resource
-  inherit:
-    variables: true
-  variables:
-    APP_NAME: "resource-server"
-  trigger:
-    include: .sso-apps.gitlab-ci.yml
-    strategy: depend
+#resource-server:
+#  stage: bridge-resource
+#  inherit:
+#    variables: true
+#  variables:
+#    APP_NAME: "resource-server"
+#  trigger:
+#    include: .sso-apps.gitlab-ci.yml
+#    strategy: depend
 
 bridge-to-microservices:
   stage: bridge-microservices
