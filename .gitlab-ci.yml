@@ -44,7 +44,7 @@ bridge-to-microservices:
   #variables:
   #  APP_NAME: "resource-server"
   trigger:
-    include: microservices.gitlab-ci.yml
+    include: .microservices.gitlab-ci.yml
     strategy: depend
   script:
     - echo "Complete stage bridge-microservices"
