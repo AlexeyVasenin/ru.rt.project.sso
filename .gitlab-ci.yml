@@ -11,27 +11,40 @@ variables:
 stages:
   - bridge-eureka
   - bridge-resource
+  - bridge-microservices
 
 eureka-server:
   stage: bridge-eureka
-  inherit:
-    variables: true
-  variables:
-    APP_NAME: "eureka-server"
-  trigger:
-    include: eureka-server/.gitlab-ci.yml
-    strategy: depend
+  #inherit:
+  #  variables: true
+  #variables:
+  #  APP_NAME: "eureka-server"
+  #trigger:
+  #  include: eureka-server/.gitlab-ci.yml
+  #  strategy: depend
   script:
     - echo "Complete stage bridge-eureka"
 
 resource-server:
   stage: bridge-resource
-  inherit:
-    variables: true
-  variables:
-    APP_NAME: "resource-server"
-  trigger:
-    include: resource-server/.gitlab-ci.yml
-    strategy: depend
+  #inherit:
+  #  variables: true
+  #variables:
+  #  APP_NAME: "resource-server"
+  #trigger:
+  #  include: resource-server/.gitlab-ci.yml
+  #  strategy: depend
   script:
     - echo "Complete stage bridge-resource"
+
+bridge-to-microservices:
+  stage: bridge-microservices
+  #inherit:
+  #  variables: true
+  #variables:
+  #  APP_NAME: "resource-server"
+  trigger:
+    include: microservices.gitlab-ci.yml
+    strategy: depend
+  script:
+    - echo "Complete stage bridge-microservices"

@@ -1,0 +1,47 @@
+admin-service:
+  stage: bridge-admin
+  #inherit:
+  #  variables: true
+  #variables:
+  #  APP_NAME: "eureka-server"
+  #trigger:
+  #  include: eureka-server/.gitlab-ci.yml
+  #  strategy: depend
+  script:
+    - echo "Complete stage bridge-admin"
+
+microservice-cinema:
+  stage: bridge-cinema
+  #inherit:
+  #  variables: true
+  #variables:
+  #  APP_NAME: "eureka-server"
+  #trigger:
+  #  include: eureka-server/.gitlab-ci.yml
+  #  strategy: depend
+  script:
+    - echo "Complete stage bridge-cinema"
+
+microservice-library:
+  stage: bridge-library
+  #inherit:
+  #  variables: true
+  #variables:
+  #  APP_NAME: "eureka-server"
+  #trigger:
+  #  include: eureka-server/.gitlab-ci.yml
+  #  strategy: depend
+  script:
+    - echo "Complete stage bridge-library"
+
+microservice-music:
+  stage: bridge-music
+  #inherit:
+  #  variables: true
+  #variables:
+  #  APP_NAME: "eureka-server"
+  #trigger:
+  #  include: eureka-server/.gitlab-ci.yml
+  #  strategy: depend
+  script:
+    - echo "Complete stage bridge-music"
