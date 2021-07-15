@@ -9,7 +9,7 @@ variables:
   KUBERNETES_MEMORY_LIMIT: '1Gi'
 
 stages:
-  - bridge-admin
+  #- bridge-admin
   - bridge-cinema
   - bridge-library
   - bridge-music
@@ -34,16 +34,15 @@ stages:
 #    include: .sso-apps.gitlab-ci.yml
 #    strategy: depend
 
-
-admin-service:
-  stage: bridge-admin
-  inherit:
-    variables: true
-  variables:
-    APP_NAME: "main_service"
-  trigger:
-    include: .sso-apps.gitlab-ci.yml
-    strategy: depend
+#admin-service:
+#  stage: bridge-admin
+#  inherit:
+#    variables: true
+#  variables:
+#    APP_NAME: "main_service"
+#  trigger:
+#    include: .sso-apps.gitlab-ci.yml
+#    strategy: depend
 
 microservice-cinema:
   stage: bridge-cinema
