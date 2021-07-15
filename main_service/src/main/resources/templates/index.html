@@ -8,10 +8,12 @@
     <meta name="author" content="AUTH3 Team">
     <title>AUTH3 Admin Client</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/navbar-fixed/">
+    <link rel="canonical"
+          href="https://getbootstrap.com/docs/5.0/examples/navbar-fixed/">
 
     <!-- Bootstrap core CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+          rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link th:href="@{/static/css/style.css}" rel="stylesheet">
@@ -22,32 +24,57 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
         <div class="container">
             <a class="navbar-brand" th:href="@{/}">Admin client</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="fstNavbarSupportedContent">
+            <div class="collapse navbar-collapse"
+                 id="fstNavbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link active" th:href="@{/}">Home</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/keycloak/users}">
+                            Пользователи</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"
+                           data-bs-toggle="modal"
+                           data-bs-target="#exampleModal">
+                            Новый пользователи</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"
+                           data-bs-toggle="modal"
+                           data-bs-target="#exampleModal1">
+                            Удалить пользователи</a>
+                    </li>
+
                     <!--<li class="nav-item">
                         <a class="nav-link" th:href="@{/subscribe}">Подписка</a>
                     </li>-->
                 </ul>
             </div>
-            <div class="collapse navbar-collapse justify-content-end" id="sndNavbarSupportedContent">
+            <div class="collapse navbar-collapse justify-content-end"
+                 id="sndNavbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <!--li class="nav-item" th:if="${principal}">
+
+                    <li class="nav-item" th:if="${principal}">
                         <a class="nav-link" th:href="@{/account}">Аккаунт</a>
                     </li>
+                    <!--
                     <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
                         <a class="nav-link" th:href="@{/admin}">Admin</a>
                     </li>-->
                     <li class="nav-item">
-                        <a th:unless="${principal}" class="nav-link" th:href="@{/account}">Вход</a>
-                        <a action="logout" methods="post" th:if="${principal}" class="nav-link" href="#"
+                        <a th:unless="${principal}" class="nav-link"
+                           th:href="@{/account}">Вход</a>
+                        <a action="logout" methods="post" th:if="${principal}"
+                           class="nav-link" href="#"
                            th:href="@{/logout}">Выйти</a>
                     </li>
                 </ul>
@@ -64,6 +91,78 @@
             <p class="fs-4">Welcome admin!</p>
         </div>
     </div>
+
+    <!-- Форма регистрации нового пользователя -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Новый
+                        пользователь</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Введите пожалуйста логин и пароль.</p>
+                    <form>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">User name</label>
+                            <input type="text" class="form-control"
+                                   id="exampleInputEmail1"
+                                   aria-describedby="emailHelp"
+                                   placeholder="Enter User name">
+                            <small id="emailHelp"
+                                   class="form-text text-muted">Enter
+                                User name</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" class="form-control"
+                                   id="exampleInputPassword1"
+                                   placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  Форма удаления пользователя  -->
+    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">Удалить
+                        акк пользователя</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Введите пожалуйста логин пользователя.</p>
+
+                    <form action="#"  th:action="@{/keycloak/del/}"
+
+                          method="post">
+                        <div class="form-group">
+                            <label for="InputUsername">User name</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="InputUsername"
+                                   aria-describedby="UsernameHelp"
+                                   placeholder="Enter User name">
+                            <small id="UsernameHelp"
+                                   class="form-text text-muted">Введите
+                                имя(Username) пользователя для удаления
+                            </small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
