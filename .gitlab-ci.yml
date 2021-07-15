@@ -38,5 +38,5 @@ bridge-to-microservices:
   inherit:
     variables: true
   trigger:
-    include: .sso-apps.gitlab-ci.yml
+    include: .microservices.gitlab-ci.yml
     strategy: depend
