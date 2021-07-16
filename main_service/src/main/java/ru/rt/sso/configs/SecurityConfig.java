@@ -28,7 +28,7 @@ public class SecurityConfig {
             public void configure(HttpSecurity http) throws Exception {
                 http
                         .authorizeRequests()
-                        .antMatchers("/**").permitAll()
+                        .antMatchers("/**").hasRole("REALM-ADMIN")
                         //.antMatchers("/keycloak/users").hasRole("VIEW-USERS") по-другому как-то там...
                         .anyRequest().authenticated()
                         .and()

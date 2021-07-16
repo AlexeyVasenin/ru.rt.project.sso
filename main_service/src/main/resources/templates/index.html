@@ -37,23 +37,55 @@
                     <li class="nav-item">
                         <a class="nav-link active" th:href="@{/}">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" th:href="@{/keycloak/users}">
-                            Пользователи</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#"
-                           data-bs-toggle="modal"
-                           data-bs-target="#exampleModal">
-                            Новый пользователи</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#"
-                           data-bs-toggle="modal"
-                           data-bs-target="#exampleModal1">
-                            Удалить пользователи</a>
-                    </li>
 
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#"
+                           id="navbarDropdownUser" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Users
+                        </a>
+                        <ul class="dropdown-menu"
+                            aria-labelledby="navbarDropdownUser">
+                            <li><a class="dropdown-item"
+                                   th:href="@{/keycloak/users}">Пользователи
+                            </a></li>
+                            <li><a class="dropdown-item" href="/#"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#exampleModal">Новый
+                                пользователь</a></li>
+                            <li><a class="dropdown-item" href="/#"  data-bs-toggle="modal"
+                                   data-bs-target="#exampleModal1">Удалить
+                                пользователя</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="/#"  data-bs-toggle="modal"
+                                   data-bs-target="#rolesUserInClient">Роли
+                                пользователя в клиенте</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#"
+                           id="navbarDropdownClient" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Roles
+                        </a>
+                        <ul class="dropdown-menu"
+                            aria-labelledby="navbarDropdownClient">
+                            <li><a class="dropdown-item" data-bs-toggle="modal"
+                                   data-bs-target="#exampleNewClient"
+                                   href="#">Новый
+                                Клиент</a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal"
+                                   data-bs-target="#exampleNewRoleClient"
+                                   href="#">Новая роль в Клиенте
+                            </a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal"
+                                   data-bs-target="#exampleListRoleClient"
+                                   href="#">Список ролей в Клиенте
+                            </a></li>
+                        </ul>
+                    </li>
                     <!--<li class="nav-item">
                         <a class="nav-link" th:href="@{/subscribe}">Подписка</a>
                     </li>-->
@@ -103,12 +135,13 @@
                 </div>
                 <div class="modal-body">
                     <p>Введите пожалуйста логин и пароль.</p>
-                    <form>
+                    <form th:action="@{/keyclaok/user}" method="post">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">User name</label>
-                            <input type="text" class="form-control"
-                                   id="exampleInputEmail1"
-                                   aria-describedby="emailHelp"
+                            <label for="exampleInputName">User name</label>
+                            <input type="text" th:name="username"
+                                   class="form-control"
+                                   id="exampleInputName"
+                                   aria-describedby="usernameHelper"
                                    placeholder="Enter User name">
                             <small id="emailHelp"
                                    class="form-text text-muted">Enter
@@ -116,7 +149,8 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control"
+                            <input type="password" th:name="pass"
+                                   class="form-control"
                                    id="exampleInputPassword1"
                                    placeholder="Password">
                         </div>
@@ -127,6 +161,7 @@
             </div>
         </div>
     </div>
+
     <!--  Форма удаления пользователя  -->
     <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -139,12 +174,11 @@
                 <div class="modal-body">
                     <p>Введите пожалуйста логин пользователя.</p>
 
-                    <form action="#"  th:action="@{/keycloak/del/}"
-
-                          method="post">
+                    <form th:method="post" th:action="@{/keycloak/del}">
                         <div class="form-group">
                             <label for="InputUsername">User name</label>
                             <input type="text"
+                                   th:name="username"
                                    class="form-control"
                                    id="InputUsername"
                                    aria-describedby="UsernameHelp"
@@ -153,6 +187,160 @@
                                    class="form-text text-muted">Введите
                                 имя(Username) пользователя для удаления
                             </small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Форма получения ролей пользователя в клиенте -->
+    <div class="modal fade" id="rolesUserInClient" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rolesUserInClientLabel">Новый
+                        пользователь</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Введите пожалуйста имя пользователя и название клиента
+                        .</p>
+                    <form th:action="@{/keycloak/user/roles}" method="get">
+                        <div class="form-group">
+                            <label for="exampleInputUserName">User name</label>
+                            <input type="text" th:name="username"
+                                   class="form-control"
+                                   id="exampleInputUserName"
+                                   aria-describedby="usernameHelper">
+                            <small id="exampleInputUserNameHelp"
+                                   class="form-text text-muted">Enter
+                                User name</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleNameClientId">ClientId</label>
+                            <input type="text" th:name="clientId"
+                                   class="form-control"
+                                   id="exampleNameClientId">
+                            <small id="exampleNameClientIdHelp"
+                                   class="form-text text-muted">Enter
+                                ClientId name</small>
+                        </div>
+                            <button type="submit" class="btn btn-primary">Submit
+                            </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Форма получение ролей в клиенте-->
+    <div class="modal fade" id="exampleListRoleClient" tabindex="-1"
+         role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"
+                        id="exampleListRoleClientLabel">Realm
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <p>Введите имя клиента.</p>
+                    <form th:method="get"
+                          th:action="@{/keycloak/client/roles}">
+                        <div class="form-group">
+                            <label for="InputUsername">Client Name</label>
+                            <input type="text"
+                                   th:name="clientId"
+                                   class="form-control"
+                                   id="InputNameClientId"
+                                   aria-describedby="ClientIdHelp">
+                            <small id="ClientIdHelp"
+                                   class="form-text text-muted">Введите имя
+                                клиента
+                            </small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Форма создания нового Клиента в Реалме  -->
+    <div class="modal fade" id="exampleNewClient" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleNewClientLabel">Realm
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <p>Введите имя нового клиента.</p>
+                    <form th:method="post" th:action="@{/keycloak/client}">
+                        <div class="form-group">
+                            <label for="InputClientId">User name</label>
+                            <input type="text"
+                                   th:name="clientId"
+                                   class="form-control"
+                                   id="InputClientId"
+                                   aria-describedby="UsernameHelp"
+                                   placeholder="Enter User name">
+                            <small id="ClientHelp"
+                                   class="form-text text-muted">Введите имя
+                                клиента
+                            </small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Форма создания новой роли в клиенте   -->
+    <div class="modal fade" id="exampleNewRoleClient" tabindex="-1"
+         role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleNewRoleLabel">Realm
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <p>Введите имя роли и имя клиента.</p>
+                    <form th:method="post"
+                          th:action="@{/keycloak/client/new/role}">
+                        <div class="form-group">
+                            <label for="InputRole">Role Name</label>
+                            <input type="text"
+                                   th:name="roleName"
+                                   class="form-control"
+                                   id="InputRole"
+                                   aria-describedby="RolenameHelp">
+                            <small id="RolenameHelp"
+                                   class="form-text text-muted">Введите название
+                                роли
+                            </small>
+                            <div>
+                                <label for="InputClientId1">Client Name</label>
+                                <input type="text"
+                                       th:name="clientId"
+                                       class="form-control"
+                                       id="InputClientId1"
+                                       aria-describedby="ClientHelp">
+                                <small id="ClientIdHelp1"
+                                       class="form-text text-muted">Введите имя
+                                    клиента
+                                </small>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit
                         </button>
