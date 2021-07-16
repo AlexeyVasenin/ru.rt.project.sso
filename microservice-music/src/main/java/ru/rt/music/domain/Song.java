@@ -16,6 +16,7 @@ public class Song {
     public String duration;
     public byte[] albumCover;
     public String filename;
+    public String imageSrc;
 
     public void saveCoverImageLocally() {
         try {

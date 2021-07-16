@@ -11,6 +11,7 @@
             <column name="rating">9.1</column>
             <column name="duration">4:05</column>
             <column name="filename">goosebumps</column>
+            <column name="image_src">https://avatars.yandex.net/get-music-content/41288/2f72f328.a.3780264-1/m1000x1000</column>
         </insert>
     </changeSet>
 
@@ -21,6 +22,7 @@
             <column name="rating">9.0</column>
             <column name="duration">3:25</column>
             <column name="filename">who_dat_boy</column>
+            <column name="image_src">https://avatars.yandex.net/get-music-content/192707/4d4f4cb7.a.4547491-1/m1000x1000</column>
         </insert>
     </changeSet>
 
@@ -31,6 +33,7 @@
             <column name="rating">8.9</column>
             <column name="duration">5:57</column>
             <column name="filename">gorgeous</column>
+            <column name="image_src">https://avatars.yandex.net/get-music-content/2433821/f1c88270.a.169071-3/m1000x1000</column>
         </insert>
     </changeSet>
 
@@ -41,6 +44,7 @@
             <column name="rating">8.9</column>
             <column name="duration">2:55</column>
             <column name="filename">highest_in_the_room</column>
+            <column name="image_src">https://avatars.yandex.net/get-music-content/149669/51ee41e9.a.8908568-1/m1000x1000</column>
         </insert>
     </changeSet>
 
@@ -51,6 +55,7 @@
             <column name="rating">9.1</column>
             <column name="duration">5:50</column>
             <column name="filename">maad_city</column>
+            <column name="image_src">https://avatars.yandex.net/get-music-content/28589/98382a55.a.1174459-1/m1000x1000</column>
         </insert>
     </changeSet>
 
@@ -61,6 +66,7 @@
             <column name="rating">9.2</column>
             <column name="duration">5:26</column>
             <column name="filename">lose_yourself</column>
+            <column name="image_src">https://avatars.yandex.net/get-music-content/34131/6fd4311d.a.4846-2/m1000x1000</column>
         </insert>
     </changeSet>
 
@@ -71,6 +77,7 @@
             <column name="rating">8.9</column>
             <column name="duration">3:45</column>
             <column name="filename">this_is_america</column>
+            <column name="image_src">https://avatars.yandex.net/get-music-content/118603/00719f5b.a.5350759-1/m1000x1000</column>
         </insert>
     </changeSet>
 
@@ -81,6 +88,7 @@
             <column name="rating">8.7</column>
             <column name="duration">3:16</column>
             <column name="filename">the_box</column>
+            <column name="image_src">https://avatars.yandex.net/get-music-content/2114230/b31e3d56.a.9362259-1/m1000x1000</column>
         </insert>
     </changeSet>
 
@@ -91,6 +99,7 @@
             <column name="rating">8.6</column>
             <column name="duration">2:11</column>
             <column name="filename">ransom</column>
+            <column name="image_src">https://avatars.yandex.net/get-music-content/143117/9cfb1729.a.8858643-1/m1000x1000</column>
         </insert>
     </changeSet>
 
@@ -101,6 +110,7 @@
             <column name="rating">8.5</column>
             <column name="duration">4:48</column>
             <column name="filename">a_lot</column>
+            <column name="image_src">https://avatars.yandex.net/get-music-content/139444/edafb065.a.6377704-1/m1000x1000</column>
         </insert>
     </changeSet>
 

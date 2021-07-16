@@ -86,8 +86,17 @@ public class MusicController {
         return "subscribe";
     }
 
-    @GetMapping("/about")
-    public ModelAndView aboutPage(Principal principal) {
-        return new ModelAndView("subscribe", Collections.singletonMap("principal", principal));
+    @GetMapping("/authors")
+    public String aboutPage(Model model, Authentication authentication) {
+        DefaultOidcUser principal = (DefaultOidcUser) authentication.getPrincipal();
+        model.addAttribute("principal", principal);
+
+        boolean hasAuthorRole = principal.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(authority -> authority.contains("ROLE_AUTHOR"));
+
+        model.addAttribute("userName", principal.getName());
+        model.addAttribute("hasAuthorRole", hasAuthorRole);
+        return "authors";
     }
 }

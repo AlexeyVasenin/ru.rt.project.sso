@@ -18,6 +18,7 @@
             <column name="description" type="VARCHAR"/>
             <column name="volume" type="INTEGER"/>
             <column name="with_subscription_only" type="BOOLEAN"/>
+            <column name="image_src" type="VARCHAR"/>
         </createTable>
     </changeSet>
 
@@ -34,6 +35,7 @@
             <column name="youtube_code" type="VARCHAR"/>
             <column name="description" type="VARCHAR"/>
             <column name="with_subscription_only" type="BOOLEAN"/>
+            <column name="image_src" type="VARCHAR"/>
         </createTable>
     </changeSet>
 
@@ -48,6 +50,7 @@
             <column name="duration" type="VARCHAR"/>
             <column name="album_cover" type="BYTEA"/>
             <column name="filename" type="VARCHAR"/>
+            <column name="image_src" type="VARCHAR"/>
         </createTable>
     </changeSet>
 

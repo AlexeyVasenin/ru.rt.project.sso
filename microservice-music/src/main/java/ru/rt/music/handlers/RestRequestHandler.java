@@ -25,9 +25,10 @@ public class RestRequestHandler {
                 })
                 .block();
 
-        if (songs != null) {
-            songs.forEach(Song::saveCoverImageLocally);
-        }
+        // для локального сохранения изображений
+//        if (songs != null) {
+//            songs.forEach(Song::saveCoverImageLocally);
+//        }
 
         return songs;
     }

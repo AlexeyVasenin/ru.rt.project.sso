@@ -5,12 +5,12 @@ server:
 
 eureka:
   instance:
-    hostname: ${DOCKER_HOST:localhost}
+    hostname: ${DOCKER_HOST:localhost} # изменить
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/ # изменить
 
 keycloak-client:
   server-url: http://keycloak-java-school.apps.okd.stage.digital.rt.ru/auth
@@ -18,7 +18,7 @@ keycloak-client:
 
 spring:
   profiles:
-    active: local # убрать при продакшене
+    active: local
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
   datasource:

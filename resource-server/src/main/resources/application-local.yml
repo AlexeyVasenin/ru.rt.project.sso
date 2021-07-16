@@ -1,6 +1,6 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/sso_resource_server
-    username: postgres # ввести своего локального пользователя
-    password: pass # ввести свой локальный пароль
+    username: postgres
+    password: pass
     driver-class-name: org.postgresql.Driver
