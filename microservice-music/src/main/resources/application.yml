@@ -3,8 +3,8 @@ server:
   servlet:
     context-path: /music
 
-#application:
-#  url: http://localhost:${server.port}${server.servlet.context-path}
+application:
+  url: ${APP_HOST}
 
 eureka:
   instance:

@@ -4,7 +4,7 @@ server:
     context-path: /cinema
 
 application:
-  url: http://localhost:${server.port}${server.servlet.context-path}
+  url: ${APP_HOST}
 
 eureka:
   instance:
