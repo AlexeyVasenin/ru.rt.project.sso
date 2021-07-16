@@ -25,4 +25,5 @@ public class Movie {
     public String youtubeCode;
     public String description;
     public Boolean withSubscriptionOnly;
+    public String imageSrc;
 }

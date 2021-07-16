@@ -25,43 +25,44 @@
 </head>
 <body>
 
-<div th:fragment="navbar">
-    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-danger">
-        <div class="container">
-            <a class="navbar-brand" th:href="@{/}">Music microservice</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="fstNavbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" th:href="@{/}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/subscribe}">Подписка</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="collapse navbar-collapse justify-content-end" id="sndNavbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item" th:if="${principal}">
-                        <a class="nav-link" th:href="@{/account}">Аккаунт</a>
-                    </li>
-                    <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-                        <a class="nav-link" th:href="@{/admin}">Admin</a>
-                    </li>
-                    <li class="nav-item">
-                        <a th:unless="${principal}" class="nav-link" th:href="@{/account}">Вход</a>
-                        <a action="logout" methods="post" th:if="${principal}" class="nav-link" href="#"
-                           th:href="@{/logout}">Выйти</a>
-                    </li>
-                </ul>
-            </div>
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-danger">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">Music microservice</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="fstNavbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" th:href="@{/}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/subscribe}">Подписка</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/authors}">Авторам</a>
+                </li>
+            </ul>
         </div>
-    </nav>
-</div>
+        <div class="collapse navbar-collapse justify-content-end" id="sndNavbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" th:if="${principal}">
+                    <a class="nav-link" th:href="@{/account}">Аккаунт</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a class="nav-link" th:href="@{/admin}">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a th:unless="${principal}" class="nav-link" th:href="@{/account}">Вход</a>
+                    <a action="logout" methods="post" th:if="${principal}" class="nav-link" href="#"
+                       th:href="@{/logout}">Выйти</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 <main class="container">
 
@@ -80,7 +81,7 @@
         <div th:fragment="song-boxes">
             <div th:each="song : ${songs}" class="row p-3 song-box" th:id="@{'song_' + ${song.id}}">
                 <div class="d-flex justify-content-center col-sm-2">
-                    <img class="song-album-logo" th:id="@{'song_' + ${song.id}}" th:src="@{${song.getCoverImageSrc()}}" alt="Song logo">
+                    <img class="song-album-logo" th:id="@{'song_' + ${song.id}}" th:src="${song.imageSrc}" alt="Song logo">
                 </div>
                 <div class="col-sm-9 song-box-title-musicians">
                     <div class="row">
@@ -98,7 +99,9 @@
             </div>
         </div>
     </div>
-
+    <footer class="pt-3 mt-4 text-muted border-top">
+        &copy; 2021 Music Service by AUTH3
+    </footer>
 </main>
 
 <div th:fragment="music-player">

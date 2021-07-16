@@ -21,7 +21,7 @@ public class UserDetailsCollectorService {
 
     /**
      * Собирает готовое представление {@link OidcUserInfo} в модель на UI
-     *
+     * <p>
      * Базовые поля (стандарт), представляемые {@link OidcUserInfo} достаются через геттеры example:  ${user.getFullName()},
      * к кастомным же можно обратиться получив claim из объекта example: ${user.getClaim('sub_active')}
      * Таким образом, можно не городить свои модели, а напрямую работать с principal
@@ -58,9 +58,13 @@ public class UserDetailsCollectorService {
         userInfo.add(new AbstractMap.SimpleEntry<>("Full name:", oidcUserInfo.getFullName()));
         userInfo.add(new AbstractMap.SimpleEntry<>("Email:", oidcUserInfo.getEmail()));
         // reviews_count - Integer
-        Object reviewCounts = oidcUserInfo.getClaim("reviews_count");
-        if (reviewCounts != null) {
-            userInfo.add(new AbstractMap.SimpleEntry<>("Review counts:", reviewCounts.toString()));
+        Object favoriteAuthor = oidcUserInfo.getClaim("favorite_author");
+        if (favoriteAuthor != null) {
+            userInfo.add(new AbstractMap.SimpleEntry<>("Favorite Author:", favoriteAuthor.toString()));
+        }
+        Object booksRead = oidcUserInfo.getClaim("books_read");
+        if (booksRead != null) {
+            userInfo.add(new AbstractMap.SimpleEntry<>("Books read:", booksRead.toString()));
         }
         // sub_active - Boolean
         Object subActive = oidcUserInfo.getClaim("sub_active");

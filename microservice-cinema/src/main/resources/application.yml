@@ -3,8 +3,8 @@ server:
   servlet:
     context-path: /cinema
 
-#application:
-#  url: http://localhost:${server.port}${server.servlet.context-path}
+application:
+  url: http://localhost:${server.port}${server.servlet.context-path}
 
 eureka:
   instance:
@@ -13,7 +13,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}/eureka/
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
 
 keycloak-client:
   server-url: http://keycloak-java-school.apps.okd.stage.digital.rt.ru/auth

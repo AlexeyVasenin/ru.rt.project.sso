@@ -16,6 +16,7 @@
             </column>
             <column name="volume">190</column>
             <column name="with_subscription_only">true</column>
+            <column name="image_src">https://cv7.litres.ru/pub/c/elektronnaya-kniga/cover_415/130977-chak-palanik-boycovskiy-klub.jpg</column>
         </insert>
     </changeSet>
 
@@ -31,6 +32,7 @@
             </column>
             <column name="volume">201</column>
             <column name="with_subscription_only">false</column>
+            <column name="image_src">https://cv6.litres.ru/pub/c/elektronnaya-kniga/cover_415/39507162--.jpg</column>
         </insert>
     </changeSet>
 
@@ -46,6 +48,7 @@
             </column>
             <column name="volume">170</column>
             <column name="with_subscription_only">false</column>
+            <column name="image_src">https://cv5.litres.ru/pub/c/elektronnaya-kniga/cover_415/25290752-ernest-heminguey-starik-i-more-rasskazy.jpg</column>
         </insert>
     </changeSet>
 
@@ -61,6 +64,7 @@
             </column>
             <column name="volume">200</column>
             <column name="with_subscription_only">true</column>
+            <column name="image_src">https://cv3.litres.ru/pub/c/elektronnaya-kniga/cover_415/129934-entoni-berdzhes-zavodnoy-apelsin.jpg</column>
         </insert>
     </changeSet>
 
@@ -76,6 +80,7 @@
             </column>
             <column name="volume">100</column>
             <column name="with_subscription_only">true</column>
+            <column name="image_src">https://cv0.litres.ru/pub/c/elektronnaya-kniga/cover_415/8685806-dzhordzh-oruell-skotnyy-dvor.jpg</column>
         </insert>
     </changeSet>
 
@@ -91,6 +96,7 @@
             </column>
             <column name="volume">449</column>
             <column name="with_subscription_only">false</column>
+            <column name="image_src">https://cv6.litres.ru/pub/c/pdf-kniga/cover_415/7613069-aleksandr-pushkin-evgeniy-onegin-7613069.jpg</column>
         </insert>
     </changeSet>
 

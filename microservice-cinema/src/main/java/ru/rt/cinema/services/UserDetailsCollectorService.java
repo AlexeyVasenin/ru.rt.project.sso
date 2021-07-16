@@ -21,7 +21,7 @@ public class UserDetailsCollectorService {
 
     /**
      * Собирает готовое представление {@link OidcUserInfo} в модель на UI
-     *
+     * <p>
      * Базовые поля (стандарт), представляемые {@link OidcUserInfo} достаются через геттеры example:  ${user.getFullName()},
      * к кастомным же можно обратиться получив claim из объекта example: ${user.getClaim('sub_active')}
      * Таким образом, можно не городить свои модели, а напрямую работать с principal
@@ -57,16 +57,7 @@ public class UserDetailsCollectorService {
         userInfo.add(new AbstractMap.SimpleEntry<>("Username:", oidcUserInfo.getPreferredUsername()));
         userInfo.add(new AbstractMap.SimpleEntry<>("Full name:", oidcUserInfo.getFullName()));
         userInfo.add(new AbstractMap.SimpleEntry<>("Email:", oidcUserInfo.getEmail()));
-        // reviews_count - Integer
-        Object reviewCounts = oidcUserInfo.getClaim("reviews_count");
-        if (reviewCounts != null) {
-            userInfo.add(new AbstractMap.SimpleEntry<>("Review counts:", reviewCounts.toString()));
-        }
-        // sub_active - Boolean
-        Object subActive = oidcUserInfo.getClaim("sub_active");
-        if (subActive != null) {
-            userInfo.add(new AbstractMap.SimpleEntry<>("Is subscription active?", (Boolean) subActive ? "Yes" : "No"));
-        }
+
 
         List<String> roles = principal.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -77,10 +68,29 @@ public class UserDetailsCollectorService {
                 .filter(authority -> authority.contains("SCOPE"))
                 .collect(Collectors.toList());
 
+        if (roles.contains("ROLE_WRITE_REVIEWS")) {
+            Object reviewCounts = oidcUserInfo.getClaim("reviews_count");
+            if (reviewCounts != null) {
+                userInfo.add(new AbstractMap.SimpleEntry<>("Review counts:", reviewCounts.toString()));
+            }
+        }
+
+        Object averageScore = oidcUserInfo.getClaim("average_score");
+        if (averageScore != null) {
+            userInfo.add(new AbstractMap.SimpleEntry<>("Average score:", averageScore.toString()));
+        }
+
+        // sub_active - Boolean
+        Object subActive = oidcUserInfo.getClaim("sub_active");
+        if (subActive != null) {
+            userInfo.add(new AbstractMap.SimpleEntry<>("Is subscription active?", (Boolean) subActive ? "Yes" : "No"));
+        }
+
         if (roles.contains("ROLE_SUBSCRIBER")) {
             userInfo.add(new AbstractMap.SimpleEntry<>("End of subscription:", oidcUserInfo.getClaim("sub_end")));
             userInfo.add(new AbstractMap.SimpleEntry<>("Level of subscription:", oidcUserInfo.getClaim("sub_lvl")));
         }
+
         userInfo.add(new AbstractMap.SimpleEntry<>("Roles:", String.join(", ", roles)));
         userInfo.add(new AbstractMap.SimpleEntry<>("Scopes:", String.join(", ", scopes)));
         return userInfo;

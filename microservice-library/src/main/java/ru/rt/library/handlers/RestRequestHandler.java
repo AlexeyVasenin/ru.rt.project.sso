@@ -24,10 +24,10 @@ public class RestRequestHandler {
                 .bodyToMono(new ParameterizedTypeReference<List<Book>>() {
                 })
                 .block();
-
-        if (books != null) {
-            books.forEach(Book::saveCoverImageLocally);
-        }
+        // для локального сохранения изображений
+//        if (books != null) {
+//            books.forEach(Book::saveCoverImageLocally);
+//        }
 
         return books;
     }

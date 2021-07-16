@@ -25,9 +25,10 @@ public class RestRequestHandler {
                 })
                 .block();
 
-        if (movies != null) {
-            movies.forEach(Movie::savePosterImageLocally);
-        }
+        // для локального сохранения изображений
+//        if (movies != null) {
+//            movies.forEach(Movie::savePosterImageLocally);
+//        }
 
         return movies;
     }
