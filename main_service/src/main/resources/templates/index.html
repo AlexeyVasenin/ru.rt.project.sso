@@ -53,13 +53,15 @@
                                    data-bs-toggle="modal"
                                    data-bs-target="#exampleModal">Новый
                                 пользователь</a></li>
-                            <li><a class="dropdown-item" href="/#"  data-bs-toggle="modal"
+                            <li><a class="dropdown-item" href="/#"
+                                   data-bs-toggle="modal"
                                    data-bs-target="#exampleModal1">Удалить
                                 пользователя</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="/#"  data-bs-toggle="modal"
+                            <li><a class="dropdown-item" href="/#"
+                                   data-bs-toggle="modal"
                                    data-bs-target="#rolesUserInClient">Роли
                                 пользователя в клиенте</a></li>
                         </ul>
@@ -68,7 +70,7 @@
                         <a class="nav-link dropdown-toggle" href="#"
                            id="navbarDropdownClient" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Roles
+                            Client & Roles
                         </a>
                         <ul class="dropdown-menu"
                             aria-labelledby="navbarDropdownClient">
@@ -83,6 +85,25 @@
                             <li><a class="dropdown-item" data-bs-toggle="modal"
                                    data-bs-target="#exampleListRoleClient"
                                    href="#">Список ролей в Клиенте
+                            </a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#"
+                           id="navbarDropdownService" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Service
+                        </a>
+                        <ul class="dropdown-menu"
+                            aria-labelledby="navbarDropdownService">
+                            <li><a class="dropdown-item"
+                                   href="http://localhost:8081/cinema">Cinema
+                            </a></li>
+                            <li><a class="dropdown-item"
+                                   href="http://localhost:8082/library">Library
+                            </a></li>
+                            <li><a class="dropdown-item"
+                                   href="http://localhost:8083/music">Music
                             </a></li>
                         </ul>
                     </li>
@@ -119,7 +140,7 @@
 
     <div class="p-5 mb-4 bg-light rounded-3">
         <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold">Admin Client by AUTH3</h1>
+            <h1 class="display-5 fw-bold">Admin Client</h1>
             <p class="fs-4">Welcome admin!</p>
         </div>
     </div>
@@ -228,8 +249,8 @@
                                    class="form-text text-muted">Enter
                                 ClientId name</small>
                         </div>
-                            <button type="submit" class="btn btn-primary">Submit
-                            </button>
+                        <button type="submit" class="btn btn-primary">Submit
+                        </button>
                     </form>
                 </div>
             </div>
