@@ -4,7 +4,7 @@ server:
     context-path: /library
 
 application:
-  url: ${APP_HOST}
+  url: http://${APP_HOST}${server.servlet.context-path}
 
 eureka:
   instance:
@@ -13,7 +13,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+      defaultZone: http://${eureka.instance.hostname}/eureka/
 
 keycloak-client:
   server-url: http://keycloak-java-school.apps.okd.stage.digital.rt.ru/auth
