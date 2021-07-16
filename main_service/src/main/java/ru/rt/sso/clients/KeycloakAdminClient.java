@@ -38,7 +38,7 @@ public class KeycloakAdminClient {
         if (keycloak == null) {
             keycloak = KeycloakBuilder.builder()
                     .serverUrl(authServerUrl)
-                    .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
+                    .grantType(OAuth2Constants.PASSWORD)
                     .realm(realm)
                     .clientId(clientId)
                     .clientSecret(secret)
