@@ -24,7 +24,7 @@ build:
       - $APP_NAME/build/libs/*.jar
     expire_in: 1 day
   only:
-    - gitlab_ci_services
+    - stage
   tags:
     - java_school
 
@@ -39,7 +39,7 @@ docker_build:
     - echo "{\"auths\":{\"$REGISTRY\":{\"username\":\"serviceaccount\",\"password\":\"$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)\"}}}" > $DOCKER_CONFIG/config.json
     - /kaniko/executor --context $CI_PROJECT_DIR/$APP_NAME --dockerfile $CI_PROJECT_DIR/$APP_NAME/Dockerfile --destination $APP_IMAGE:$TEMP_IMAGE_TAG --cache=true --cache-repo ${APP_IMAGE}-cache
   only:
-    - gitlab_ci_services
+    - stage
   tags:
     - java_school
 
@@ -48,7 +48,7 @@ deploy_staging:
   script:
     - oc tag $NAMESPACE/$APP_NAME:$TEMP_IMAGE_TAG $NAMESPACE/$APP_NAME:latest
   only:
-    - gitlab_ci_services
+    - stage
   tags:
     - java_school
 
@@ -59,5 +59,5 @@ clean:
   tags:
     - java_school
   only:
-    - gitlab_ci_services
+    - stage
   when: always
