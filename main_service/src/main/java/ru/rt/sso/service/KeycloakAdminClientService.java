@@ -1,15 +1,16 @@
 package ru.rt.sso.service;
 
 import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.resource.*;
+import org.keycloak.admin.client.resource.RealmResource;
+import org.keycloak.admin.client.resource.RoleMappingResource;
+import org.keycloak.admin.client.resource.UserResource;
+import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.rt.sso.clients.KeycloakAdminClient;
-import ru.rt.sso.domain.User;
 
 import java.util.*;
 
@@ -24,20 +25,14 @@ public class KeycloakAdminClientService {
 
     //todo ЮЗЕРА заменить на OidcUser !!!!!!!
     //Создать нового пользователя
-    public UserRepresentation addUser(User user) {
+    public UserRepresentation addUser(String username, String pass) {
 
         UsersResource usersResource = getBuildKeycloak().users();
-
-        CredentialRepresentation credentialRepresentation = createPasswordCredentials(user.getPassword());
-
+        CredentialRepresentation credentialRepresentation = createPasswordCredentials(pass);
         UserRepresentation kcUser = new UserRepresentation();
 
-
-        kcUser.setUsername(user.getEmail());
         kcUser.setCredentials(Collections.singletonList(credentialRepresentation));
-        kcUser.setFirstName(user.getFirstName());
-        kcUser.setLastName(user.getLastName());
-        kcUser.setEmail(user.getEmail());
+        kcUser.setUsername(username);
         kcUser.setEnabled(true);
         kcUser.setEmailVerified(false);
 
@@ -79,41 +74,72 @@ public class KeycloakAdminClientService {
         return allUsers;
     }
 
-
-    //Создание Role in Client
-    public void createRoleInClient(String name, String title) {
-        RoleRepresentation clientRole = new RoleRepresentation();
-        clientRole.setName(name);
-        getBuildKeycloak().clients().get(title).roles().create(clientRole);
-
+    //Создание нового клиента в реалме
+    public ClientRepresentation createClient(String clientId) {
+        ClientRepresentation client = new ClientRepresentation();
+        client.setClientId(clientId);
+        client.setName(clientId);
+        client.setBearerOnly(false);
+        client.setPublicClient(false);
+        client.setEnabled(true);
+        client.setSecret("******");
+        client.setProtocol("openid-connect");
+        return client;
     }
 
+    //Создание Role in Client
+    public RoleRepresentation createRoleInClient(String roleName, String clientId) {
+        RoleRepresentation clientRole = new RoleRepresentation();
+        clientRole.setName(roleName);
+        getBuildKeycloak().clients().get(clientId).roles().create(clientRole);
+        return clientRole;
+    }
 
-    //Получение списка ролей пользователя в определенном клиенте
-    public Object getRolesByUsername(String username, String clientId) {
+    //Назначить роль клиента -> юзеру
+    public void assingAClientRoleToTheUser(String username, String clientId, String role) {
+
         Optional<UserRepresentation> user = getBuildKeycloak().users().search(username).stream()
                 .filter(u -> u.getUsername().equals(username)).findFirst();
 
-        if (user.isPresent()) {
-            UserRepresentation userRepresentation = user.get();
-            UserResource userResource = getBuildKeycloak().users().get(userRepresentation.getId());
-            ClientRepresentation clientRepresentation = getBuildKeycloak().clients().findByClientId(clientId).get(0);
-            List<RoleRepresentation> roles = userResource.roles().clientLevel(clientRepresentation.getId()).listAll();
+        UserRepresentation userRepresentation = user.get();
+        UserResource userResource = getBuildKeycloak().users().get(userRepresentation.getId());
 
-            return roles;
-        } else {
-            return "Roles not found";
-        }
+        RoleMappingResource roleMappingResource = userResource.roles();
+
+        List<RoleRepresentation> clientRolesToAdd = new ArrayList<RoleRepresentation>();
+        RoleRepresentation clientRole = getBuildKeycloak()
+                .clients()
+                .get(clientId)
+                .roles()
+                .get(role)
+                .toRepresentation();
+        clientRolesToAdd.add(clientRole);
+        roleMappingResource.clientLevel(clientId).add(clientRolesToAdd);
     }
 
+    public List<RoleRepresentation> getTheClientRoles(String clientId) {
+        ClientRepresentation clientRepresentation = getBuildKeycloak().clients().findByClientId(clientId).get(0);
+        List<RoleRepresentation> roles = getBuildKeycloak().clients().get(clientRepresentation.getId()).roles().list();
+        return roles;
+    }
+
+    //Получение списка ролей пользователя в определенном клиенте
+    public List<RoleRepresentation> getRolesByUsername(String username, String clientId) {
+        Optional<UserRepresentation> user = getBuildKeycloak().users().search(username).stream()
+                .filter(u -> u.getUsername().equals(username)).findFirst();
+
+        UserRepresentation userRepresentation = user.get();
+        UserResource userResource = getBuildKeycloak().users().get(userRepresentation.getId());
+        ClientRepresentation clientRepresentation = getBuildKeycloak().clients().findByClientId(clientId).get(0);
+        List<RoleRepresentation> roles = userResource.roles().clientLevel(clientRepresentation.getId()).listAll();
+        return roles;
+    }
 
     private static CredentialRepresentation createPasswordCredentials(String password) {
         CredentialRepresentation passwordCredentials = new CredentialRepresentation();
-
         passwordCredentials.setTemporary(false);
         passwordCredentials.setType(CredentialRepresentation.PASSWORD);
         passwordCredentials.setValue(password);
-
         return passwordCredentials;
     }
 

@@ -13,8 +13,8 @@ import org.springframework.security.oauth2.client.web.reactive.function.client.S
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
-import ru.rt.sso.handlers.KeycloakLogoutHandler;
 import ru.rt.sso.service.KeycloakOauth2UserService;
+import ru.rt.sso.handlers.KeycloakLogoutHandler;
 
 
 @EnableWebSecurity
