@@ -74,25 +74,31 @@ public class KeycloakAdminClientService {
         return allUsers;
     }
 
+    public List<ClientRepresentation> getAllClient(){
+        List<ClientRepresentation> allClient = getBuildKeycloak().clients().findAll();
+        return allClient;
+    }
+
     //Создание нового клиента в реалме
-    public ClientRepresentation createClient(String clientId) {
+    public void createClient(String clientId) {
+        //ClientRepresentation clientRepresentation = getBuildKeycloak().clients().findByClientId(clientId).get(0);
         ClientRepresentation client = new ClientRepresentation();
         client.setClientId(clientId);
         client.setName(clientId);
         client.setBearerOnly(false);
         client.setPublicClient(false);
         client.setEnabled(true);
-        client.setSecret("******");
         client.setProtocol("openid-connect");
-        return client;
+        getBuildKeycloak().clients().create(client);
+
     }
 
     //Создание Role in Client
-    public RoleRepresentation createRoleInClient(String roleName, String clientId) {
+    public void createRoleInClient(String roleName, String clientId) {
         RoleRepresentation clientRole = new RoleRepresentation();
         clientRole.setName(roleName);
         getBuildKeycloak().clients().get(clientId).roles().create(clientRole);
-        return clientRole;
+
     }
 
     //Назначить роль клиента -> юзеру
@@ -117,6 +123,7 @@ public class KeycloakAdminClientService {
         roleMappingResource.clientLevel(clientId).add(clientRolesToAdd);
     }
 
+    //Получение ролей Клиента
     public List<RoleRepresentation> getTheClientRoles(String clientId) {
         ClientRepresentation clientRepresentation = getBuildKeycloak().clients().findByClientId(clientId).get(0);
         List<RoleRepresentation> roles = getBuildKeycloak().clients().get(clientRepresentation.getId()).roles().list();

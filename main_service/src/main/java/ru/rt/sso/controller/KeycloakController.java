@@ -44,11 +44,12 @@ public class KeycloakController {
     }
 
     @ApiOperation(value = "Удаление пользователя по username")
-    @DeleteMapping(path = "/user/del")
+    @PostMapping(path = "/user/del")
     @PreAuthorize("hasRole('ROLE_REALM-ADMIN')")
     @ResponseBody
-    public void deleteUser(@RequestParam(value = "username") String username) {
+    public String deleteUser(@RequestParam(value = "username") String username) {
         keycloakAdminClientService.deleteUser(username);
+        return "пользователь с именем " + username + " удален";
     }
 
     @ApiOperation(value = "Получить список всех пользователей")
@@ -59,10 +60,17 @@ public class KeycloakController {
         return keycloakAdminClientService.getUsers();
     }
 
+    @ApiOperation(value = "Получить список всех сервисов(клиентов)")
+    @GetMapping(path = "/clients")
+    @ResponseBody
+    public List<ClientRepresentation> getAllClient(){
+        return keycloakAdminClientService.getAllClient();
+    }
+
     @ApiOperation(value = "Получить список ролей в Клиенте")
     @GetMapping(path = "/client/roles")
     @ResponseBody
-    public List<RoleRepresentation> getRoles(@RequestParam(value = "clientId") String clientId){
+    public List<RoleRepresentation> getRoles(@RequestParam(value = "clientId") String clientId) {
         return keycloakAdminClientService.getTheClientRoles(clientId);
     }
 
@@ -77,16 +85,28 @@ public class KeycloakController {
     @ApiOperation(value = "Создание нового клиента в реалме")
     @PostMapping(path = "/client")
     @ResponseBody
-    public ClientRepresentation createClient(@RequestParam(value = "clientId") String clientId){
-       return keycloakAdminClientService.createClient(clientId);
+    public String createClient(@RequestParam(value = "clientId") String clientId) {
+       keycloakAdminClientService.createClient(clientId);
+       return "Создан клиент " + clientId;
     }
 
     @ApiOperation(value = "Создание роли в Клиенте")
-    @PostMapping(path = "/client/new/role")
+    @PostMapping(path = "/client/role/new")
     @ResponseBody
-    public RoleRepresentation createRole(@RequestParam(value = "roleName") String roleName,
-                                         @RequestParam(value = "clientId") String clientId){
-        return keycloakAdminClientService.createRoleInClient(roleName, clientId);
+    public String createRole(@RequestParam(value = "roleName") String roleName,
+                           @RequestParam(value = "clientId") String clientId) {
+        keycloakAdminClientService.createRoleInClient(roleName, clientId);
+        return "Создана роль " + roleName;
+    }
+
+    @ApiOperation(value = "Назначение роли клиента пользователю")
+    @PostMapping(path = "/user/role")
+    @ResponseBody
+    public String assingAClientRoleToTheUser(@RequestParam(value = "userName") String userName,
+                                           @RequestParam(value = "clientId") String clientId,
+                                           @RequestParam(value = "role") String role){
+        keycloakAdminClientService.assingAClientRoleToTheUser(userName, clientId, role);
+        return "Роль " + role + " назначена пользователю " + userName;
     }
 
 
