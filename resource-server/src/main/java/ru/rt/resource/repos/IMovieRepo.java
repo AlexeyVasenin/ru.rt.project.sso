@@ -9,7 +9,9 @@ import ru.rt.resource.domain.Movie;
 
 import java.util.List;
 
+//todo A. Baidin описание класса, методов
 public interface IMovieRepo extends JpaRepository<Movie, Long> {
+
     @Query(value = "SELECT m.id, m.filename from Movie m")
     List<Object[]> getAllMoviesIdsAndFilenames();
 

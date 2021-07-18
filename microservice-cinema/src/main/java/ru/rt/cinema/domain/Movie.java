@@ -8,7 +8,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+//todo A. Baidin описание класса, снести\деприкетйнуть, что не надо
 public class Movie {
+
     public Integer id;
     public String filename;
     public String title;
@@ -20,6 +22,7 @@ public class Movie {
     public Boolean withSubscriptionOnly;
     public String imageSrc;
 
+    //todo
     public void savePosterImageLocally() {
         try {
             Path path = Paths.get("microservice-cinema/src/main/resources/static/images/" + this.filename + ".jpg");

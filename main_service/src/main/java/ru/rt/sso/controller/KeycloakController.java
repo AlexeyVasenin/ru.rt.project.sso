@@ -12,7 +12,7 @@ import ru.rt.sso.service.KeycloakAdminClientService;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/keycloak", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/keycloak")
 public class KeycloakController {
 
     private final KeycloakAdminClientService keycloakAdminClientService;

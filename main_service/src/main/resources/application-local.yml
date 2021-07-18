@@ -1,0 +1,10 @@
+application:
+  url: http://localhost:${server.port}${server.servlet.context-path}
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+

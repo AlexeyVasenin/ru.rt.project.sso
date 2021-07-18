@@ -66,6 +66,7 @@ public class KeycloakAdminClientService {
         UsersResource users = getBuildKeycloak().users();
         users.search(userName).stream()
                 .forEach(user -> getBuildKeycloak().users().delete(user.getId()));
+        System.out.println("ok");
     }
 
     //Получить всех пользователей

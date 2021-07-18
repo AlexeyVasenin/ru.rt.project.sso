@@ -5,12 +5,12 @@ server:
 
 eureka:
   instance:
-    hostname: ${DOCKER_HOST:localhost} # изменить
+    hostname: ${EUREKA_HOST}
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:8761/eureka/ # изменить
+      defaultZone: http://${eureka.instance.hostname}/eureka/
 
 keycloak-client:
   server-url: http://keycloak-java-school.apps.okd.stage.digital.rt.ru/auth

@@ -16,47 +16,15 @@
 
     <!-- Custom styles for this template -->
     <link th:href="@{/static/css/style.css}" rel="stylesheet">
+
+    <!-- Bootstrap script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JQuery script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-danger">
-    <div class="container">
-        <a class="navbar-brand" th:href="@{/}">Music microservice</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="fstNavbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/subscribe}">Подписка</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/authors}">Авторам</a>
-                </li>
-            </ul>
-        </div>
-        <div class="collapse navbar-collapse justify-content-end" id="sndNavbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item" th:if="${principal}">
-                    <a class="nav-link" th:href="@{/account}">Аккаунт</a>
-                </li>
-                <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a class="nav-link" th:href="@{/admin}">Admin</a>
-                </li>
-                <li class="nav-item">
-                    <a th:unless="${principal}" class="nav-link" th:href="@{/account}">Вход</a>
-                    <a action="logout" methods="post" th:if="${principal}" class="nav-link" href="#"
-                       th:href="@{/logout}">Выйти</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div th:insert="~{index :: navbar}"></div>
 
 <main>
     <div class="p-2 mb-4 bg-light rounded-3">
@@ -74,6 +42,7 @@
         </div>
     </div>
     <div class="container p-4" th:if="${hasAuthorRole}">
+        <!-- TODO что с версткой? страница выглядит плохо -->
         <p></p>
         <div class="p-4 text-center">
             <h2 class="py-5">Загрузка музыкальных треков</h2>
@@ -84,21 +53,22 @@
         <form class="requires-validation" action="/uploading" method="POST" enctype="multipart/form-data"
               name="fileForm" novalidate>
             <div class="col-md-5">
-                <label for="inputName">Автор</label>
+                <label for="usernameInput">Автор</label>
                 <input class="form-control" type="text" th:placeholder="${userName}"
-                       aria-label="inputName" disabled readonly>
+                       aria-label="inputName" id="usernameInput" disabled readonly>
             </div>
+            <!-- TODO пустые p-элементы? настроить margin -->
             <p></p>
             <div class="col-md-5">
-                <label for="inputText">Название трека</label>
-                <input type="text" class="form-control" id="inputText" name="modelName" required>
+                <label for="trackInput">Название трека</label>
+                <input type="text" class="form-control" id="trackInput" name="modelName" required>
                 <div class="invalid-feedback">
                     Заполните поле
                 </div>
             </div>
             <p></p>
             <div class="col-md-6">
-                <label for="inputText" class="form-label">
+                <label for="descriptionInput" class="form-label">
                     Описание
                 </label>
                 <textarea class="form-control" id="descriptionInput" rows="3" name="modelDescription"
@@ -110,7 +80,7 @@
             <p></p>
 
             <div class="col-md-6">
-                <label class="form-label">
+                <label for="formFileImg" class="form-label">
                     Обложка трека
                 </label>
                 <input class="form-control" type="file" id="formFileImg" accept=".jpg,.png" name="modelImages" multiple
@@ -121,7 +91,7 @@
             </div>
             <p></p>
             <div class="col-md-6">
-                <label class="form-label">
+                <label for="formFileModel" class="form-label">
                     Файл трека (максимум - 10 мегабайт)
                 </label>
                 <input class="form-control" type="file" id="formFileModel" accept=".obj" name="modelFile" required>
@@ -130,22 +100,18 @@
                 </div>
             </div>
             <p></p>
-            <button type="submit" class="btn btn-primary" id="uploadButton">
+            <!-- TODO что произойдет, если все input-ы валидны и кнопка нажмется? ничего хорошего: в контроллере нет метода для обработки post-запроса. тогда сделать ее disabled? -->
+            <button type="submit" class="btn btn-primary" id="uploadButton" disabled>
                 Загрузить
             </button>
         </form>
 
-
-        <footer class="pt-3 mt-4 text-muted border-top">
-            &copy; 2021 Music Service by AUTH3
-        </footer>
+        <div th:insert="~{index :: footer}"></div>
     </div>
 </main>
 
 <script th:src="@{/static/js/upload.js}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
-        crossorigin="anonymous">
-</script>
+<script th:src="@{/static/js/active.js}"></script>
+
 </body>
 </html>
