@@ -14,7 +14,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Сервис для сбора информации о пользователе с principal claims
+ * Сервис для сбора информации, реализующий {@link UserDetailsCollectorService}
+ * <p>
+ *
+ * @author Vyacheslav Tretyakov
  */
 @Service
 public class UserDetailsCollectorServiceImpl implements UserDetailsCollectorService {
@@ -28,7 +31,7 @@ public class UserDetailsCollectorServiceImpl implements UserDetailsCollectorServ
         // reviews_count - Integer
         Object musicalPreferences = oidcUserInfo.getClaim("musical_preferences");
         if (musicalPreferences != null) {
-            userInfo.add(new AbstractMap.SimpleEntry<>("Review counts:", musicalPreferences.toString().replace("[", "").replace("]", "")));
+            userInfo.add(new AbstractMap.SimpleEntry<>("Musical preferences:", musicalPreferences.toString().replace("[", "").replace("]", "")));
         }
         // sub_active - Boolean
         Object subActive = oidcUserInfo.getClaim("sub_active");
