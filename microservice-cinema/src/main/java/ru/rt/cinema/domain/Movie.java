@@ -22,6 +22,7 @@ public class Movie {
     public Boolean withSubscriptionOnly;
     public String imageSrc;
 
+    //todo
     public void savePosterImageLocally() {
         try {
             Path path = Paths.get("microservice-cinema/src/main/resources/static/images/" + this.filename + ".jpg");

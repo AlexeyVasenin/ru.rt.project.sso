@@ -10,6 +10,10 @@ import java.util.List;
 //todo A. Baidin описание класса
 public interface RestRequestHandler {
 
+    /**
+     *
+     * @return
+     */
     List<Movie> requestToGetAllMovies();
 
     Movie requestToGetMovieById(Integer id);

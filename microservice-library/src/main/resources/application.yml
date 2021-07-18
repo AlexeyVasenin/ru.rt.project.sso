@@ -7,16 +7,16 @@ server:
     context-path: /library
 
 application:
-  url: http://localhost:${server.port}${server.servlet.context-path}
+  url: ${APP_URL}
 
 eureka:
   instance:
-    hostname: ${DOCKER_HOST:localhost}
+    hostname: ${EUREKA_HOST}
   client:
     register-with-eureka: true
     fetch-registry: true
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+      defaultZone: http://${eureka.instance.hostname}/eureka/
 
 keycloak-client:
   server-url: http://keycloak-java-school.apps.okd.stage.digital.rt.ru/auth
@@ -25,6 +25,8 @@ keycloak-client:
 spring:
   application:
     name: microservice-library
+  profiles:
+    active: local
   security:
     oauth2:
       client:
@@ -46,5 +48,5 @@ spring:
 
 resource-server:
   api:
-    url: http://resource-server-java-school.apps.okd.stage.digital.rt.ru/resource-server/api/library/
+    url: ${RESOURCE_URL}
 
