@@ -2,7 +2,9 @@ package ru.rt.cinema.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+//todo A. Baidin описание класса, снести\деприкетйнуть, что не надо
 public class Token {
+
     @JsonProperty("access_token")
     public String accessToken;
 

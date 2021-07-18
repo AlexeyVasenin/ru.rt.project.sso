@@ -8,12 +8,12 @@ server:
 
 eureka:
   instance:
-    hostname: ${DOCKER_HOST:localhost}
+    hostname: eureka-server-java-school.apps.okd.stage.digital.rt.ru
   client:
     register-with-eureka: true
     fetch-registry: true
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+      defaultZone: http://${eureka.instance.hostname}/eureka/
 
 keycloak-client:
   server-url: http://keycloak-java-school.apps.okd.stage.digital.rt.ru/auth
@@ -45,8 +45,4 @@ spring:
             user-info-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/userinfo
             jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
             user-name-attribute: preferred_username
-
-resource-server:
-  api:
-    url: http://localhost:8080/resource-server/api/admin
 

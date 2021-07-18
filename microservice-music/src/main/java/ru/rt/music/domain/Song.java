@@ -8,7 +8,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+//todo A. Baidin описание класса, снести\деприкетйнуть, что не надо
 public class Song {
+
     public Long id;
     public String title;
     public String musicianName;

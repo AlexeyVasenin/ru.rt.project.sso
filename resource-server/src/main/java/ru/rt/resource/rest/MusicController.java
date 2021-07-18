@@ -10,6 +10,7 @@ import ru.rt.resource.services.SongService;
 import java.util.List;
 import java.util.Map;
 
+//todo A. Baidin описание класса
 @RestController
 @RequestMapping(value = "/api/music")
 public class MusicController {

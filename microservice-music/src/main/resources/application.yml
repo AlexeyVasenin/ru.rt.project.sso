@@ -1,19 +1,22 @@
 server:
   port: 8083
+  error:
+    whitelabel:
+      enabled: false
   servlet:
     context-path: /music
 
 application:
-  url: http://localhost:${server.port}${server.servlet.context-path} # изменить
+  url: http://localhost:${server.port}${server.servlet.context-path}
 
 eureka:
   instance:
-    hostname: ${DOCKER_HOST:localhost} # изменить
+    hostname: ${DOCKER_HOST:localhost}
   client:
     register-with-eureka: true
     fetch-registry: true
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:8761/eureka/ # изменить
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
 
 keycloak-client:
   server-url: http://keycloak-java-school.apps.okd.stage.digital.rt.ru/auth
@@ -43,4 +46,4 @@ spring:
 
 resource-server:
   api:
-    url: http://localhost:8080/resource-server/api/music # изменить
+    url: http://resource-server-java-school.apps.okd.stage.digital.rt.ru/resource-server/api/music

@@ -28,7 +28,7 @@ public class SecurityConfig {
             public void configure(HttpSecurity http) throws Exception {
                 http
                         .authorizeRequests()
-                        .antMatchers("/**").hasRole("REALM-ADMIN")
+                        .antMatchers("/**").authenticated()
                         //.antMatchers("/keycloak/users").hasRole("VIEW-USERS") по-другому как-то там...
                         .anyRequest().authenticated()
                         .and()
@@ -37,7 +37,9 @@ public class SecurityConfig {
                         .invalidateHttpSession(true).clearAuthentication(true)
                         .and()
                         .oauth2Login().userInfoEndpoint().oidcUserService(keycloakOidcUserService)
-                        .and().defaultSuccessUrl("/", true);
+                        .and().defaultSuccessUrl("/", true)
+                        .and()
+                        .csrf().disable();
             }
         };
     }

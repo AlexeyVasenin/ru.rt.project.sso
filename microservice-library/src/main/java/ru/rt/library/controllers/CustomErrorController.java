@@ -1,4 +1,4 @@
-package ru.rt.cinema.controllers;
+package ru.rt.library.controllers;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;

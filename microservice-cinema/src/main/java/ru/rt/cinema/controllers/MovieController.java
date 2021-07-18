@@ -12,9 +12,15 @@ import java.security.Principal;
 
 @Controller
 @RequestMapping("/movies")
+//todo A. Baidin описание класса
 public class MovieController {
+
+    private final RestRequestHandler restRequestHandler;
+
     @Autowired
-    private RestRequestHandler restRequestHandler;
+    public MovieController(RestRequestHandler restRequestHandler) {
+        this.restRequestHandler = restRequestHandler;
+    }
 
     @GetMapping("/{id}")
     public String getMoviePage(@PathVariable Integer id, Model model, Principal principal) {

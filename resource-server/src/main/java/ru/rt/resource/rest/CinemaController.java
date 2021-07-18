@@ -10,6 +10,7 @@ import ru.rt.resource.services.MovieService;
 import java.util.List;
 import java.util.Map;
 
+//todo A. Baidin описание класса
 @RestController
 @RequestMapping(value = "/api/cinema")
 public class CinemaController {

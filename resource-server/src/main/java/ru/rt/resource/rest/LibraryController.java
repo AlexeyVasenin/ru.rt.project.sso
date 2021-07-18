@@ -10,6 +10,7 @@ import ru.rt.resource.services.BookService;
 import java.util.List;
 import java.util.Map;
 
+//todo A. Baidin описание класса
 @RestController
 @RequestMapping(value = "/api/library")
 public class LibraryController {

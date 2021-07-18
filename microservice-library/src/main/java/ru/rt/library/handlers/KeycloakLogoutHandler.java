@@ -1,22 +1,17 @@
-package ru.rt.library.configs;
+package ru.rt.library.handlers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
-import ru.rt.library.domain.Token;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +20,8 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
-class KeycloakLogoutHandler extends SecurityContextLogoutHandler {
+//todo A. Baidin описание класса, методов
+public class KeycloakLogoutHandler extends SecurityContextLogoutHandler {
 
     @Value("${application.url}")
     private String applicationURL;
