@@ -9,7 +9,9 @@ import ru.rt.resource.domain.Song;
 
 import java.util.List;
 
+//todo A. Baidin описание класса, методов
 public interface ISongRepo extends JpaRepository<Song, Long> {
+
     @Query(value = "SELECT s.id, s.filename from Song s")
     List<Object[]> getAllSongsIdsAndFilenames();
 

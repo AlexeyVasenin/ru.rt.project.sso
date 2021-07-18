@@ -9,7 +9,9 @@ import ru.rt.resource.domain.Book;
 
 import java.util.List;
 
-public interface IBookRepo extends JpaRepository<Book, Long>{
+//todo A. Baidin описание класса, методов
+public interface IBookRepo extends JpaRepository<Book, Long> {
+
     @Query(value = "SELECT b.id, b.filename from Book b")
     List<Object[]> getAllBooksIdsAndFilenames();
 

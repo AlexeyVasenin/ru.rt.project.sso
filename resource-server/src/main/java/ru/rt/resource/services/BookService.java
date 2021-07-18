@@ -9,8 +9,10 @@ import ru.rt.resource.utils.TypesConverter;
 import java.util.List;
 import java.util.Map;
 
+//todo A. Baidin описание класса, опять же представление можно в интерфейс, реализация тут
 @Service
 public class BookService {
+
     private final IBookRepo bookRepo;
 
     private final TypesConverter typesConverter;
