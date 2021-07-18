@@ -26,24 +26,3 @@ table {
 .movie-card {
     width: 100%;
 }
-
-.movie-rating-div {
-    display: table;
-    font-family: Tahoma, serif;
-}
-
-.movie-rating {
-    display: table-cell;
-    vertical-align: middle;
-}
-
-.movie-rating-value {
-    font-style: italic;
-    font-size: 18px;
-    color: #ee0101;
-}
-
-.movie-title {
-    font-family: Tahoma, serif;
-    color: #1f1919;
-}
