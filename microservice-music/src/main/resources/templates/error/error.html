@@ -18,31 +18,12 @@
 </head>
 <body>
 
-<div th:fragment="navbar">
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
-        <div class="container">
-            <a class="navbar-brand" th:href="@{/}">Music Service</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="fstNavbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" th:href="@{/}">Home</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</div>
+<div th:insert="~{index :: navbar}"></div>
 
 <main class="container">
-
     <div class="p-5 mb-4 bg-light rounded-3">
         <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold">Неизвестная ошибка!</h1>
+            <h1 class="display-5 fw-bold service-h1">Неизвестная ошибка!</h1>
         </div>
     </div>
 </main>

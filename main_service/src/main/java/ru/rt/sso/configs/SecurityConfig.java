@@ -11,11 +11,10 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
-import ru.rt.sso.service.KeycloakOauth2UserService;
 import ru.rt.sso.handlers.KeycloakLogoutHandler;
-
+import ru.rt.sso.service.KeycloakOauth2UserService;
 
 @EnableWebSecurity
 @Configuration
@@ -28,18 +27,16 @@ public class SecurityConfig {
             public void configure(HttpSecurity http) throws Exception {
                 http
                         .authorizeRequests()
-                        .antMatchers("/**").authenticated()
-                        //.antMatchers("/keycloak/users").hasRole("VIEW-USERS") по-другому как-то там...
-                        .anyRequest().authenticated()
-                        .and()
-                        .logout().addLogoutHandler(keycloakLogoutHandler)
-                        .logoutUrl("/logout").logoutSuccessUrl("/")
-                        .invalidateHttpSession(true).clearAuthentication(true)
-                        .and()
-                        .oauth2Login().userInfoEndpoint().oidcUserService(keycloakOidcUserService)
-                        .and().defaultSuccessUrl("/", true)
-                        .and()
-                        .csrf().disable();
+                            .antMatchers("/**").hasRole("REALM-ADMIN")
+                            //.antMatchers("/keycloak/users").hasRole("VIEW-USERS") по-другому как-то там...
+                            .anyRequest().authenticated()
+                            .and()
+                            .logout().addLogoutHandler(keycloakLogoutHandler)
+                            .logoutUrl("/logout").logoutSuccessUrl("/")
+                            .invalidateHttpSession(true).clearAuthentication(true)
+                            .and()
+                            .oauth2Login().userInfoEndpoint().oidcUserService(keycloakOidcUserService)
+                            .and().defaultSuccessUrl("/", true);
             }
         };
     }
@@ -50,7 +47,14 @@ public class SecurityConfig {
                 new ServletOAuth2AuthorizedClientExchangeFilterFunction(clientRegistrationRepository,
                         authorizedClientRepository);
         oauth2.setDefaultOAuth2AuthorizedClient(true);
-        return WebClient.builder().apply(oauth2.oauth2Configuration()).build();
+
+        ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder()
+                .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(1024 * 1024 * 10)).build();
+
+        return WebClient.builder()
+                .exchangeStrategies(exchangeStrategies)
+                .apply(oauth2.oauth2Configuration())
+                .build();
     }
 
     @Bean
@@ -64,7 +68,7 @@ public class SecurityConfig {
     //todo по аналогии с микросервисами?
     @Bean
     KeycloakLogoutHandler keycloakLogoutHandler() {
-        return new KeycloakLogoutHandler(new RestTemplate());
+        return new KeycloakLogoutHandler("JSESSIONID");
     }
 }
 
