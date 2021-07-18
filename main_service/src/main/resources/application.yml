@@ -46,7 +46,5 @@ spring:
             jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
             user-name-attribute: preferred_username
 
-resource-server:
-  api:
-    url: http://localhost:8080/resource-server/api/admin
+
 

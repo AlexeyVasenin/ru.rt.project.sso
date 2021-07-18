@@ -25,14 +25,14 @@ public class KeycloakAdminClientService {
 
     //todo ЮЗЕРА заменить на OidcUser !!!!!!!
     //Создать нового пользователя
-    public UserRepresentation addUser(String username, String pass) {
+    public UserRepresentation addUser(String userName, String pass) {
 
         UsersResource usersResource = getBuildKeycloak().users();
         CredentialRepresentation credentialRepresentation = createPasswordCredentials(pass);
         UserRepresentation kcUser = new UserRepresentation();
 
         kcUser.setCredentials(Collections.singletonList(credentialRepresentation));
-        kcUser.setUsername(username);
+        kcUser.setUsername(userName);
         kcUser.setEnabled(true);
         kcUser.setEmailVerified(false);
 
@@ -42,7 +42,7 @@ public class KeycloakAdminClientService {
     }
 
     //Обновление данных пользователя
-    public void updateUser(String username, String description) {
+    public String updateUser(String username, String description) {
         Optional<UserRepresentation> user = getBuildKeycloak().users().search(username).stream()
                 .filter(u -> u.getUsername().equals(username)).findFirst();
 
@@ -55,16 +55,16 @@ public class KeycloakAdminClientService {
             userRepresentation.setAttributes(attributes);
             userResource.update(userRepresentation);
 
-            System.out.println("Ок");
+            return "User updated";
         } else {
-            System.out.println("User not found");
+            return "User not found";
         }
     }
 
     //Удаление пользователя
-    public void deleteUser(String username) {
+    public void deleteUser(String userName) {
         UsersResource users = getBuildKeycloak().users();
-        users.search(username).stream()
+        users.search(userName).stream()
                 .forEach(user -> getBuildKeycloak().users().delete(user.getId()));
     }
 
@@ -74,7 +74,8 @@ public class KeycloakAdminClientService {
         return allUsers;
     }
 
-    public List<ClientRepresentation> getAllClient(){
+    //Получение всех клиентов
+    public List<ClientRepresentation> getAllClient() {
         List<ClientRepresentation> allClient = getBuildKeycloak().clients().findAll();
         return allClient;
     }
@@ -90,7 +91,6 @@ public class KeycloakAdminClientService {
         client.setEnabled(true);
         client.setProtocol("openid-connect");
         getBuildKeycloak().clients().create(client);
-
     }
 
     //Создание Role in Client
@@ -98,14 +98,13 @@ public class KeycloakAdminClientService {
         RoleRepresentation clientRole = new RoleRepresentation();
         clientRole.setName(roleName);
         getBuildKeycloak().clients().get(clientId).roles().create(clientRole);
-
     }
 
     //Назначить роль клиента -> юзеру
-    public void assingAClientRoleToTheUser(String username, String clientId, String role) {
+    public void assingAClientRoleToTheUser(String userName, String clientId, String role) {
 
-        Optional<UserRepresentation> user = getBuildKeycloak().users().search(username).stream()
-                .filter(u -> u.getUsername().equals(username)).findFirst();
+        Optional<UserRepresentation> user = getBuildKeycloak().users().search(userName).stream()
+                .filter(u -> u.getUsername().equals(userName)).findFirst();
 
         UserRepresentation userRepresentation = user.get();
         UserResource userResource = getBuildKeycloak().users().get(userRepresentation.getId());
@@ -123,6 +122,28 @@ public class KeycloakAdminClientService {
         roleMappingResource.clientLevel(clientId).add(clientRolesToAdd);
     }
 
+    //Отключить роли сервиса у пользователя
+    public void deleteAClientRoleToTheUser(String userName, String clientId, String role) {
+
+        Optional<UserRepresentation> user = getBuildKeycloak().users().search(userName).stream()
+                .filter(u -> u.getUsername().equals(userName)).findFirst();
+
+        UserRepresentation userRepresentation = user.get();
+        UserResource userResource = getBuildKeycloak().users().get(userRepresentation.getId());
+
+        RoleMappingResource roleMappingResource = userResource.roles();
+
+        List<RoleRepresentation> clientRolesToAdd = new ArrayList<RoleRepresentation>();
+        RoleRepresentation clientRole = getBuildKeycloak()
+                .clients()
+                .get(clientId)
+                .roles()
+                .get(role)
+                .toRepresentation();
+        clientRolesToAdd.add(clientRole);
+        roleMappingResource.clientLevel(clientId).remove(clientRolesToAdd);
+    }
+
     //Получение ролей Клиента
     public List<RoleRepresentation> getTheClientRoles(String clientId) {
         ClientRepresentation clientRepresentation = getBuildKeycloak().clients().findByClientId(clientId).get(0);
@@ -131,9 +152,9 @@ public class KeycloakAdminClientService {
     }
 
     //Получение списка ролей пользователя в определенном клиенте
-    public List<RoleRepresentation> getRolesByUsername(String username, String clientId) {
-        Optional<UserRepresentation> user = getBuildKeycloak().users().search(username).stream()
-                .filter(u -> u.getUsername().equals(username)).findFirst();
+    public List<RoleRepresentation> getRolesByUsername(String userName, String clientId) {
+        Optional<UserRepresentation> user = getBuildKeycloak().users().search(userName).stream()
+                .filter(u -> u.getUsername().equals(userName)).findFirst();
 
         UserRepresentation userRepresentation = user.get();
         UserResource userResource = getBuildKeycloak().users().get(userRepresentation.getId());
