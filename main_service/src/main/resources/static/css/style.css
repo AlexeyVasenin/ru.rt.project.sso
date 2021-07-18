@@ -23,6 +23,10 @@ table {
     text-align: center;
 }
 
-.movie-card {
-    width: 100%;
+.service-h1 {
+    text-align: center;
+}
+
+.service-p {
+    text-align: center;
 }

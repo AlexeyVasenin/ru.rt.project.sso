@@ -10,9 +10,10 @@ import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoderJwkSupport;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
+import ru.rt.music.handlers.KeycloakLogoutHandler;
 import ru.rt.music.services.KeycloakOauth2UserService;
 
 @EnableWebSecurity
@@ -64,16 +65,9 @@ public class WebSecurityConfig {
 
     @Bean
     KeycloakOauth2UserService keycloakOidcUserService(OAuth2ClientProperties oauth2ClientProperties) {
-
-        // TODO посмотреть как уйти от деприкейтеда -> другой декодер выбрать или свой написать
-        NimbusJwtDecoderJwkSupport jwtDecoder = new NimbusJwtDecoderJwkSupport(
-                oauth2ClientProperties.getProvider().get("keycloak").getJwkSetUri());
-
-        // NimbusJwtDecoder jwtDecoder1 = (NimbusJwtDecoder) JwtDecoders.fromOidcIssuerLocation());
-
+        NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withJwkSetUri(oauth2ClientProperties.getProvider().get("keycloak").getJwkSetUri()).build();
         SimpleAuthorityMapper authoritiesMapper = new SimpleAuthorityMapper();
         authoritiesMapper.setConvertToUpperCase(true);
-
         return new KeycloakOauth2UserService(jwtDecoder, authoritiesMapper);
     }
 

@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.client.web.reactive.function.client.S
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
+import ru.rt.cinema.handlers.KeycloakLogoutHandler;
 import ru.rt.cinema.services.KeycloakOauth2UserService;
 
 @EnableWebSecurity
@@ -27,21 +28,21 @@ public class WebSecurityConfig {
 
                 http
                         .authorizeRequests()
-                        .antMatchers("/", "/back-channel-logout", "/static/**").permitAll()
-                        .antMatchers("/admin").hasRole("ADMIN")
-                        .anyRequest().authenticated()
-                        .and()
+                            .antMatchers("/", "/back-channel-logout", "/static/**").permitAll()
+                            .antMatchers("/admin").hasRole("ADMIN")
+                            .anyRequest().authenticated()
+                            .and()
                         .logout()
-                        .addLogoutHandler(keycloakLogoutHandler)
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true)
-                        .clearAuthentication(true)
-                        //.deleteCookies("JSESSIONID")
-                        .and()
+                            .addLogoutHandler(keycloakLogoutHandler)
+                            .logoutUrl("/logout")
+                            .logoutSuccessUrl("/")
+                            .invalidateHttpSession(true)
+                            .clearAuthentication(true)
+                            //.deleteCookies("JSESSIONID")
+                            .and()
                         .oauth2Login()
-                        .userInfoEndpoint()
-                        .oidcUserService(keycloakOidcUserService);
+                            .userInfoEndpoint()
+                            .oidcUserService(keycloakOidcUserService);
                 //.and().defaultSuccessUrl("/", true);
             }
         };
