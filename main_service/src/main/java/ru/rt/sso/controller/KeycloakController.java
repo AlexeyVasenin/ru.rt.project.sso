@@ -7,7 +7,6 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ru.rt.sso.clients.KeycloakAdminClient;
 import ru.rt.sso.service.KeycloakAdminClientService;
 
 import java.util.List;
@@ -18,22 +17,17 @@ public class KeycloakController {
 
     private final KeycloakAdminClientService keycloakAdminClientService;
 
-    private final KeycloakAdminClient keycloakAdminClient;
-
-
-    public KeycloakController(KeycloakAdminClientService keycloakAdminClientService,
-                              KeycloakAdminClient keycloakAdminClient) {
+    public KeycloakController(KeycloakAdminClientService keycloakAdminClientService) {
         this.keycloakAdminClientService = keycloakAdminClientService;
-        this.keycloakAdminClient = keycloakAdminClient;
     }
 
     @ApiOperation(value = "Создание нового пользователя")
     @PostMapping(path = "/user")
     @PreAuthorize("hasRole('ROLE_REALM-ADMIN')")
     @ResponseBody
-    public UserRepresentation createUser(@RequestParam(value = "username") String username,
+    public UserRepresentation createUser(@RequestParam(value = "userName") String userName,
                                          @RequestParam(value = "pass") String pass) {
-        return keycloakAdminClientService.addUser(username, pass);
+        return keycloakAdminClientService.addUser(userName, pass);
     }
 
     @PutMapping(path = "/u/user")
@@ -44,13 +38,12 @@ public class KeycloakController {
     }
 
     @ApiOperation(value = "Удаление пользователя по username")
-    @DeleteMapping(path = "/user/del")
-    //@PreAuthorize("hasRole('ROLE_REALM-ADMIN')")
-    //@RequestMapping(value="/user/del", method=RequestMethod.POST)
-    //@PostMapping(path = "/user/delnew")
+    @PostMapping(path = "/user/del")
+    @PreAuthorize("hasRole('ROLE_REALM-ADMIN')")
     @ResponseBody
-    public void deleteUser(@RequestParam(value = "username") String username) {
-        keycloakAdminClientService.deleteUser(username);
+    public String deleteUser(@RequestParam(value = "userName") String userName) {
+        keycloakAdminClientService.deleteUser(userName);
+        return "пользователь с именем " + userName + " удален";
     }
 
     @ApiOperation(value = "Получить список всех пользователей")
@@ -59,6 +52,13 @@ public class KeycloakController {
     @ResponseBody
     public List<UserRepresentation> getAllUsers() {
         return keycloakAdminClientService.getUsers();
+    }
+
+    @ApiOperation(value = "Получить список всех сервисов(клиентов)")
+    @GetMapping(path = "/clients")
+    @ResponseBody
+    public List<ClientRepresentation> getAllClient() {
+        return keycloakAdminClientService.getAllClient();
     }
 
     @ApiOperation(value = "Получить список ролей в Клиенте")
@@ -71,50 +71,45 @@ public class KeycloakController {
     @ApiOperation(value = "Получение ролей пользователя в Клиенте")
     @GetMapping(path = "/user/roles")
     @ResponseBody
-    public List<RoleRepresentation> getRolesByUserName(@RequestParam(value = "username") String username,
+    public List<RoleRepresentation> getRolesByUserName(@RequestParam(value = "userName") String userName,
                                                        @RequestParam(value = "clientId") String clientId) {
-        return keycloakAdminClientService.getRolesByUsername(username, clientId);
+        return keycloakAdminClientService.getRolesByUsername(userName, clientId);
     }
 
     @ApiOperation(value = "Создание нового клиента в реалме")
     @PostMapping(path = "/client")
     @ResponseBody
-    public ClientRepresentation createClient(@RequestParam(value = "clientId") String clientId) {
-        return keycloakAdminClientService.createClient(clientId);
+    public String createClient(@RequestParam(value = "clientId") String clientId) {
+        keycloakAdminClientService.createClient(clientId);
+        return "Создан клиент " + clientId;
     }
 
     @ApiOperation(value = "Создание роли в Клиенте")
-    @PostMapping(path = "/client/new/role")
+    @PostMapping(path = "/client/role/new")
     @ResponseBody
-    public RoleRepresentation createRole(@RequestParam(value = "roleName") String roleName,
-                                         @RequestParam(value = "clientId") String clientId) {
-        return keycloakAdminClientService.createRoleInClient(roleName, clientId);
+    public String createRole(@RequestParam(value = "roleName") String roleName,
+                             @RequestParam(value = "clientId") String clientId) {
+        keycloakAdminClientService.createRoleInClient(roleName, clientId);
+        return "Создана роль " + roleName;
     }
 
-
-   /* @PostMapping(path = "/user")
+    @ApiOperation(value = "Назначение роли клиента пользователю")
+    @PostMapping(path = "/user/role")
     @ResponseBody
-    public ResponseEntity<String> createUser(@RequestParam String username, @RequestParam String password) {
-        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-            return ResponseEntity.badRequest().body("Empty username or password");
-        }
-        CredentialRepresentation credentials = new CredentialRepresentation();
-        credentials.setType(CredentialRepresentation.PASSWORD);
-        credentials.setValue(password);
-        credentials.setTemporary(false);
-
-        UserRepresentation userRepresentation = new UserRepresentation();
-        userRepresentation.setUsername(username);
-        userRepresentation.setCredentials(Arrays.asList(credentials));
-        userRepresentation.setEnabled(true);
-
-        Map<String, List<String>> attributes = new HashMap<>();
-        attributes.put("description", Arrays.asList("A test user"));
-        userRepresentation.setAttributes(attributes);
-        Keycloak keycloak = keycloakAdminClient.getKeycloak();
-        Response result = keycloak.realm("sso_realm").users().create(userRepresentation);
-        return new ResponseEntity<>(HttpStatus.valueOf(result.getStatus()));
+    public String assingAClientRoleToTheUser(@RequestParam(value = "userName") String userName,
+                                             @RequestParam(value = "clientId") String clientId,
+                                             @RequestParam(value = "role") String role) {
+        keycloakAdminClientService.assingAClientRoleToTheUser(userName, clientId, role);
+        return "Роль " + role + " назначена пользователю " + userName;
     }
-*/
 
+    @ApiOperation(value = "Отключить роли клиента пользователю")
+    @PostMapping(path = "/user/d/role")
+    @ResponseBody
+    public String deleteAClientRoleToTheUser(@RequestParam(value = "userName") String userName,
+                                             @RequestParam(value = "clientId") String clientId,
+                                             @RequestParam(value = "role") String role) {
+        keycloakAdminClientService.deleteAClientRoleToTheUser(userName, clientId, role);
+        return "Роль " + role + " отключена пользователю " + userName;
+    }
 }

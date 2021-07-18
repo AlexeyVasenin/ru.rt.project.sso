@@ -26,6 +26,7 @@ public class SecurityConfig {
             @Override
             public void configure(HttpSecurity http) throws Exception {
                 http
+                        .csrf().disable()
                         .authorizeRequests()
                             .antMatchers("/**").hasRole("REALM-ADMIN")
                             //.antMatchers("/keycloak/users").hasRole("VIEW-USERS") по-другому как-то там...
