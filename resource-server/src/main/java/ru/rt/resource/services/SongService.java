@@ -9,8 +9,10 @@ import ru.rt.resource.utils.TypesConverter;
 import java.util.List;
 import java.util.Map;
 
+//todo A. Baidin описание класса
 @Service
 public class SongService {
+
     private final ISongRepo songRepo;
 
     private final TypesConverter typesConverter;

@@ -1,23 +1,38 @@
 package ru.rt.music.services;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
- * Сервис для сбора информации о пользователе с principal claims
+ * Интерфейс, предоставляющий методы для сбора информации о пользователе
+ * <p>
+ *
+ * @author Vyacheslav Tretyakov
  */
-@Service
-public class UserDetailsCollectorService {
+public interface UserDetailsCollectorService {
+
+    /**
+     * Собирает информацию о пользователе в модель
+     * <p>
+     *
+     * @param principal объект {@link DefaultOidcUser}
+     * @return объект {@link List} userInfo, содержащий необходимую информацию о пользователе
+     * @author Alexey Baidin
+     */
+    List<Map.Entry<String, String>> getUserInfo(DefaultOidcUser principal);
+
+    /**
+     * Проверяет наличие роли Subscriber
+     * @param model модель аттрибутов
+     * @param principal объект {@link DefaultOidcUser}
+     * @return булево значение: наличие роли
+     */
+    boolean isHasSubscriberRole(Model model, DefaultOidcUser principal);
 
     /**
      * Собирает готовое представление {@link OidcUserInfo} в модель на UI
@@ -28,61 +43,8 @@ public class UserDetailsCollectorService {
      *
      * @param model          UI модель отображения
      * @param authentication токен аутентифицированного участника
+     * @author Vyachelav Tretyakov
      */
-    public void getUserDetails(Model model, Authentication authentication) {
-        DefaultOidcUser principal = (DefaultOidcUser) authentication.getPrincipal();
-        OidcUserInfo userInfo = principal.getUserInfo();
-
-        //Кладем в модель юзера
-        model.addAttribute("user", userInfo);
-
-        //Роли как String "a, b, c, d"
-        model.addAttribute("roles",
-                principal.getAuthorities().stream()
-                        .map(GrantedAuthority::getAuthority)
-                        .filter(authority -> authority.contains("ROLE"))
-                        .collect(Collectors.joining(", ")));
-
-        //Скоупы как String
-        model.addAttribute("scopes",
-                principal.getAuthorities().stream()
-                        .map(GrantedAuthority::getAuthority)
-                        .filter(authority -> authority.contains("SCOPE"))
-                        .collect(Collectors.joining(", ")));
-    }
-
-    public List<Map.Entry<String, String>> getUserInfo(DefaultOidcUser principal) {
-        OidcUserInfo oidcUserInfo = principal.getUserInfo();
-        List<Map.Entry<String, String>> userInfo = new ArrayList<>();
-        userInfo.add(new AbstractMap.SimpleEntry<>("Username:", oidcUserInfo.getPreferredUsername()));
-        userInfo.add(new AbstractMap.SimpleEntry<>("Full name:", oidcUserInfo.getFullName()));
-        userInfo.add(new AbstractMap.SimpleEntry<>("Email:", oidcUserInfo.getEmail()));
-        // reviews_count - Integer
-        Object musicalPreferences = oidcUserInfo.getClaim("musical_preferences");
-        if (musicalPreferences != null) {
-            userInfo.add(new AbstractMap.SimpleEntry<>("Review counts:", musicalPreferences.toString().replace("[", "").replace("]", "")));
-        }
-        // sub_active - Boolean
-        Object subActive = oidcUserInfo.getClaim("sub_active");
-        if (subActive != null) {
-            userInfo.add(new AbstractMap.SimpleEntry<>("Is subscription active?", (Boolean) subActive ? "Yes" : "No"));
-        }
-
-        List<String> roles = principal.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .filter(authority -> authority.contains("ROLE"))
-                .collect(Collectors.toList());
-        List<String> scopes = principal.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .filter(authority -> authority.contains("SCOPE"))
-                .collect(Collectors.toList());
-
-        if (roles.contains("ROLE_SUBSCRIBER")) {
-            userInfo.add(new AbstractMap.SimpleEntry<>("End of subscription:", oidcUserInfo.getClaim("sub_end")));
-            userInfo.add(new AbstractMap.SimpleEntry<>("Level of subscription:", oidcUserInfo.getClaim("sub_lvl")));
-        }
-        userInfo.add(new AbstractMap.SimpleEntry<>("Roles:", String.join(", ", roles)));
-        userInfo.add(new AbstractMap.SimpleEntry<>("Scopes:", String.join(", ", scopes)));
-        return userInfo;
-    }
+    @Deprecated
+    void getUserDetails(Model model, Authentication authentication);
 }

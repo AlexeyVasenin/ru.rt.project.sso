@@ -13,7 +13,7 @@ import ru.rt.sso.service.KeycloakAdminClientService;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/keycloak", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/keycloak")
 public class KeycloakController {
 
     private final KeycloakAdminClientService keycloakAdminClientService;
@@ -45,7 +45,9 @@ public class KeycloakController {
 
     @ApiOperation(value = "Удаление пользователя по username")
     @DeleteMapping(path = "/user/del")
-    @PreAuthorize("hasRole('ROLE_REALM-ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_REALM-ADMIN')")
+    //@RequestMapping(value="/user/del", method=RequestMethod.POST)
+    //@PostMapping(path = "/user/delnew")
     @ResponseBody
     public void deleteUser(@RequestParam(value = "username") String username) {
         keycloakAdminClientService.deleteUser(username);
@@ -62,7 +64,7 @@ public class KeycloakController {
     @ApiOperation(value = "Получить список ролей в Клиенте")
     @GetMapping(path = "/client/roles")
     @ResponseBody
-    public List<RoleRepresentation> getRoles(@RequestParam(value = "clientId") String clientId){
+    public List<RoleRepresentation> getRoles(@RequestParam(value = "clientId") String clientId) {
         return keycloakAdminClientService.getTheClientRoles(clientId);
     }
 
@@ -77,15 +79,15 @@ public class KeycloakController {
     @ApiOperation(value = "Создание нового клиента в реалме")
     @PostMapping(path = "/client")
     @ResponseBody
-    public ClientRepresentation createClient(@RequestParam(value = "clientId") String clientId){
-       return keycloakAdminClientService.createClient(clientId);
+    public ClientRepresentation createClient(@RequestParam(value = "clientId") String clientId) {
+        return keycloakAdminClientService.createClient(clientId);
     }
 
     @ApiOperation(value = "Создание роли в Клиенте")
     @PostMapping(path = "/client/new/role")
     @ResponseBody
     public RoleRepresentation createRole(@RequestParam(value = "roleName") String roleName,
-                                         @RequestParam(value = "clientId") String clientId){
+                                         @RequestParam(value = "clientId") String clientId) {
         return keycloakAdminClientService.createRoleInClient(roleName, clientId);
     }
 

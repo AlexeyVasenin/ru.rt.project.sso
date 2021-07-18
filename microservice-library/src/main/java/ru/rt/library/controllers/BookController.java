@@ -12,9 +12,15 @@ import java.security.Principal;
 
 @Controller
 @RequestMapping("/books")
+//todo A. Baidin описание класса
 public class BookController {
+
+    private final RestRequestHandler restRequestHandler;
+
     @Autowired
-    private RestRequestHandler restRequestHandler;
+    public BookController(RestRequestHandler restRequestHandler) {
+        this.restRequestHandler = restRequestHandler;
+    }
 
     @GetMapping("/{id}")
     public String getBookPage(@PathVariable Integer id, Model model, Principal principal) {

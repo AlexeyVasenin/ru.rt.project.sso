@@ -24,7 +24,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Расширение {@link OidcUserInfo} службы для пользовательских атрибутов Конечного пользователя из Конечной точки UserInfo.
+ * Расширение {@link OidcUserInfo} службы пользовательских атрибутов Конечного пользователя из Конечной точки UserInfo
+ * <p>
+ *
+ * @author Vyacheslav Tretyakov
  */
 @RequiredArgsConstructor
 public class KeycloakOauth2UserService extends OidcUserService {
@@ -38,18 +41,17 @@ public class KeycloakOauth2UserService extends OidcUserService {
     @Override
     public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
         OidcUser user = super.loadUser(userRequest);
-
         Set<GrantedAuthority> authorities = new LinkedHashSet<>();
         authorities.addAll(user.getAuthorities());
         authorities.addAll(extractKeycloakAuthorities(userRequest));
-
-        //OidcUserInfo userInfo = user.getUserInfo();
 
         return new DefaultOidcUser(authorities, userRequest.getIdToken(), user.getUserInfo(), "preferred_username");
     }
 
     /**
      * Извлекает пользовательские Authorities из запроса {@link OidcUserRequest}
+     * <p>
+     *
      * @param userRequest пользовательский запрос
      * @return Коллекция {@link GrantedAuthority}
      */
@@ -74,12 +76,14 @@ public class KeycloakOauth2UserService extends OidcUserService {
 
     /**
      * Декодирует AccessToken в объект {@link Jwt}
+     * <p>
+     *
      * @param accessTokenValue токен
      * @return декодированный объект {@link Jwt}
      */
     private Jwt parseJwt(String accessTokenValue) {
         try {
-            // Token is already verified by spring security infrastructure
+            // Токен уже проверен spring security
             return jwtDecoder.decode(accessTokenValue);
         } catch (JwtException e) {
             throw new OAuth2AuthenticationException(INVALID_REQUEST, e);

@@ -7,14 +7,20 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
+import ru.rt.cinema.handlers.KeycloakLogoutHandler;
 import ru.rt.cinema.services.KeycloakOauth2UserService;
 
+/**
+ * @author Alexey Baidin
+ * @author Vyacheslav Tretyakov
+ */
 @EnableWebSecurity
 @Configuration
 public class WebSecurityConfig {
@@ -31,22 +37,18 @@ public class WebSecurityConfig {
                         .antMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated()
                         .and()
-                        .logout()
-                        .addLogoutHandler(keycloakLogoutHandler)
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true)
-                        .clearAuthentication(true)
+                        .logout().addLogoutHandler(keycloakLogoutHandler)
+                        .logoutUrl("/logout").logoutSuccessUrl("/")
+                        .invalidateHttpSession(true).clearAuthentication(true)
                         //.deleteCookies("JSESSIONID")
                         .and()
-                        .oauth2Login()
-                        .userInfoEndpoint()
-                        .oidcUserService(keycloakOidcUserService);
-                //.and().defaultSuccessUrl("/", true);
+                        .oauth2Login().userInfoEndpoint().oidcUserService(keycloakOidcUserService);
+                        //.and().defaultSuccessUrl("/", true);
             }
         };
     }
 
+    //todo Описание
     @Bean
     WebClient webClient(ClientRegistrationRepository clientRegistrationRepository, OAuth2AuthorizedClientRepository authorizedClientRepository) {
         ServletOAuth2AuthorizedClientExchangeFilterFunction oauth2 =
@@ -63,6 +65,13 @@ public class WebSecurityConfig {
                 .build();
     }
 
+    /**
+     * Бин службы получения пользовательских атрибутов, регистрируемой в конфигурации oidcUserService().
+     * <p>
+     *
+     * @param oauth2ClientProperties свойства OAuth клиента
+     * @return объект {@link KeycloakOauth2UserService}, расширяющий {@link OidcUserService}
+     */
     @Bean
     KeycloakOauth2UserService keycloakOidcUserService(OAuth2ClientProperties oauth2ClientProperties) {
         NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withJwkSetUri(oauth2ClientProperties.getProvider().get("keycloak").getJwkSetUri()).build();
@@ -71,6 +80,7 @@ public class WebSecurityConfig {
         return new KeycloakOauth2UserService(jwtDecoder, authoritiesMapper);
     }
 
+    //todo Описание
     @Bean
     KeycloakLogoutHandler keycloakLogoutHandler() {
         return new KeycloakLogoutHandler("JSESSIONID");
