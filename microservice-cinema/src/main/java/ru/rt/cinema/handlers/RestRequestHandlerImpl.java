@@ -6,12 +6,18 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.rt.cinema.domain.Movie;
+import ru.rt.cinema.services.ImageLocalHandleService;
+import ru.rt.cinema.services.UserDetailsCollectorService;
 
 import java.util.List;
 
+/**
+ * Обработчик запросов к ресурс-серверу, реализующий {@link RestRequestHandler}
+ * <p>
+ *
+ * @author Alexey Baidin
+ */
 @Component
-//todo A. Baidin описание класса, методов --> доступ в интерйефс, реализация тут.
-// Работаем с представлением, а не реализацией доки также в интерефейс
 public class RestRequestHandlerImpl implements RestRequestHandler {
 
     @Value("${resource-server.api.url}")
@@ -19,22 +25,36 @@ public class RestRequestHandlerImpl implements RestRequestHandler {
 
     private final WebClient webClient;
 
+    private final ImageLocalHandleService imageLocalHandleService;
+
     @Autowired
-    public RestRequestHandlerImpl(WebClient webClient) {
+    public RestRequestHandlerImpl(WebClient webClient, ImageLocalHandleService imageLocalHandleService) {
         this.webClient = webClient;
+        this.imageLocalHandleService = imageLocalHandleService;
     }
 
-    public List<Movie> requestToGetAllMovies() {
+    private List<Movie> getAllMovies() {
         return this.webClient.get()
                 .uri(cinemaApiUrl)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<Movie>>() {
                 })
                 .block();
+    }
 
-        /*if (movies != null) {
-            movies.forEach(Movie::savePosterImageLocally);
-        }*/
+    public List<Movie> requestToGetAllMovies() {
+        return this.getAllMovies();
+    }
+
+    @Override
+    public List<Movie> requestToGetAllMoviesAndSaveLocally() {
+        List<Movie> movies = this.getAllMovies();
+
+        for (Movie movie : movies) {
+            imageLocalHandleService.savePosterImageLocally(movie);
+        }
+
+        return movies;
     }
 
     public Movie requestToGetMovieById(Integer id) {
