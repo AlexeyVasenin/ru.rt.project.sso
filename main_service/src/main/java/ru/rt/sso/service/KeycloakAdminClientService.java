@@ -14,6 +14,10 @@ import ru.rt.sso.clients.KeycloakAdminClient;
 
 import java.util.*;
 
+/**
+ * @author Алексей Васенин
+ */
+
 @Service
 public class KeycloakAdminClientService {
 
@@ -23,8 +27,12 @@ public class KeycloakAdminClientService {
         this.keycloakAdminClient = keycloakAdminClient;
     }
 
-    //todo ЮЗЕРА заменить на OidcUser !!!!!!!
-    //Создать нового пользователя
+    /**
+     * Создание нового пользователя {@link UserRepresentation}, принимает два параметра
+     * @param userName логин пользователя
+     * @param pass пароль
+     * @return объект
+     */
     public UserRepresentation addUser(String userName, String pass) {
 
         UsersResource usersResource = getBuildKeycloak().users();
@@ -41,7 +49,9 @@ public class KeycloakAdminClientService {
         return kcUser;
     }
 
-    //Обновление данных пользователя
+    /**
+     * Обновление данных пользователя
+     * */
     public String updateUser(String username, String description) {
         Optional<UserRepresentation> user = getBuildKeycloak().users().search(username).stream()
                 .filter(u -> u.getUsername().equals(username)).findFirst();
@@ -61,27 +71,38 @@ public class KeycloakAdminClientService {
         }
     }
 
-    //Удаление пользователя
+    /**
+     * Удаление пользователя из системы
+     * @param userName логин пользователя
+     * */
     public void deleteUser(String userName) {
         UsersResource users = getBuildKeycloak().users();
         users.search(userName).stream()
                 .forEach(user -> getBuildKeycloak().users().delete(user.getId()));
-        System.out.println("ok");
     }
 
-    //Получить всех пользователей
+    /**
+     * Получение всех пользователей в системе
+     * @return Список всех пользователей из система
+     * */
     public List<UserRepresentation> getUsers() {
         List<UserRepresentation> allUsers = getBuildKeycloak().users().list();
         return allUsers;
     }
 
-    //Получение всех клиентов
+    /**
+     * Получение всех клиентов(сервисов)
+     * @return Список клиентов(сервисов) в реалме
+     * */
     public List<ClientRepresentation> getAllClient() {
         List<ClientRepresentation> allClient = getBuildKeycloak().clients().findAll();
         return allClient;
     }
 
-    //Создание нового клиента в реалме
+    /**
+     * Создание нового клиента(сервиса) в реалме
+     * @param clientId название клиента(сервиса)
+     * */
     public void createClient(String clientId) {
         //ClientRepresentation clientRepresentation = getBuildKeycloak().clients().findByClientId(clientId).get(0);
         ClientRepresentation client = new ClientRepresentation();
@@ -94,14 +115,23 @@ public class KeycloakAdminClientService {
         getBuildKeycloak().clients().create(client);
     }
 
-    //Создание Role in Client
+    /**
+     * Создание Роли в клиенте(сервисе)
+     * @param roleName название роли
+     * @param clientId Id клиента(сервиса)
+     * */
     public void createRoleInClient(String roleName, String clientId) {
         RoleRepresentation clientRole = new RoleRepresentation();
         clientRole.setName(roleName);
         getBuildKeycloak().clients().get(clientId).roles().create(clientRole);
     }
 
-    //Назначить роль клиента -> юзеру
+    /**
+     * Назначить роль клиента -> юзеру
+     * @param userName логин пользователя
+     * @param clientId Id клиента(сервиса). Пример: (cda63aba-3337-49de-b2b9-e7e04756df29)
+     * @param role название роли
+     * */
     public void assingAClientRoleToTheUser(String userName, String clientId, String role) {
 
         Optional<UserRepresentation> user = getBuildKeycloak().users().search(userName).stream()
@@ -123,7 +153,12 @@ public class KeycloakAdminClientService {
         roleMappingResource.clientLevel(clientId).add(clientRolesToAdd);
     }
 
-    //Отключить роли сервиса у пользователя
+    /**
+     * Отключить роли сервиса у пользователя
+     * @param userName логин пользователя
+     * @param clientId Id клиента(сервиса) Пример: (cda63aba-3337-49de-b2b9-e7e04756df29)
+     * @param role название роли
+     */
     public void deleteAClientRoleToTheUser(String userName, String clientId, String role) {
 
         Optional<UserRepresentation> user = getBuildKeycloak().users().search(userName).stream()
@@ -145,14 +180,26 @@ public class KeycloakAdminClientService {
         roleMappingResource.clientLevel(clientId).remove(clientRolesToAdd);
     }
 
-    //Получение ролей Клиента
+    /**
+     * Получение ролей Клиента(Сервиса)
+     *
+     * @param clientId имя клиента(сервиса)
+     * @return Список ролей в клиенте(сервисе)
+     */
     public List<RoleRepresentation> getTheClientRoles(String clientId) {
         ClientRepresentation clientRepresentation = getBuildKeycloak().clients().findByClientId(clientId).get(0);
         List<RoleRepresentation> roles = getBuildKeycloak().clients().get(clientRepresentation.getId()).roles().list();
         return roles;
     }
 
-    //Получение списка ролей пользователя в определенном клиенте
+    /**
+     * Получение списка ролей пользователя в определенном клиенте
+     *
+     * @param userName логин пользователя
+     * @param clientId имя клиента(сервиса)
+     * @return Список ролей пользователя в сервисе
+     * @see RoleRepresentation
+     */
     public List<RoleRepresentation> getRolesByUsername(String userName, String clientId) {
         Optional<UserRepresentation> user = getBuildKeycloak().users().search(userName).stream()
                 .filter(u -> u.getUsername().equals(userName)).findFirst();
@@ -164,6 +211,9 @@ public class KeycloakAdminClientService {
         return roles;
     }
 
+    /**
+     * @param password пароль пользователя
+     * */
     private static CredentialRepresentation createPasswordCredentials(String password) {
         CredentialRepresentation passwordCredentials = new CredentialRepresentation();
         passwordCredentials.setTemporary(false);
@@ -172,6 +222,12 @@ public class KeycloakAdminClientService {
         return passwordCredentials;
     }
 
+    /**
+     * Метод получает Keycloak build и возвращает наш реалм.
+     * Для использования в методах для получение данных и внесения изменений в систему
+     * @return Возвращает реалм
+     * @see KeycloakAdminClient
+     */
     private RealmResource getBuildKeycloak() {
         Keycloak keycloak = keycloakAdminClient.getAdminClient();
         keycloak.tokenManager().getAccessToken();

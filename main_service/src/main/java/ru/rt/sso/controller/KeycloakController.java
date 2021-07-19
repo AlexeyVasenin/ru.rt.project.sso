@@ -11,6 +11,12 @@ import ru.rt.sso.service.KeycloakAdminClientService;
 
 import java.util.List;
 
+/**
+ * Web controller для работы с системой Keycloak <br>
+ * Внесение изменений и получение данных из системы от имени администратора
+ *
+ * @author Алексей Васенин
+ */
 @RestController
 @RequestMapping(path = "/keycloak", produces = MediaType.APPLICATION_JSON_VALUE)
 public class KeycloakController {
@@ -30,14 +36,7 @@ public class KeycloakController {
         return keycloakAdminClientService.addUser(userName, pass);
     }
 
-    @PutMapping(path = "/u/user")
-    @ResponseBody
-    public void updateUser(@RequestParam String name,
-                           @RequestParam String description) {
-        keycloakAdminClientService.updateUser(name, description);
-    }
-
-    @ApiOperation(value = "Удаление пользователя по username")
+    @ApiOperation(value = "Удаление пользователя по логину")
     @PostMapping(path = "/user/del")
     @PreAuthorize("hasRole('ROLE_REALM-ADMIN')")
     @ResponseBody

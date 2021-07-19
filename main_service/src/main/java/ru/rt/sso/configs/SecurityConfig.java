@@ -32,12 +32,16 @@ public class SecurityConfig {
                             //.antMatchers("/keycloak/users").hasRole("VIEW-USERS") по-другому как-то там...
                             .anyRequest().authenticated()
                             .and()
-                            .logout().addLogoutHandler(keycloakLogoutHandler)
+                        .logout()
+                            .addLogoutHandler(keycloakLogoutHandler)
                             .logoutUrl("/logout").logoutSuccessUrl("/")
                             .invalidateHttpSession(true).clearAuthentication(true)
                             .and()
-                            .oauth2Login().userInfoEndpoint().oidcUserService(keycloakOidcUserService)
-                            .and().defaultSuccessUrl("/", true);
+                        .oauth2Login()
+                            .userInfoEndpoint()
+                            .oidcUserService(keycloakOidcUserService)
+                            .and()
+                        .defaultSuccessUrl("/", true);
             }
         };
     }
@@ -66,7 +70,6 @@ public class SecurityConfig {
         return new KeycloakOauth2UserService(jwtDecoder, authoritiesMapper);
     }
 
-    //todo по аналогии с микросервисами?
     @Bean
     KeycloakLogoutHandler keycloakLogoutHandler() {
         return new KeycloakLogoutHandler("JSESSIONID");

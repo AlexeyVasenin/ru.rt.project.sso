@@ -114,15 +114,19 @@
                         <ul class="dropdown-menu"
                             aria-labelledby="navbarDropdownService">
                             <li><a class="dropdown-item"
-                                   href="http://localhost:8081/cinema">Cinema
+                                   th:href="@{}">Cinema
                             </a></li>
                             <li><a class="dropdown-item"
-                                   href="http://localhost:8082/library">Library
+                                   th:href="@{}">Library
                             </a></li>
                             <li><a class="dropdown-item"
-                                   href="http://localhost:8083/music">Music
+                                   th:href="@{}">Music
                             </a></li>
                         </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/swagger-ui/}">
+                            Swagger</a>
                     </li>
                     <!--<li class="nav-item">
                         <a class="nav-link" th:href="@{/subscribe}">Подписка</a>
