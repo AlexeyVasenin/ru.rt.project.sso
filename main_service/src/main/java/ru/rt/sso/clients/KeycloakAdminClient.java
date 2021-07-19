@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
+ * Класс для создания Keycloak объекта c параметрами администратора, для дальнейшей работы через Admin client-а.
  * @author Алексей Васенин
  * @author Вячеслав Третьяков
  *

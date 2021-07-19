@@ -166,375 +166,73 @@
         </div>
     </div>
 
-    <!-- Форма регистрации нового пользователя -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Create a
-                        new user</h5>
-                </div>
-                <div class="modal-body">
-                    <form th:action="@{/keycloak/user}" method="post">
-                        <div class="form-group">
-                            <label for="exampleInputName">User name</label>
-                            <input type="text" th:name="userName"
-                                   class="form-control"
-                                   id="exampleInputName"
-                                   aria-describedby="userNameHelper"
-                                   placeholder="Enter User name">
-                            <small id="userNameHelper"
-                                   class="form-text text-muted">Enter
-                                user name</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" th:name="pass"
-                                   class="form-control"
-                                   id="exampleInputPassword1"
-                                   placeholder="Enter user password">
-                            <small id="userPassHelper"
-                                   class="form-text text-muted">Enter user
-                                password</small>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Regis
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Форма присвоения роли -->
-    <div class="modal fade" id="exampleRoleUserInClient" tabindex="-1"
-         role="dialog"
-         aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleUserInClientLabel">
-                        Assign client role to user</h5>
-                </div>
-                <div class="modal-body">
-                    <form th:action="@{/keycloak/user/role}" method="post">
-                        <div class="form-group">
-                            <label for="exampleInputUserName1">User name</label>
-                            <input type="text" th:name="userName"
-                                   class="form-control"
-                                   id="exampleInputUserName1"
-                                   aria-describedby="userNameHelper1">
-                            <small id="userNameHelper1"
-                                   class="form-text text-muted">Enter
-                                User name</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputClientId">ClientId</label>
-                            <select id="exampleInputClientId"
-                                    class="form-control custom-select"
-                                    th:name="clientId">
-                                <option value="06f48877-8a69-4af8-9c6d-2930bf2e8ea0">
-                                    Cinema
-                                </option>
-                                <option value="fa34111d-4bce-4a18-aef0-a6dc945f5603">
-                                    Music
-                                </option>
-                                <option value="cda63aba-3337-49de-b2b9-e7e04756df29">
-                                    Library
-                                </option>
-                            </select>
-                            <small id="inputClientIdHelper"
-                                   class="form-text text-muted">Enter
-                                ClientId</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputRole">Role</label>
-                            <select id="exampleInputRole"
-                                    class="form-control custom-select"
-                                    th:name="role">
-                                <option value="admin">
-                                    admin
-                                </option>
-                                <option value="subscriber">
-                                    subscriber
-                                </option>
-                                <option value="user">
-                                    user
-                                </option>
-                                <option value="write_reviews">
-                                    write_reviews
-                                </option>
-                                <option value="author">
-                                    author
-                                </option>
-                            </select>
-                            <small id="InputRoleHelper"
-                                   class="form-text text-muted">Choose a
-                                role...</small>
-                        </div>
-                        <button type="submit" class="btn btn-success">Add
-                        </button>
-                    </form>
+    <div th:fragment="allForm">
+        <!-- Форма регистрации нового пользователя -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create a
+                            new user</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/keycloak/user}" method="post">
+                            <div class="form-group">
+                                <label for="exampleInputName">User name</label>
+                                <input type="text" th:name="userName"
+                                       class="form-control"
+                                       id="exampleInputName"
+                                       aria-describedby="userNameHelper"
+                                       placeholder="Enter User name">
+                                <small id="userNameHelper"
+                                       class="form-text text-muted">Enter
+                                    user name</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Password</label>
+                                <input type="password" th:name="pass"
+                                       class="form-control"
+                                       id="exampleInputPassword1"
+                                       placeholder="Enter user password">
+                                <small id="userPassHelper"
+                                       class="form-text text-muted">Enter user
+                                    password</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Regis
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Форма отключение роли -->
-    <div class="modal fade" id="exampleDeleteRoleUserInClient" tabindex="-1"
-         role="dialog"
-         aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleDeleteRoleUserInClientLabel">
-                        Delete client role to user</h5>
-                </div>
-                <div class="modal-body">
-                    <form th:action="@{/keycloak/user/d/role}" method="post">
-                        <div class="form-group">
-                            <label for="exampleInputUserName1">User name</label>
-                            <input type="text" th:name="userName"
-                                   class="form-control"
-                                   id="exampleInputUserName2"
-                                   aria-describedby="userNameHelper1">
-                            <small id="userNameHelper2"
-                                   class="form-text text-muted">Enter
-                                User name</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputClientId2">ClientId</label>
-                            <select id="exampleInputClientId2"
-                                    class="form-control custom-select"
-                                    th:name="clientId">
-                                <option value="06f48877-8a69-4af8-9c6d-2930bf2e8ea0">
-                                    Cinema
-                                </option>
-                                <option value="fa34111d-4bce-4a18-aef0-a6dc945f5603">
-                                    Music
-                                </option>
-                                <option value="cda63aba-3337-49de-b2b9-e7e04756df29">
-                                    Library
-                                </option>
-                            </select>
-                            <small id="inputClientIdHelper2"
-                                   class="form-text text-muted">Enter
-                                ClientId</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputRole">Role</label>
-                            <select id="exampleInputRole2"
-                                    class="form-control custom-select"
-                                    th:name="role">
-                                <option value="admin">
-                                    admin
-                                </option>
-                                <option value="subscriber">
-                                    subscriber
-                                </option>
-                                <option value="user">
-                                    user
-                                </option>
-                                <option value="write_reviews">
-                                    write_reviews
-                                </option>
-                                <option value="author">
-                                    author
-                                </option>
-                            </select>
-                            <small id="inputRoleHelper2"
-                                   class="form-text text-muted">Choose a
-                                role...</small>
-                        </div>
-                        <button type="submit" class="btn btn-danger">Off role
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!--  Форма удаления пользователя  -->
-    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Deleting a
-                        user account</h5>
-                </div>
-                <div class="modal-body">
-                    <form th:method="post" th:action="@{/keycloak/user/del}">
-                        <div class="form-group">
-                            <label for="InputUsername">User name</label>
-                            <input type="text"
-                                   th:name="userName"
-                                   class="form-control"
-                                   id="InputUsername"
-                                   aria-describedby="UsernameHelp"
-                                   placeholder="Enter User name">
-                            <small id="UsernameHelp"
-                                   class="form-text text-muted">Введите
-                                имя(Username) пользователя для удаления
-                            </small>
-                        </div>
-                        <button type="submit" class="btn btn-danger">Delete
-                            user
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Форма получения ролей пользователя в клиенте -->
-    <div class="modal fade" id="rolesUserInClient" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="rolesUserInClientLabel">User
-                        roles in the service
-                    </h5>
-                </div>
-                <div class="modal-body">
-                    <form th:action="@{/keycloak/user/roles}" method="get">
-                        <div class="form-group">
-                            <label for="exampleInputUserName">User name</label>
-                            <input type="text" th:name="userName"
-                                   class="form-control"
-                                   id="exampleInputUserName"
-                                   aria-describedby="usernameHelper">
-                            <small id="exampleInputUserNameHelp"
-                                   class="form-text text-muted">Enter
-                                User name</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleNameClientId">ClientId</label>
-                            <select id="exampleNameClientId"
-                                    class="form-control custom-select"
-                                    th:name="clientId">
-                                <option value="microservice-cinema">Cinema
-                                </option>
-                                <option value="microservice-music">Music
-                                </option>
-                                <option value="microservice-library">Library
-                                </option>
-                            </select>
-                            <small id="exampleNameClientIdHelp"
-                                   class="form-text text-muted">Choose a
-                                service...</small>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Get roles
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!--Форма получение ролей в клиенте-->
-    <div class="modal fade" id="exampleListRoleClient" tabindex="-1"
-         role="dialog"
-         aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"
-                        id="exampleListRoleClientLabel">Roles in the client
-                    </h5>
-                </div>
-                <div class="modal-body">
-                    <form th:method="get"
-                          th:action="@{/keycloak/client/roles}">
-                        <div class="form-group">
-                            <label for="inputClientName">ClientId Name</label>
-                            <select id="inputClientName"
-                                    class="form-control custom-select"
-                                    th:name="clientId">
-                                <option value="microservice-cinema">Cinema
-                                </option>
-                                <option value="microservice-music">Music
-                                </option>
-                                <option value="microservice-library">Library
-                                </option>
-                            </select>
-                            <small id="clientIdHelp"
-                                   class="form-text text-muted">Choose a
-                                service...
-                            </small>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Get roles
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Форма создания нового Клиента в Реалме  -->
-    <div class="modal fade" id="exampleNewClient" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleNewClientLabel">Create
-                        New Client
-                    </h5>
-                </div>
-                <div class="modal-body">
-                    <p>Введите имя нового клиента.</p>
-                    <form th:action="@{/keycloak/client}" th:method="post">
-                        <div class="form-group">
-                            <label for="inputClientId">ClientId Name</label>
-                            <input type="text"
-                                   th:name="clientId"
-                                   class="form-control"
-                                   id="inputClientId"
-                                   aria-describedby="clientHelp">
-                            <small id="clientHelp"
-                                   class="form-text text-muted">Enter name
-                                service
-                            </small>
-                        </div>
-                        <button type="submit" class="btn btn-success">Create
-                            Client
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Форма создания новой роли в клиенте   -->
-    <div class="modal fade" id="exampleNewRoleClient" tabindex="-1"
-         role="dialog"
-         aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleNewRoleLabel">Create
-                        New Roles in Client
-                    </h5>
-                </div>
-                <div class="modal-body">
-                    <form th:method="post"
-                          th:action="@{/keycloak/client/role/new}">
-                        <div class="form-group">
-                            <label for="inputRole">Role Name</label>
-                            <input type="text"
-                                   th:name="roleName"
-                                   class="form-control"
-                                   id="inputRole"
-                                   aria-describedby="roleNameHelp">
-                            <small id="roleNameHelp"
-                                   class="form-text text-muted">Enter title
-                                role
-                            </small>
-                            <div>
-                                <label for="inputClientId1">ClientId
-                                    Name</label>
-                                <select id="inputClientId1"
+        <!-- Форма присвоения роли -->
+        <div class="modal fade" id="exampleRoleUserInClient" tabindex="-1"
+             role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleUserInClientLabel">
+                            Assign client role to user</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/keycloak/user/role}" method="post">
+                            <div class="form-group">
+                                <label for="exampleInputUserName1">User
+                                    name</label>
+                                <input type="text" th:name="userName"
+                                       class="form-control"
+                                       id="exampleInputUserName1"
+                                       aria-describedby="userNameHelper1">
+                                <small id="userNameHelper1"
+                                       class="form-text text-muted">Enter
+                                    User name</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputClientId">ClientId</label>
+                                <select id="exampleInputClientId"
                                         class="form-control custom-select"
                                         th:name="clientId">
                                     <option value="06f48877-8a69-4af8-9c6d-2930bf2e8ea0">
@@ -547,16 +245,334 @@
                                         Library
                                     </option>
                                 </select>
-                                <small id="clientIdHelp1"
+                                <small id="inputClientIdHelper"
+                                       class="form-text text-muted">Enter
+                                    ClientId</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputRole">Role</label>
+                                <select id="exampleInputRole"
+                                        class="form-control custom-select"
+                                        th:name="role">
+                                    <option value="admin">
+                                        admin
+                                    </option>
+                                    <option value="subscriber">
+                                        subscriber
+                                    </option>
+                                    <option value="user">
+                                        user
+                                    </option>
+                                    <option value="write_reviews">
+                                        write_reviews
+                                    </option>
+                                    <option value="author">
+                                        author
+                                    </option>
+                                </select>
+                                <small id="InputRoleHelper"
+                                       class="form-text text-muted">Choose a
+                                    role...</small>
+                            </div>
+                            <button type="submit" class="btn btn-success">Add
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Форма отключение роли -->
+        <div class="modal fade" id="exampleDeleteRoleUserInClient" tabindex="-1"
+             role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"
+                            id="exampleDeleteRoleUserInClientLabel">
+                            Delete client role to user</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/keycloak/user/d/role}"
+                              method="post">
+                            <div class="form-group">
+                                <label for="exampleInputUserName1">User
+                                    name</label>
+                                <input type="text" th:name="userName"
+                                       class="form-control"
+                                       id="exampleInputUserName2"
+                                       aria-describedby="userNameHelper1">
+                                <small id="userNameHelper2"
+                                       class="form-text text-muted">Enter
+                                    User name</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputClientId2">ClientId</label>
+                                <select id="exampleInputClientId2"
+                                        class="form-control custom-select"
+                                        th:name="clientId">
+                                    <option value="06f48877-8a69-4af8-9c6d-2930bf2e8ea0">
+                                        Cinema
+                                    </option>
+                                    <option value="fa34111d-4bce-4a18-aef0-a6dc945f5603">
+                                        Music
+                                    </option>
+                                    <option value="cda63aba-3337-49de-b2b9-e7e04756df29">
+                                        Library
+                                    </option>
+                                </select>
+                                <small id="inputClientIdHelper2"
+                                       class="form-text text-muted">Enter
+                                    ClientId</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputRole">Role</label>
+                                <select id="exampleInputRole2"
+                                        class="form-control custom-select"
+                                        th:name="role">
+                                    <option value="admin">
+                                        admin
+                                    </option>
+                                    <option value="subscriber">
+                                        subscriber
+                                    </option>
+                                    <option value="user">
+                                        user
+                                    </option>
+                                    <option value="write_reviews">
+                                        write_reviews
+                                    </option>
+                                    <option value="author">
+                                        author
+                                    </option>
+                                </select>
+                                <small id="inputRoleHelper2"
+                                       class="form-text text-muted">Choose a
+                                    role...</small>
+                            </div>
+                            <button type="submit" class="btn btn-danger">Off
+                                role
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--  Форма удаления пользователя  -->
+        <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Deleting
+                            a
+                            user account</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form th:method="post"
+                              th:action="@{/keycloak/user/del}">
+                            <div class="form-group">
+                                <label for="InputUsername">User name</label>
+                                <input type="text"
+                                       th:name="userName"
+                                       class="form-control"
+                                       id="InputUsername"
+                                       aria-describedby="UsernameHelp"
+                                       placeholder="Enter User name">
+                                <small id="UsernameHelp"
+                                       class="form-text text-muted">Введите
+                                    имя(Username) пользователя для удаления
+                                </small>
+                            </div>
+                            <button type="submit" class="btn btn-danger">Delete
+                                user
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Форма получения ролей пользователя в клиенте -->
+        <div class="modal fade" id="rolesUserInClient" tabindex="-1"
+             role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="rolesUserInClientLabel">User
+                            roles in the service
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/keycloak/user/roles}" method="get">
+                            <div class="form-group">
+                                <label for="exampleInputUserName">User
+                                    name</label>
+                                <input type="text" th:name="userName"
+                                       class="form-control"
+                                       id="exampleInputUserName"
+                                       aria-describedby="usernameHelper">
+                                <small id="exampleInputUserNameHelp"
+                                       class="form-text text-muted">Enter
+                                    User name</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleNameClientId">ClientId</label>
+                                <select id="exampleNameClientId"
+                                        class="form-control custom-select"
+                                        th:name="clientId">
+                                    <option value="microservice-cinema">Cinema
+                                    </option>
+                                    <option value="microservice-music">Music
+                                    </option>
+                                    <option value="microservice-library">Library
+                                    </option>
+                                </select>
+                                <small id="exampleNameClientIdHelp"
+                                       class="form-text text-muted">Choose a
+                                    service...</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Get
+                                roles
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Форма получение ролей в клиенте-->
+        <div class="modal fade" id="exampleListRoleClient" tabindex="-1"
+             role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"
+                            id="exampleListRoleClientLabel">Roles in the client
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <form th:method="get"
+                              th:action="@{/keycloak/client/roles}">
+                            <div class="form-group">
+                                <label for="inputClientName">ClientId
+                                    Name</label>
+                                <select id="inputClientName"
+                                        class="form-control custom-select"
+                                        th:name="clientId">
+                                    <option value="microservice-cinema">Cinema
+                                    </option>
+                                    <option value="microservice-music">Music
+                                    </option>
+                                    <option value="microservice-library">Library
+                                    </option>
+                                </select>
+                                <small id="clientIdHelp"
                                        class="form-text text-muted">Choose a
                                     service...
                                 </small>
                             </div>
-                        </div>
-                        <button type="submit" class="btn btn-success">Create
-                            Role
-                        </button>
-                    </form>
+                            <button type="submit" class="btn btn-primary">Get
+                                roles
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Форма создания нового Клиента в Реалме  -->
+        <div class="modal fade" id="exampleNewClient" tabindex="-1"
+             role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleNewClientLabel">
+                            Create
+                            New Client
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Введите имя нового клиента.</p>
+                        <form th:action="@{/keycloak/client}" th:method="post">
+                            <div class="form-group">
+                                <label for="inputClientId">ClientId Name</label>
+                                <input type="text"
+                                       th:name="clientId"
+                                       class="form-control"
+                                       id="inputClientId"
+                                       aria-describedby="clientHelp">
+                                <small id="clientHelp"
+                                       class="form-text text-muted">Enter name
+                                    service
+                                </small>
+                            </div>
+                            <button type="submit" class="btn btn-success">Create
+                                Client
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Форма создания новой роли в клиенте   -->
+        <div class="modal fade" id="exampleNewRoleClient" tabindex="-1"
+             role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleNewRoleLabel">Create
+                            New Roles in Client
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <form th:method="post"
+                              th:action="@{/keycloak/client/role/new}">
+                            <div class="form-group">
+                                <label for="inputRole">Role Name</label>
+                                <input type="text"
+                                       th:name="roleName"
+                                       class="form-control"
+                                       id="inputRole"
+                                       aria-describedby="roleNameHelp">
+                                <small id="roleNameHelp"
+                                       class="form-text text-muted">Enter title
+                                    role
+                                </small>
+                                <div>
+                                    <label for="inputClientId1">ClientId
+                                        Name</label>
+                                    <select id="inputClientId1"
+                                            class="form-control custom-select"
+                                            th:name="clientId">
+                                        <option value="06f48877-8a69-4af8-9c6d-2930bf2e8ea0">
+                                            Cinema
+                                        </option>
+                                        <option value="fa34111d-4bce-4a18-aef0-a6dc945f5603">
+                                            Music
+                                        </option>
+                                        <option value="cda63aba-3337-49de-b2b9-e7e04756df29">
+                                            Library
+                                        </option>
+                                    </select>
+                                    <small id="clientIdHelp1"
+                                           class="form-text text-muted">Choose a
+                                        service...
+                                    </small>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">Create
+                                Role
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

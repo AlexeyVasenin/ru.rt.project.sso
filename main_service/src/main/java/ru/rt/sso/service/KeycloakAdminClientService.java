@@ -15,6 +15,10 @@ import ru.rt.sso.clients.KeycloakAdminClient;
 import java.util.*;
 
 /**
+ * Сервис для работы из Администраторского клиента <br>
+ * Получение базовой информации из системы SSO Keycloak <br>
+ * Внесение изменений в систему. Например добавление нового пользователя, клиента(сервиса) и тд.
+ *
  * @author Алексей Васенин
  */
 
@@ -28,36 +32,37 @@ public class KeycloakAdminClientService {
     }
 
     /**
-     * Создание нового пользователя {@link UserRepresentation}, принимает два параметра
+     * Создание нового пользователя в системе. Принимает два параметра
+     *
      * @param userName логин пользователя
-     * @param pass пароль
-     * @return объект
+     * @param pass     пароль
+     * @return объект в виде нового пользователя со всеми параметрами системы Keycloak
      */
-    public UserRepresentation addUser(String userName, String pass) {
+    public Object addUser(String userName, String pass) {
 
-        UsersResource usersResource = getBuildKeycloak().users();
-        CredentialRepresentation credentialRepresentation = createPasswordCredentials(pass);
-        UserRepresentation kcUser = new UserRepresentation();
+        if (!getUser(userName).isPresent()) {
+            UsersResource usersResource = getBuildKeycloak().users();
+            CredentialRepresentation credentialRepresentation = createPasswordCredentials(pass);
+            UserRepresentation kcUser = new UserRepresentation();
 
-        kcUser.setCredentials(Collections.singletonList(credentialRepresentation));
-        kcUser.setUsername(userName);
-        kcUser.setEnabled(true);
-        kcUser.setEmailVerified(false);
+            kcUser.setCredentials(Collections.singletonList(credentialRepresentation));
+            kcUser.setUsername(userName);
+            kcUser.setEnabled(true);
+            kcUser.setEmailVerified(false);
+            usersResource.create(kcUser);
 
-        usersResource.create(kcUser);
-
-        return kcUser;
+            return kcUser;
+        }
+        return "Пользователь с логином " + userName + " уже существует";
     }
 
     /**
      * Обновление данных пользователя
-     * */
-    public String updateUser(String username, String description) {
-        Optional<UserRepresentation> user = getBuildKeycloak().users().search(username).stream()
-                .filter(u -> u.getUsername().equals(username)).findFirst();
+     */
+    public String updateUser(String userName, String description) {
 
-        if (user.isPresent()) {
-            UserRepresentation userRepresentation = user.get();
+        if (getUser(userName).isPresent()) {
+            UserRepresentation userRepresentation = getUser(userName).get();
             UserResource userResource = getBuildKeycloak().users().get(userRepresentation.getId());
             Map<String, List<String>> attributes = new HashMap<>();
 
@@ -66,6 +71,7 @@ public class KeycloakAdminClientService {
             userResource.update(userRepresentation);
 
             return "User updated";
+
         } else {
             return "User not found";
         }
@@ -73,18 +79,27 @@ public class KeycloakAdminClientService {
 
     /**
      * Удаление пользователя из системы
+     *
      * @param userName логин пользователя
-     * */
-    public void deleteUser(String userName) {
-        UsersResource users = getBuildKeycloak().users();
-        users.search(userName).stream()
-                .forEach(user -> getBuildKeycloak().users().delete(user.getId()));
+     */
+    public String deleteUser(String userName) {
+
+        if (getUser(userName).isPresent()) {
+            UsersResource users = getBuildKeycloak().users();
+
+            users.search(userName).stream()
+                    .forEach(u -> getBuildKeycloak().users().delete(u.getId()));
+
+            return "Пользователь с логином " + userName + " удален";
+
+        } else return "Пользователя с таким именем не существует";
     }
 
     /**
      * Получение всех пользователей в системе
+     *
      * @return Список всех пользователей из система
-     * */
+     */
     public List<UserRepresentation> getUsers() {
         List<UserRepresentation> allUsers = getBuildKeycloak().users().list();
         return allUsers;
@@ -92,34 +107,45 @@ public class KeycloakAdminClientService {
 
     /**
      * Получение всех клиентов(сервисов)
-     * @return Список клиентов(сервисов) в реалме
-     * */
+     *
+     * @return Список клиентов(сервисов) в системе
+     */
     public List<ClientRepresentation> getAllClient() {
         List<ClientRepresentation> allClient = getBuildKeycloak().clients().findAll();
         return allClient;
     }
 
     /**
-     * Создание нового клиента(сервиса) в реалме
+     * Создание нового клиента(сервиса) в системе
+     *
      * @param clientId название клиента(сервиса)
-     * */
-    public void createClient(String clientId) {
-        //ClientRepresentation clientRepresentation = getBuildKeycloak().clients().findByClientId(clientId).get(0);
-        ClientRepresentation client = new ClientRepresentation();
-        client.setClientId(clientId);
-        client.setName(clientId);
-        client.setBearerOnly(false);
-        client.setPublicClient(false);
-        client.setEnabled(true);
-        client.setProtocol("openid-connect");
-        getBuildKeycloak().clients().create(client);
+     */
+    public Object createClient(String clientId) {
+        Optional<ClientRepresentation> clietns = getBuildKeycloak().clients().findByClientId(clientId).stream().
+                filter(c -> c.getClientId().equals(clientId)).findFirst();
+
+        if (!clietns.isPresent()) {
+            ClientRepresentation client = new ClientRepresentation();
+            client.setClientId(clientId);
+            client.setName(clientId);
+            client.setBearerOnly(false);
+            client.setPublicClient(false);
+            client.setEnabled(true);
+            client.setProtocol("openid-connect");
+
+            getBuildKeycloak().clients().create(client);
+
+            return client;
+
+        } else return "Client c именем " + clientId + " уже существует";
     }
 
     /**
      * Создание Роли в клиенте(сервисе)
+     *
      * @param roleName название роли
      * @param clientId Id клиента(сервиса)
-     * */
+     */
     public void createRoleInClient(String roleName, String clientId) {
         RoleRepresentation clientRole = new RoleRepresentation();
         clientRole.setName(roleName);
@@ -128,56 +154,60 @@ public class KeycloakAdminClientService {
 
     /**
      * Назначить роль клиента -> юзеру
+     *
      * @param userName логин пользователя
      * @param clientId Id клиента(сервиса). Пример: (cda63aba-3337-49de-b2b9-e7e04756df29)
-     * @param role название роли
-     * */
-    public void assingAClientRoleToTheUser(String userName, String clientId, String role) {
+     * @param role     название роли
+     */
+    public String assingAClientRoleToTheUser(String userName, String clientId, String role) {
 
-        Optional<UserRepresentation> user = getBuildKeycloak().users().search(userName).stream()
-                .filter(u -> u.getUsername().equals(userName)).findFirst();
+        if (getUser(userName).isPresent()) {
+            UserRepresentation userRepresentation = getUser(userName).get();
+            UserResource userResource = getBuildKeycloak().users().get(userRepresentation.getId());
+            RoleMappingResource roleMappingResource = userResource.roles();
+            List<RoleRepresentation> clientRolesToAdd = new ArrayList<RoleRepresentation>();
+            RoleRepresentation clientRole = getBuildKeycloak()
+                    .clients()
+                    .get(clientId)
+                    .roles()
+                    .get(role)
+                    .toRepresentation();
 
-        UserRepresentation userRepresentation = user.get();
-        UserResource userResource = getBuildKeycloak().users().get(userRepresentation.getId());
+            clientRolesToAdd.add(clientRole);
+            roleMappingResource.clientLevel(clientId).add(clientRolesToAdd);
 
-        RoleMappingResource roleMappingResource = userResource.roles();
+            return "Роль " + role + " назначена пользователю " + userName;
 
-        List<RoleRepresentation> clientRolesToAdd = new ArrayList<RoleRepresentation>();
-        RoleRepresentation clientRole = getBuildKeycloak()
-                .clients()
-                .get(clientId)
-                .roles()
-                .get(role)
-                .toRepresentation();
-        clientRolesToAdd.add(clientRole);
-        roleMappingResource.clientLevel(clientId).add(clientRolesToAdd);
+        } else return "Пользователь или роль не существует";
     }
 
     /**
      * Отключить роли сервиса у пользователя
+     *
      * @param userName логин пользователя
      * @param clientId Id клиента(сервиса) Пример: (cda63aba-3337-49de-b2b9-e7e04756df29)
-     * @param role название роли
+     * @param role     название роли
      */
-    public void deleteAClientRoleToTheUser(String userName, String clientId, String role) {
+    public String deleteAClientRoleToTheUser(String userName, String clientId, String role) {
 
-        Optional<UserRepresentation> user = getBuildKeycloak().users().search(userName).stream()
-                .filter(u -> u.getUsername().equals(userName)).findFirst();
+        if (getUser(userName).isPresent()) {
+            UserRepresentation userRepresentation = getUser(userName).get();
+            UserResource userResource = getBuildKeycloak().users().get(userRepresentation.getId());
+            RoleMappingResource roleMappingResource = userResource.roles();
+            List<RoleRepresentation> clientRolesToAdd = new ArrayList<RoleRepresentation>();
+            RoleRepresentation clientRole = getBuildKeycloak()
+                    .clients()
+                    .get(clientId)
+                    .roles()
+                    .get(role)
+                    .toRepresentation();
 
-        UserRepresentation userRepresentation = user.get();
-        UserResource userResource = getBuildKeycloak().users().get(userRepresentation.getId());
+            clientRolesToAdd.add(clientRole);
+            roleMappingResource.clientLevel(clientId).remove(clientRolesToAdd);
 
-        RoleMappingResource roleMappingResource = userResource.roles();
+            return "Роль " + role + " у пользователя " + userName + " отключена";
 
-        List<RoleRepresentation> clientRolesToAdd = new ArrayList<RoleRepresentation>();
-        RoleRepresentation clientRole = getBuildKeycloak()
-                .clients()
-                .get(clientId)
-                .roles()
-                .get(role)
-                .toRepresentation();
-        clientRolesToAdd.add(clientRole);
-        roleMappingResource.clientLevel(clientId).remove(clientRolesToAdd);
+        } else return "Пользователь или роль не существуют";
     }
 
     /**
@@ -200,20 +230,22 @@ public class KeycloakAdminClientService {
      * @return Список ролей пользователя в сервисе
      * @see RoleRepresentation
      */
-    public List<RoleRepresentation> getRolesByUsername(String userName, String clientId) {
-        Optional<UserRepresentation> user = getBuildKeycloak().users().search(userName).stream()
-                .filter(u -> u.getUsername().equals(userName)).findFirst();
+    public Object getRolesByUsername(String userName, String clientId) {
 
-        UserRepresentation userRepresentation = user.get();
-        UserResource userResource = getBuildKeycloak().users().get(userRepresentation.getId());
-        ClientRepresentation clientRepresentation = getBuildKeycloak().clients().findByClientId(clientId).get(0);
-        List<RoleRepresentation> roles = userResource.roles().clientLevel(clientRepresentation.getId()).listAll();
-        return roles;
+        if (getUser(userName).isPresent()) {
+            UserRepresentation userRepresentation = getUser(userName).get();
+            UserResource userResource = getBuildKeycloak().users().get(userRepresentation.getId());
+            ClientRepresentation clientRepresentation = getBuildKeycloak().clients().findByClientId(clientId).get(0);
+            List<RoleRepresentation> roles = userResource.roles().clientLevel(clientRepresentation.getId()).listAll();
+
+            return roles;
+
+        } else return "Пользователь не существует";
     }
 
     /**
      * @param password пароль пользователя
-     * */
+     */
     private static CredentialRepresentation createPasswordCredentials(String password) {
         CredentialRepresentation passwordCredentials = new CredentialRepresentation();
         passwordCredentials.setTemporary(false);
@@ -223,9 +255,19 @@ public class KeycloakAdminClientService {
     }
 
     /**
-     * Метод получает Keycloak build и возвращает наш реалм.
+     * Поиск и получение пользователя в системе с логинов userName
+     * @param userName логин пользователя
+     * */
+    private Optional<UserRepresentation> getUser(String userName) {
+        return getBuildKeycloak().users().search(userName).stream()
+                .filter(u -> u.getUsername().equals(userName)).findFirst();
+    }
+
+    /**
+     * Метод получает Keycloak build и возвращает наш реалм.<br>
      * Для использования в методах для получение данных и внесения изменений в систему
-     * @return Возвращает реалм
+     *
+     * @return Возвращает реалм c профилем администратора
      * @see KeycloakAdminClient
      */
     private RealmResource getBuildKeycloak() {
