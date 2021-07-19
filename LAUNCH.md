@@ -8,7 +8,7 @@
 gradlew assemble
 ```
 
-2. (После нового билда) Удалить измененные образы в Docker
+2. Удалить существующие образы в Docker (при необходимости)
 
 ##### Создание и запуск контейнеров
 
@@ -18,7 +18,7 @@ gradlew assemble
 docker-compose -f docker-compose-keycloak.yml -p sso_project_keycloak up
 ```
 
-2. Контейнеризация микросервисов
+2. Контейнеризация микросервисов [docker-compose](docker-compose.yml)
 
 ```
 docker-compose up --build

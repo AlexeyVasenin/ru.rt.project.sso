@@ -19,13 +19,13 @@ _Есть несколько различных систем (с разными 
 **Объемлющий проект**:
 
 - ***Модули***:
-
     - ***eureka-server*** - service discovery для микросервисов (клиентов)
     - ***resource-server*** - защищает ресурсы (стат., дин.) с помощью токенов OAuth
     - ***main_service*** - сервис администрирования
     - ***microservice-cinema*** - сервис-заглушка
     - ***microservice-library*** - сервис-заглушка
     - ***microservice-music*** - сервис-заглушка
+<p>
 
 - [docker-compose](docker-compose.yml) - развертывание сервисов
 - [docker-compose-keycloak](docker-compose-keycloak.yml) - развертывание keycloak & database
