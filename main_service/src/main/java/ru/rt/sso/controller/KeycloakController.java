@@ -5,7 +5,6 @@ import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.rt.sso.service.KeycloakAdminClientService;
 
@@ -29,7 +28,6 @@ public class KeycloakController {
 
     @ApiOperation(value = "Создание нового пользователя")
     @PostMapping(path = "/user")
-    @PreAuthorize("hasRole('ROLE_REALM-ADMIN')")
     @ResponseBody
     public Object createUser(@RequestParam(value = "userName") String userName,
                                          @RequestParam(value = "pass") String pass) {
@@ -38,7 +36,6 @@ public class KeycloakController {
 
     @ApiOperation(value = "Удаление пользователя по логину")
     @PostMapping(path = "/user/del")
-    @PreAuthorize("hasRole('ROLE_REALM-ADMIN')")
     @ResponseBody
     public String deleteUser(@RequestParam(value = "userName") String userName) {
        return keycloakAdminClientService.deleteUser(userName);
@@ -47,7 +44,6 @@ public class KeycloakController {
 
     @ApiOperation(value = "Получить список всех пользователей")
     @GetMapping(path = "/users")
-    @PreAuthorize("hasRole('ROLE_REALM-ADMIN')")
     @ResponseBody
     public List<UserRepresentation> getAllUsers() {
         return keycloakAdminClientService.getUsers();

@@ -100,7 +100,8 @@
                                    href="#">Новая роль в Клиенте
                             </a></li>
                             <li><a class="dropdown-item"
-                                   th:href="@{/keycloak/clients}">Список Клиентов (Сервисов)
+                                   th:href="@{/keycloak/clients}">Список
+                                Клиентов (Сервисов)
                             </a></li>
                             <li><a class="dropdown-item" data-bs-toggle="modal"
                                    data-bs-target="#exampleListRoleClient"
@@ -127,20 +128,18 @@
                             </a></li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" th:href="@{/swagger-ui/}">
-                            Swagger</a>
-                    </li>
                 </ul>
             </div>
             <div class="collapse navbar-collapse justify-content-end"
                  id="sndNavbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item" th:if="${principal}">
-                        <a class="nav-link" id="swagger-nav-link" th:href="@{/swagger-ui/}">Swagger</a>
+                        <a class="nav-link" id="swagger-nav-link"
+                           th:href="@{/swagger-ui/}">Swagger</a>
                     </li>
                     <li class="nav-item" th:if="${principal}">
-                        <a class="nav-link" id="account-nav-link" th:href="@{/account}">Аккаунт</a>
+                        <a class="nav-link" id="account-nav-link"
+                           th:href="@{/account}">Аккаунт</a>
                     </li>
                     <li class="nav-item">
                         <a th:unless="${principal}" class="nav-link"
