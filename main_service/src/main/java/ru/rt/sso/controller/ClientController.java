@@ -10,7 +10,9 @@ import ru.rt.sso.service.UserDetailsCollectorService;
 
 import java.security.Principal;
 
-// todo описание
+/**
+ * Web Controller для работы с конечными точками сервиса Admin client
+ * */
 @Controller
 @RequestMapping
 public class ClientController {
