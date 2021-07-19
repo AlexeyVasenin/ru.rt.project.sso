@@ -1,8 +1,7 @@
-package ru.rt.cinema.services;
+package ru.rt.library.services;
 
 import org.springframework.stereotype.Service;
-import ru.rt.cinema.domain.Movie;
-import ru.rt.cinema.handlers.RestRequestHandler;
+import ru.rt.library.domain.Book;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -21,14 +20,14 @@ import java.nio.file.Paths;
 @Service
 public class ImageLocalHandleServiceImpl implements ImageLocalHandleService {
 
-    private final String SERVICE_NAME = "microservice-cinema";
+    private final String SERVICE_NAME = "microservice-library";
 
     @Override
-    public void savePosterImageLocally(Movie movie) {
+    public void saveCoverImageLocally(Book book) {
         try {
-            Path path = Paths.get(SERVICE_NAME + "/src/main/resources/static/images/" + movie.filename + ".jpg");
+            Path path = Paths.get(SERVICE_NAME + "/src/main/resources/static/images/" + book.filename + ".jpg");
             if (Files.notExists(path)) {
-                ByteArrayInputStream is = new ByteArrayInputStream(movie.posterImage);
+                ByteArrayInputStream is = new ByteArrayInputStream(book.coverImage);
                 BufferedImage image = ImageIO.read(is);
                 ImageIO.write(image, "jpg", path.toFile());
             }
@@ -38,7 +37,7 @@ public class ImageLocalHandleServiceImpl implements ImageLocalHandleService {
     }
 
     @Override
-    public String getPosterImageSrc(Movie movie) {
-        return String.format("/static/images/%s.jpg", movie.filename);
+    public String getCoverImageSrc(Book book) {
+        return String.format("/static/images/%s.jpg", book.filename);
     }
 }

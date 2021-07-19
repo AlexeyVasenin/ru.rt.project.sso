@@ -10,9 +10,14 @@ import ru.rt.library.handlers.RestRequestHandler;
 
 import java.security.Principal;
 
+/**
+ * Web-контроллер для обработки запросов, связанных с книгами (например, получения страницы книги по id).
+ * <p>
+ *
+ * @author Alexey Baidin
+ */
 @Controller
 @RequestMapping("/books")
-//todo A. Baidin описание класса
 public class BookController {
 
     private final RestRequestHandler restRequestHandler;

@@ -50,9 +50,7 @@ public class RestRequestHandlerImpl implements RestRequestHandler {
     public List<Movie> requestToGetAllMoviesAndSaveLocally() {
         List<Movie> movies = this.getAllMovies();
 
-        for (Movie movie : movies) {
-            imageLocalHandleService.savePosterImageLocally(movie);
-        }
+        movies.forEach(imageLocalHandleService::savePosterImageLocally);
 
         return movies;
     }
