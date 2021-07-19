@@ -23,7 +23,6 @@ public class KeycloakAdminClientService {
         this.keycloakAdminClient = keycloakAdminClient;
     }
 
-    //todo ЮЗЕРА заменить на OidcUser !!!!!!!
     //Создать нового пользователя
     public UserRepresentation addUser(String userName, String pass) {
 
@@ -106,7 +105,7 @@ public class KeycloakAdminClientService {
 
         Optional<UserRepresentation> user = getBuildKeycloak().users().search(userName).stream()
                 .filter(u -> u.getUsername().equals(userName)).findFirst();
-
+        // todo нет проверки: выдает 405 при попытке назначить роль несуществующему пользователю в конкретном клиенте
         UserRepresentation userRepresentation = user.get();
         UserResource userResource = getBuildKeycloak().users().get(userRepresentation.getId());
 
@@ -128,7 +127,7 @@ public class KeycloakAdminClientService {
 
         Optional<UserRepresentation> user = getBuildKeycloak().users().search(userName).stream()
                 .filter(u -> u.getUsername().equals(userName)).findFirst();
-
+        // todo нет проверки: выдает 405 при попытке удаления роли у несуществующего пользователя в конкретном клиенте
         UserRepresentation userRepresentation = user.get();
         UserResource userResource = getBuildKeycloak().users().get(userRepresentation.getId());
 
@@ -157,6 +156,7 @@ public class KeycloakAdminClientService {
         Optional<UserRepresentation> user = getBuildKeycloak().users().search(userName).stream()
                 .filter(u -> u.getUsername().equals(userName)).findFirst();
 
+        // todo нет проверки: выдает 500 при попытке получить роли у несуществующего пользователя
         UserRepresentation userRepresentation = user.get();
         UserResource userResource = getBuildKeycloak().users().get(userRepresentation.getId());
         ClientRepresentation clientRepresentation = getBuildKeycloak().clients().findByClientId(clientId).get(0);

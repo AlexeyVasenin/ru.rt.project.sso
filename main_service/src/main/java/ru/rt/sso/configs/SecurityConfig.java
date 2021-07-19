@@ -66,7 +66,6 @@ public class SecurityConfig {
         return new KeycloakOauth2UserService(jwtDecoder, authoritiesMapper);
     }
 
-    //todo по аналогии с микросервисами?
     @Bean
     KeycloakLogoutHandler keycloakLogoutHandler() {
         return new KeycloakLogoutHandler("JSESSIONID");
