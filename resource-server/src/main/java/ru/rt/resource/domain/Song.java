@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * Entity объекта "песня".
+ */
 @Entity
 @Table(name = "songs")
 @Getter
