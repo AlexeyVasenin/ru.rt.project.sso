@@ -18,7 +18,7 @@ import java.security.Principal;
 import java.util.Collections;
 
 /**
- * Web Controller для работы с конечными точками сервиса Cinema
+ * Web Controller для работы с конечными точками сервиса Cinema.
  * <p>
  *
  * @author Alexey Baidin
@@ -79,7 +79,7 @@ public class CinemaController {
         request.setAttribute("token", token);
         request.logout();
 
-        //todo редирект на рабочую пейдж или че вообще с этим методом
+        // WARN: redirect по внешнему запросу не срабатывает!
         return "redirect:/model";
     }
 }

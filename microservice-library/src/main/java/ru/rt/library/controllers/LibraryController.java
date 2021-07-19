@@ -78,7 +78,7 @@ public class LibraryController {
         request.setAttribute("token", token);
         request.logout();
 
-        //todo редирект опять же
+        // WARN: redirect по внешнему запросу не срабатывает!
         return "redirect:/model";
     }
 }

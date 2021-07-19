@@ -1,0 +1,15 @@
+# Слава, проверь все!
+application:
+  url: http://microservice-library-java-school.apps.okd.stage.digital.rt.ru/library
+
+eureka:
+  instance:
+    hostname: eureka-server-java-school.apps.okd.stage.digital.rt.ru
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}/eureka/
+
+resource-server:
+  api:
+    url: http://resource-server-java-school.apps.okd.stage.digital.rt.ru/resource-server/api/library
+

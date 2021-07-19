@@ -4,7 +4,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-//todo A. Baidin описание класса, деприкейтнуть если не используем тут + удалить в последующих сервисах
+/**
+ * Класс конфигурации для загрузки статических ресурсов на сервер.
+ */
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 

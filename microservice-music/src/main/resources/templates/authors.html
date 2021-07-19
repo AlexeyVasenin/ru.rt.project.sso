@@ -57,7 +57,6 @@
                 <input class="form-control" type="text" th:placeholder="${userName}"
                        aria-label="inputName" id="usernameInput" disabled readonly>
             </div>
-            <!-- TODO пустые p-элементы? настроить margin -->
             <p></p>
             <div class="col-md-5">
                 <label for="trackInput">Название трека</label>
@@ -100,7 +99,6 @@
                 </div>
             </div>
             <p></p>
-            <!-- TODO что произойдет, если все input-ы валидны и кнопка нажмется? ничего хорошего: в контроллере нет метода для обработки post-запроса. тогда сделать ее disabled? -->
             <button type="submit" class="btn btn-primary" id="uploadButton" disabled>
                 Загрузить
             </button>

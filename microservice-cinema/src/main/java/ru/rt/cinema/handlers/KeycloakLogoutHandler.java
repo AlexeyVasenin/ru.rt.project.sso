@@ -1,5 +1,6 @@
 package ru.rt.cinema.handlers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -25,14 +27,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
-//todo A. Baidin описание класса, методов
+/**
+ * Пользовательский класс для обработки события локального logout и отправки запроса на завершение текущей сессии в Keycloak.
+ * <p>
+ *
+ * @author Alexey Baidin
+ */
+@Slf4j
 public class KeycloakLogoutHandler extends SecurityContextLogoutHandler {
 
     @Value("${application.url}")
     private String applicationURL;
 
-    //todo вроде @Slf4j надо подключать
     private final Logger logger = LoggerFactory.getLogger(KeycloakLogoutHandler.class);
 
     private final List<String> cookies;
@@ -46,6 +54,7 @@ public class KeycloakLogoutHandler extends SecurityContextLogoutHandler {
 
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+        // удаление cookies
         response.setContentType("text/html");
         for (String cookieName : cookies) {
             Cookie cookie = new Cookie(cookieName, "");
@@ -58,8 +67,10 @@ public class KeycloakLogoutHandler extends SecurityContextLogoutHandler {
             response.addCookie(cookie);
         }
 
+        // нативный logout
         super.logout(request, response, authentication);
 
+        // попытка сделать свой back-channel logout
         if (request.getAttribute("back-channel-logout") == null) {
             logoutFromKeyCloak(authentication);
         } else {
@@ -69,25 +80,13 @@ public class KeycloakLogoutHandler extends SecurityContextLogoutHandler {
         }
     }
 
-    //todo описание
-    private void backChannelLogoutFromKeycloak(String issuer, String token) {
-        URI logoutUri = UriComponentsBuilder
-                .fromUriString(issuer + "/protocol/openid-connect/logout")
-                .queryParam("id_token_hint", token).build().toUri();
-
-        ResponseEntity<Void> response = this.webClient
-                .get()
-                .uri(logoutUri)
-                .retrieve()
-                .toBodilessEntity()
-                .block();
-
-        if (response != null) {
-            logger.info("OIDC back channel log out response: " + response.getStatusCode());
-        }
-    }
-
-    //todo описание
+    /**
+     * Метод отправки запроса на завершение сессии текущего пользователя и итеративной отправки запросов к другим
+     * зарегистрированным в системе микросервисам для завершения своих клиентских сессий.
+     * <p>
+     *
+     * @param authentication объект токена аутентификации, который хранится в {@link SecurityContext}
+     */
     private void logoutFromKeyCloak(Authentication authentication) {
         OidcUser oidcUser = (OidcUser) authentication.getPrincipal();
         URI logoutUri = UriComponentsBuilder
@@ -144,7 +143,37 @@ public class KeycloakLogoutHandler extends SecurityContextLogoutHandler {
         }
     }
 
-    //todo описание и почему в деприкетейд (ушли от реста)
+    /**
+     * Метод, инициализирующийся при получении внешнего запроса, который завершает процесс пользовательского back-channel
+     * logout-а: отправляет запрос на завершение свой сессии в Keycloak.
+     * <p>
+     *
+     * @param issuer уникальный идентификатор стороны, которая сгенерировала токен (URL сервера авторизации)
+     * @param token валидный access-токен, переданный из сервиса, инициализирующего logout
+     */
+    private void backChannelLogoutFromKeycloak(String issuer, String token) {
+        URI logoutUri = UriComponentsBuilder
+                .fromUriString(issuer + "/protocol/openid-connect/logout")
+                .queryParam("id_token_hint", token).build().toUri();
+
+        ResponseEntity<Void> response = this.webClient
+                .get()
+                .uri(logoutUri)
+                .retrieve()
+                .toBodilessEntity()
+                .block();
+
+        if (response != null) {
+            logger.info("OIDC back channel log out response: " + response.getStatusCode());
+        }
+    }
+
+    /**
+     * Тестовый метод попытки логаута через запрос к Admin REST API. Не рекоммендуется использовать!
+     * <p>
+     *
+     * @param authentication объект токена аутентификации, который хранится в {@link SecurityContext}
+     */
     @Deprecated
     private void logoutFromKeyCloakREST(Authentication authentication) {
 
@@ -187,7 +216,7 @@ public class KeycloakLogoutHandler extends SecurityContextLogoutHandler {
             ResponseEntity<Void> response = this.webClient
                     .post()
                     .uri(logoutURI)
-                    .header("Authorization", "Bearer " + respToken.getBody().accessToken)
+                    .header("Authorization", "Bearer " + Objects.requireNonNull(respToken.getBody()).accessToken)
                     .header("Content-Type", "application/json")
                     .header("Cache-Control", "no-cache")
                     .retrieve()

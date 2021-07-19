@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
-//todo Описание контроллера, возможно методов @author A. Baidin
+/**
+ * Rest-контроллер для получении информации о зарегистрированных микросервисах в SS0-системе.
+ */
 @RestController
 @RequestMapping("api/services")
 public class ServiceController {

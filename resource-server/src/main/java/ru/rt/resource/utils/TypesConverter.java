@@ -12,7 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-//todo A. Baidin описание класса
+/**
+ * Класс, позволяющий провести преобразование типов и создать новые объекты (или коллекции объектов).
+ * <p>
+ *
+ * @author Alexey Baidin
+ */
 @Component
 public class TypesConverter {
 

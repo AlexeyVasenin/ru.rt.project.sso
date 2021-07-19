@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.util.List;
 
+// todo описание
 @Data
 public class User {
 

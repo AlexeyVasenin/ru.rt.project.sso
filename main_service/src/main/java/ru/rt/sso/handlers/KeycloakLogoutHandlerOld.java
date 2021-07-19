@@ -12,8 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Хендлер для логаута кейклока и локально
+ * Хендлер, выполняющий локальный выход extends {@link SecurityContextLogoutHandler}, а также закрытие сессий в keycloak
+ * <p>
+ * @author Vyacheslav Tretykov
  */
+@Deprecated
 @RequiredArgsConstructor
 public class KeycloakLogoutHandlerOld extends SecurityContextLogoutHandler {
 
@@ -23,10 +26,14 @@ public class KeycloakLogoutHandlerOld extends SecurityContextLogoutHandler {
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         //локальный логаут
         super.logout(request, response, authentication);
-
+        //закрытие сессий в keycloak
         propagateLogoutToKeycloak((OidcUser) authentication.getPrincipal());
     }
 
+    /**
+     * Отправляет запрос в keycloak на эндпоинт /protocol/openid-connect/logout, завершая сессии
+     * @param user текущий пользователь сессии
+     */
     private void propagateLogoutToKeycloak(OidcUser user) {
 
         String endSessionEndpoint = user.getIssuer() + "/protocol/openid-connect/logout";
