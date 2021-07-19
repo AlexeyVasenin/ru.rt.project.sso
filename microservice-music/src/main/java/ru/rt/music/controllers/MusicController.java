@@ -91,7 +91,7 @@ public class MusicController {
         request.setAttribute("token", token);
         request.logout();
 
-        //todo редирект
+        // WARN: redirect по внешнему запросу не срабатывает!
         return "redirect:/model";
     }
 }

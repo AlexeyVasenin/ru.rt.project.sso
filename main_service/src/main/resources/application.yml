@@ -8,7 +8,7 @@ server:
 
 eureka:
   instance:
-    hostname: eureka-server-java-school.apps.okd.stage.digital.rt.ru
+    hostname: ${EUREKA_HOST}
   client:
     register-with-eureka: true
     fetch-registry: true
@@ -27,6 +27,8 @@ keycloak-client:
 spring:
   application:
     name: main_service
+  profiles:
+    active: local
   security:
     oauth2:
       client:

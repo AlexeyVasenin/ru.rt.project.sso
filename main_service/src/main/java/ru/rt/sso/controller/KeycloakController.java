@@ -11,6 +11,7 @@ import ru.rt.sso.service.KeycloakAdminClientService;
 
 import java.util.List;
 
+// todo описание
 @RestController
 @RequestMapping(path = "/keycloak")
 public class KeycloakController {
@@ -43,6 +44,7 @@ public class KeycloakController {
     @ResponseBody
     public String deleteUser(@RequestParam(value = "userName") String userName) {
         keycloakAdminClientService.deleteUser(userName);
+        // todo при удалении несуществующего пользователя также выводится сообщение об удалении
         return "пользователь с именем " + userName + " удален";
     }
 
