@@ -1,29 +1,39 @@
 ### Инструкция по использованию (на Windows)
 
-#### Подготовка 
+#### Подготовка
 
 1. Построить проект:
 
+```
 gradlew assemble
+```
 
 2. (После нового билда) Удалить измененные образы в Docker
 
-##### Создание и запуск контейнера основного сервиса (detached mode)
+##### Создание и запуск контейнеров
 
-#### Запуск 2 контейнеров
+1. Контейнеризация keycloak и БД [docker-compose-keycloak](#docker-compose-keycloak.ym)
 
-##### Создание и запуск контейнера с микросервисами (detached mode)
+```
+docker-compose -f docker-compose-keycloak.yml -p sso_project_keycloak up
+```
 
-docker-compose up -d
+2. Контейнеризация микросервисов
 
-##### Остановка и удаление первого контейнера
+```
+docker-compose up --build
+```
 
+* Рекомендация: запускать в detached mode ```-d```
+
+##### Остановка и удаление контейнеров
+
+```
 docker-compose down
+```
 
-##### Запустить второй docker-compose (с keycloak и БД)
+##### Остановка и удаление keycloak и БД
 
-docker-compose -f docker-compose-keycloak.yml -p sso_project_keycloak up -d
-
-##### Остановка и удаление второго контейнера
-
+```
 docker-compose -f docker-compose-keycloak.yml -p sso_project_keycloak down
+```
