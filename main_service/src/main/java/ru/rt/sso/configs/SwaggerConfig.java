@@ -11,6 +11,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.Collections;
 
+// todo описание
 @Configuration
 public class SwaggerConfig {
 

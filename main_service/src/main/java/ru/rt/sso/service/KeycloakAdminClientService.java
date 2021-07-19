@@ -14,6 +14,7 @@ import ru.rt.sso.clients.KeycloakAdminClient;
 
 import java.util.*;
 
+// todo добавить описание; логику оставить здесь, добавить интерфейс с javadoc-ами на все методы
 @Service
 public class KeycloakAdminClientService {
 

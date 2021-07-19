@@ -10,6 +10,13 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
+/**
+ * Класс обработки ошибок, реализующий {@link ErrorController}
+ * <p>
+ * Отключение дефолтных страниц ошибки в application.yml error.whitelabel.enabled: false
+ *
+ * @author Vyacheslav Tretyakov
+ */
 @Controller
 public class CustomErrorController implements ErrorController {
 

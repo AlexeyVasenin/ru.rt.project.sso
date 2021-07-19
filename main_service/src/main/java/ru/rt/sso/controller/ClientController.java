@@ -10,6 +10,7 @@ import ru.rt.sso.service.UserDetailsCollectorService;
 
 import java.security.Principal;
 
+// todo описание
 @Controller
 @RequestMapping
 public class ClientController {

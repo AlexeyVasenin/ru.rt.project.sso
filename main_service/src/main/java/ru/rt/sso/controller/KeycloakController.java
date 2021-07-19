@@ -11,6 +11,7 @@ import ru.rt.sso.service.KeycloakAdminClientService;
 
 import java.util.List;
 
+// todo описание
 @RestController
 @RequestMapping(path = "/keycloak")
 public class KeycloakController {
