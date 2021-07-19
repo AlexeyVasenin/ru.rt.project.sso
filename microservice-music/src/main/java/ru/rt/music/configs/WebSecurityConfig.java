@@ -4,6 +4,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2Clien
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
@@ -19,6 +20,8 @@ import ru.rt.music.handlers.KeycloakLogoutHandler;
 import ru.rt.music.services.KeycloakOauth2UserService;
 
 /**
+ * Класс конфигурации для настройки {@link WebSecurity} и {@link HttpSecurity}.
+ *
  * @author Alexey Baidin
  * @author Vyacheslav Tretyakov
  */
@@ -26,6 +29,14 @@ import ru.rt.music.services.KeycloakOauth2UserService;
 @Configuration
 public class WebSecurityConfig {
 
+    /**
+     * Бин пользовательской настройки конфигурации Web-security и авторизации через OAuth.
+     * <p>
+     *
+     * @param keycloakLogoutHandler autowired бин обработчика нативного и keycloak logout-ов
+     * @param keycloakOidcUserService autowired бин службы получения пользовательских атрибутов
+     * @return бин конфигурации web-security
+     */
     @Bean
     public WebSecurityConfigurerAdapter webSecurityConfigurer(KeycloakLogoutHandler keycloakLogoutHandler, KeycloakOauth2UserService keycloakOidcUserService) {
         return new WebSecurityConfigurerAdapter() {
@@ -48,7 +59,15 @@ public class WebSecurityConfig {
         };
     }
 
-    //todo описание
+    /**
+     * Бин объекта {@link WebClient} - интерфейса модуля Spring Web Reactive, являющийся ключевой точкой входа и обработки web-запросов.
+     * <p>
+     *
+     * @param clientRegistrationRepository autowired бин OAuth 2.0 репозитория регистрации клиентов
+     * @param authorizedClientRepository autowired бин репозитория авторизации клиентов
+     * @return собранный в билдере бин объекта {@link WebClient}, который расширяет максимальный размер буфера для передачи HTTP-запросов
+     * за счет созданных {@link ExchangeStrategies} и применяет базовую OAuth2-конфигурацию для пробрасывания access-токена при выполнении запросов
+     */
     @Bean
     WebClient webClient(ClientRegistrationRepository clientRegistrationRepository, OAuth2AuthorizedClientRepository authorizedClientRepository) {
         ServletOAuth2AuthorizedClientExchangeFilterFunction oauth2 =
@@ -80,7 +99,12 @@ public class WebSecurityConfig {
         return new KeycloakOauth2UserService(jwtDecoder, authoritiesMapper);
     }
 
-    //todo описание
+    /**
+     * Бин пользовательского обработчика события logout на стороне приложения и Keycloak-а.
+     * <p>
+     *
+     * @return объект {@link KeycloakLogoutHandler}, в который передается список с названиями кук на удаление
+     */
     @Bean
     KeycloakLogoutHandler keycloakLogoutHandler() {
         return new KeycloakLogoutHandler("JSESSIONID");

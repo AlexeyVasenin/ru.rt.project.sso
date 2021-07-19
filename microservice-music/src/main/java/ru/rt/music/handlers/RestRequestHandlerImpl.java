@@ -6,11 +6,16 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.rt.music.domain.Song;
+import ru.rt.music.services.ImageLocalHandleService;
 
 import java.util.List;
 
-//todo A. Baidin описание класса, методов --> доступ в интерйефс, реализация тут.
-// Работаем с представлением, а не реализацией доки также в интерефейс
+/**
+ * Обработчик запросов к ресурс-серверу, реализующий {@link RestRequestHandler}
+ * <p>
+ *
+ * @author Alexey Baidin
+ */
 @Component
 public class RestRequestHandlerImpl implements RestRequestHandler {
 
@@ -19,21 +24,33 @@ public class RestRequestHandlerImpl implements RestRequestHandler {
 
     private final WebClient webClient;
 
+    private final ImageLocalHandleService imageLocalHandleService;
+
     @Autowired
-    public RestRequestHandlerImpl(WebClient webClient) {
+    public RestRequestHandlerImpl(WebClient webClient, ImageLocalHandleService imageLocalHandleService) {
         this.webClient = webClient;
+        this.imageLocalHandleService = imageLocalHandleService;
     }
 
-    public List<Song> requestToGetAllSongs() {
+    private List<Song> getAllSongs() {
         return this.webClient.get()
                 .uri(musicApiUrl)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<Song>>() {
                 })
                 .block();
+    }
 
-        /*if (songs != null) {
-            songs.forEach(Song::saveCoverImageLocally);
-        }*/
+    public List<Song> requestToGetAllSongs() {
+        return this.getAllSongs();
+    }
+
+    @Override
+    public List<Song> requestToGetAllSongsAndSaveLocally() {
+        List<Song> songs = this.getAllSongs();
+
+        songs.forEach(imageLocalHandleService::saveCoverImageLocally);
+
+        return songs;
     }
 }
