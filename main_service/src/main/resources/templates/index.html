@@ -115,17 +115,12 @@
                            data-bs-toggle="dropdown" aria-expanded="false">
                             Service
                         </a>
-                        <ul class="dropdown-menu"
-                            aria-labelledby="navbarDropdownService">
-                            <li><a class="dropdown-item"
-                                   href="#">Cinema
-                            </a></li>
-                            <li><a class="dropdown-item"
-                                   href="#">Library
-                            </a></li>
-                            <li><a class="dropdown-item"
-                                   href="#">Music
-                            </a></li>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownService">
+                            <li th:each="app : ${applicationInfo}">
+                                <a class="dropdown-item"
+                                   th:href="${app.getValue()}" th:text="${app.getKey()}">
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>

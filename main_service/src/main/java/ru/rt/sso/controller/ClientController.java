@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.rt.sso.service.UserDetailsCollectorService;
+import ru.rt.sso.service.UserDetailsCollectorServiceImpl;
 
 import java.security.Principal;
 
@@ -17,15 +17,18 @@ import java.security.Principal;
 @RequestMapping
 public class ClientController {
 
-    private final UserDetailsCollectorService userDetailsCollectorService;
+    private final UserDetailsCollectorServiceImpl userDetailsCollectorServiceImpl;
 
-    public ClientController(UserDetailsCollectorService userDetailsCollectorService) {
-        this.userDetailsCollectorService = userDetailsCollectorService;
+    public ClientController(UserDetailsCollectorServiceImpl userDetailsCollectorServiceImpl) {
+        this.userDetailsCollectorServiceImpl = userDetailsCollectorServiceImpl;
     }
 
     @GetMapping("/")
     public String mainPage(Model model, Principal principal) {
         model.addAttribute("principal", principal);
+
+        model.addAttribute("applicationInfo", userDetailsCollectorServiceImpl.getApplicationInfo());
+
         return "index";
     }
 
@@ -33,7 +36,7 @@ public class ClientController {
     public String accountPage(Model model, Authentication authentication) {
         DefaultOidcUser principal = (DefaultOidcUser) authentication.getPrincipal();
         model.addAttribute("principal", principal);
-        model.addAttribute("userInfo", userDetailsCollectorService.getUserInfo(principal));
+        model.addAttribute("userInfo", userDetailsCollectorServiceImpl.getUserInfo(principal));
         return "account";
     }
 }
