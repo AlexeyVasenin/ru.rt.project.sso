@@ -25,7 +25,7 @@ stages:
 #  trigger:
 #    include: .sso-apps.gitlab-ci.yml
 #    strategy: depend
-#
+
 #resource-server:
 #  stage: bridge-resource
 #  inherit:
@@ -55,7 +55,7 @@ admin-service:
 #  trigger:
 #    include: .sso-apps.gitlab-ci.yml
 #    strategy: depend
-#
+
 #microservice-library:
 #  stage: bridge-library
 #  inherit:
@@ -65,7 +65,7 @@ admin-service:
 #  trigger:
 #    include: .sso-apps.gitlab-ci.yml
 #    strategy: depend
-#
+
 #microservice-music:
 #  stage: bridge-music
 #  inherit:
