@@ -12,9 +12,10 @@ import org.springframework.stereotype.Service;
 import ru.rt.sso.clients.KeycloakAdminClient;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
- * Сервис для работы из Администраторского клиента {@link KeycloakAdminClientService} <br>
+ * Сервис для работы из Администраторского клиента {@link IKeycloakAdminClientService} <br>
  * Получение базовой информации из системы SSO Keycloak <br>
  * Внесение изменений в систему. Например добавление нового пользователя, клиента(сервиса) и тд.
  *
@@ -90,7 +91,8 @@ public class KeycloakAdminClientServiceImpl implements KeycloakAdminClientServic
 
     @Override
     public List<ClientRepresentation> getAllClient() {
-        List<ClientRepresentation> allClient = getBuildKeycloak().clients().findAll();
+        List<ClientRepresentation> allClient = getBuildKeycloak().clients().findAll().stream()
+                .filter(r -> r.getName() == null).collect(Collectors.toList());
         return allClient;
     }
 
@@ -165,7 +167,7 @@ public class KeycloakAdminClientServiceImpl implements KeycloakAdminClientServic
         if (findUser(userName).isPresent()) {
             ClientRepresentation clientRepresentation = getBuildKeycloak().clients().findByClientId(clientId).get(0);
             List<RoleRepresentation> roles =
-                    getUserId(userName).roles().clientLevel(clientRepresentation.getId()).listAll();
+                    getUserId(userName).roles().clientLevel(clientRepresentation.getId()).listEffective();
 
             return roles;
 
