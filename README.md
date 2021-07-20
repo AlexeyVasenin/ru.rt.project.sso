@@ -25,8 +25,11 @@ _Есть несколько различных систем (с разными 
     - ***microservice-cinema*** - сервис-заглушка
     - ***microservice-library*** - сервис-заглушка
     - ***microservice-music*** - сервис-заглушка
+
 <p>
 
+- [gitlab-ci](.gitlab-ci.yml) - объемлющая конфигурация с переменными и pipeline цепочкой
+- [sso-apps.gitlab-ci](.sso-apps.gitlab-ci.yml) - конфигурация сборки
 - [docker-compose](docker-compose.yml) - развертывание сервисов
 - [docker-compose-keycloak](docker-compose-keycloak.yml) - развертывание keycloak & database
 - [readme](README.md) - current readme
@@ -91,13 +94,27 @@ _Есть несколько различных систем (с разными 
 
 **Развертывание и контейнеризация**: Docker, OpenShift
 
-## Установка и запуск
+## Развертывание
 
-- [Docker Launch](LAUNCH.md)
+Развертывание происходит на [OKD](https://console.apps.okd.stage.digital.rt.ru/topology/ns/java-school?view=graph)
 
-Организация Gitlab CI и развертывание на OpenShift доступны в ветке:
+Для модульного проекта подготовлен файл [***gitlab-ci***](.gitlab-ci.yml), включающий:
 
-- [Stage](https://git.digital.rt.ru/java_school/auth3/ru.project.sso/-/tree/stage)
+- Необходимые глобальные переменные
+- Цепочку bridge, позволяющая поочередно развертывать модули
+
+---
+* Глобальные переменные наследуются во включенные файлы (_include_) ***inherit.variables: true***
+* Для каждого модуля необходимо передать дополнительную переменную ***variables.APP_NAME: "module-name"***
+* ***Важно!*** порядок развертывания должен быть соблюден (_eureka->resource->services_)
+* Отключен локальный активный профиль ***spring.application.profiles.active: local***
+
+Основные конфигурационные настройки стадий build, docker_build, deploy, clean содержаться в 
+[***sso-apps.gitlab-ci***](.sso-apps.gitlab-ci.yml)
+
+Локальный запуск и контейнеризация с Docker доступны в ветке:
+
+- [master](https://git.digital.rt.ru/java_school/auth3/ru.project.sso/-/tree/master)
 
 ## Ресурсы проекта
 

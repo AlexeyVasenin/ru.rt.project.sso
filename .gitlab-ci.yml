@@ -8,44 +8,43 @@ variables:
   KUBERNETES_MEMORY_REQUEST: '1Gi'
   KUBERNETES_MEMORY_LIMIT: '1Gi'
 
-#Стадии
 stages:
-  #  - bridge-eureka
-  #- bridge-resource
-  #- bridge-admin
+  - bridge-eureka
+  - bridge-resource
+  - bridge-admin
   - bridge-cinema
   - bridge-library
   - bridge-music
 
-#eureka-server:
-#  stage: bridge-eureka
-#  inherit:
-#    variables: true
-#  variables:
-#    APP_NAME: "eureka-server"
-#  trigger:
-#    include: .sso-apps.gitlab-ci.yml
-#    strategy: depend
+eureka-server:
+  stage: bridge-eureka
+  inherit:
+    variables: true
+  variables:
+    APP_NAME: "eureka-server"
+  trigger:
+    include: .sso-apps.gitlab-ci.yml
+    strategy: depend
 
-#resource-server:
-#  stage: bridge-resource
-#  inherit:
-#    variables: true
-#  variables:
-#    APP_NAME: "resource-server"
-#  trigger:
-#    include: .sso-apps.gitlab-ci.yml
-#    strategy: depend
-#
-#admin-service:
-#  stage: bridge-admin
-#  inherit:
-#    variables: true
-#  variables:
-#    APP_NAME: "main_service"
-#  trigger:
-#    include: .sso-apps.gitlab-ci.yml
-#    strategy: depend
+resource-server:
+  stage: bridge-resource
+  inherit:
+    variables: true
+  variables:
+    APP_NAME: "resource-server"
+  trigger:
+    include: .sso-apps.gitlab-ci.yml
+    strategy: depend
+
+admin-service:
+  stage: bridge-admin
+  inherit:
+    variables: true
+  variables:
+    APP_NAME: "main_service"
+  trigger:
+    include: .sso-apps.gitlab-ci.yml
+    strategy: depend
 
 microservice-cinema:
   stage: bridge-cinema

@@ -25,8 +25,8 @@ keycloak-client:
 spring:
   application:
     name: microservice-library
-  profiles:
-    active: local
+  #profiles:
+  #  active: local
   security:
     oauth2:
       client:

@@ -30,8 +30,8 @@ keycloak-client:
 spring:
   application:
     name: main_service
-  profiles:
-    active: local
+  #profiles:
+  #  active: local
   security:
     oauth2:
       client:

@@ -4,8 +4,8 @@ server:
 spring:
   application:
     name: eureka-server
-  profiles:
-    active: local
+  #profiles:
+  #  active: local
 
 eureka:
   instance:
