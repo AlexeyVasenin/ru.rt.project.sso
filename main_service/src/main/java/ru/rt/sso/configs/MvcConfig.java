@@ -6,6 +6,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Класс конфигурации для загрузки статических ресурсов на сервер.
+ * @author Алексей Байдин
  */
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {

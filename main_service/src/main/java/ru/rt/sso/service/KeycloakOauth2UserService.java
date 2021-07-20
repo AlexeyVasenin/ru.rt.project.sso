@@ -25,6 +25,8 @@ import java.util.stream.Collectors;
 
 /**
  * Расширение {@link OidcUserInfo} службы для пользовательских атрибутов Конечного пользователя из Конечной точки UserInfo.
+ *
+ * @author Алексей Васенин
  */
 @RequiredArgsConstructor
 public class KeycloakOauth2UserService extends OidcUserService {

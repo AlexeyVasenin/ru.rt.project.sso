@@ -2,21 +2,6 @@ version: '3.8'
 
 services:
 
-  #main-service:
-  #  container_name: main-service
-  #  build:
-  #    context: main_service
-  #    dockerfile: Dockerfile
-  #  ports:
-  #    - ${MAIN_SERVICE_PORT}:${MAIN_SERVICE_PORT}
-  #  environment:
-  #    - eureka.client.serviceUrl.defaultZone=http://eureka-server:${EUREKA_SERVER_PORT}/eureka
-  #  depends_on:
-  #    - eureka-server
-  #    - db
-  #  networks:
-  #    - sso-net
-
   db:
     image: 'postgres:latest'
     container_name: db

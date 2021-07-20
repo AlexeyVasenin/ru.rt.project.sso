@@ -5,15 +5,19 @@ import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.rt.sso.service.KeycloakAdminClientService;
 
 import java.util.List;
 
-// todo описание
+/**
+ * Web controller для работы с системой Keycloak <br>
+ * Внесение изменений и получение данных из системы от имени администратора
+ *
+ * @author Алексей Васенин
+ */
 @RestController
-@RequestMapping(path = "/keycloak")
+@RequestMapping(path = "/keycloak", produces = MediaType.APPLICATION_JSON_VALUE)
 public class KeycloakController {
 
     private final KeycloakAdminClientService keycloakAdminClientService;
@@ -24,33 +28,22 @@ public class KeycloakController {
 
     @ApiOperation(value = "Создание нового пользователя")
     @PostMapping(path = "/user")
-    @PreAuthorize("hasRole('ROLE_REALM-ADMIN')")
     @ResponseBody
-    public UserRepresentation createUser(@RequestParam(value = "userName") String userName,
+    public Object createUser(@RequestParam(value = "userName") String userName,
                                          @RequestParam(value = "pass") String pass) {
         return keycloakAdminClientService.addUser(userName, pass);
     }
 
-    @PutMapping(path = "/u/user")
-    @ResponseBody
-    public void updateUser(@RequestParam String name,
-                           @RequestParam String description) {
-        keycloakAdminClientService.updateUser(name, description);
-    }
-
-    @ApiOperation(value = "Удаление пользователя по username")
+    @ApiOperation(value = "Удаление пользователя по логину")
     @PostMapping(path = "/user/del")
-    @PreAuthorize("hasRole('ROLE_REALM-ADMIN')")
     @ResponseBody
     public String deleteUser(@RequestParam(value = "userName") String userName) {
-        keycloakAdminClientService.deleteUser(userName);
-        // todo при удалении несуществующего пользователя также выводится сообщение об удалении
-        return "пользователь с именем " + userName + " удален";
+       return keycloakAdminClientService.deleteUser(userName);
+
     }
 
     @ApiOperation(value = "Получить список всех пользователей")
     @GetMapping(path = "/users")
-    @PreAuthorize("hasRole('ROLE_REALM-ADMIN')")
     @ResponseBody
     public List<UserRepresentation> getAllUsers() {
         return keycloakAdminClientService.getUsers();
@@ -67,13 +60,14 @@ public class KeycloakController {
     @GetMapping(path = "/client/roles")
     @ResponseBody
     public List<RoleRepresentation> getRoles(@RequestParam(value = "clientId") String clientId) {
+
         return keycloakAdminClientService.getTheClientRoles(clientId);
     }
 
     @ApiOperation(value = "Получение ролей пользователя в Клиенте")
     @GetMapping(path = "/user/roles")
     @ResponseBody
-    public List<RoleRepresentation> getRolesByUserName(@RequestParam(value = "userName") String userName,
+    public Object getRolesByUserName(@RequestParam(value = "userName") String userName,
                                                        @RequestParam(value = "clientId") String clientId) {
         return keycloakAdminClientService.getRolesByUsername(userName, clientId);
     }
@@ -81,9 +75,9 @@ public class KeycloakController {
     @ApiOperation(value = "Создание нового клиента в реалме")
     @PostMapping(path = "/client")
     @ResponseBody
-    public String createClient(@RequestParam(value = "clientId") String clientId) {
-        keycloakAdminClientService.createClient(clientId);
-        return "Создан клиент " + clientId;
+    public Object createClient(@RequestParam(value = "clientId") String clientId) {
+
+        return keycloakAdminClientService.createClient(clientId);
     }
 
     @ApiOperation(value = "Создание роли в Клиенте")
@@ -101,8 +95,8 @@ public class KeycloakController {
     public String assingAClientRoleToTheUser(@RequestParam(value = "userName") String userName,
                                              @RequestParam(value = "clientId") String clientId,
                                              @RequestParam(value = "role") String role) {
-        keycloakAdminClientService.assingAClientRoleToTheUser(userName, clientId, role);
-        return "Роль " + role + " назначена пользователю " + userName;
+       return keycloakAdminClientService.assingAClientRoleToTheUser(userName, clientId, role);
+
     }
 
     @ApiOperation(value = "Отключить роли клиента пользователю")
@@ -111,7 +105,7 @@ public class KeycloakController {
     public String deleteAClientRoleToTheUser(@RequestParam(value = "userName") String userName,
                                              @RequestParam(value = "clientId") String clientId,
                                              @RequestParam(value = "role") String role) {
-        keycloakAdminClientService.deleteAClientRoleToTheUser(userName, clientId, role);
-        return "Роль " + role + " отключена пользователю " + userName;
+       return keycloakAdminClientService.deleteAClientRoleToTheUser(userName, clientId, role);
+
     }
 }

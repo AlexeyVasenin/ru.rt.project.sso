@@ -1,10 +1,13 @@
 server:
+  port: 8085
   error:
     whitelabel:
       enabled: false
-  port: 8085
   servlet:
     context-path: /admin
+
+application:
+  url: ${APP_URL}
 
 eureka:
   instance:
@@ -13,7 +16,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}/eureka/
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
 
 keycloak-client:
   server-url: http://keycloak-java-school.apps.okd.stage.digital.rt.ru/auth
@@ -47,6 +50,3 @@ spring:
             user-info-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/userinfo
             jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
             user-name-attribute: preferred_username
-
-
-
