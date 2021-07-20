@@ -17,8 +17,8 @@ import java.util.List;
 @Component
 public class RestRequestHandlerImpl implements RestRequestHandler {
 
-//    private final String eurekaURL = "http://eureka-server-java-school.apps.okd.stage.digital.rt.ru/api/services";
-    private final String eurekaURL = "http://localhost:8761/api/services";
+    private final String eurekaURL = "http://eureka-server-java-school.apps.okd.stage.digital.rt.ru/api/services";
+//    private final String eurekaURL = "http://localhost:8761/api/services";
 
     private final WebClient webClient;
 

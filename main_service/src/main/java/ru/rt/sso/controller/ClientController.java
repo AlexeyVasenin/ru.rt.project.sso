@@ -12,6 +12,10 @@ import java.security.Principal;
 
 /**
  * Web Controller для работы с конечными точками сервиса Admin client
+ *
+ * @author Алексей Байдин
+ * @author Вячеслав Третьяков
+ * @author Алексей Васенин
  * */
 @Controller
 @RequestMapping

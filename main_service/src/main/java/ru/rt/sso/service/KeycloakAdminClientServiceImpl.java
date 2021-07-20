@@ -14,7 +14,7 @@ import ru.rt.sso.clients.KeycloakAdminClient;
 import java.util.*;
 
 /**
- * Сервис для работы из Администраторского клиента <br>
+ * Сервис для работы из Администраторского клиента {@link IKeycloakAdminClientService} <br>
  * Получение базовой информации из системы SSO Keycloak <br>
  * Внесение изменений в систему. Например добавление нового пользователя, клиента(сервиса) и тд.
  *
@@ -22,21 +22,15 @@ import java.util.*;
  */
 
 @Service
-public class KeycloakAdminClientService {
+public class KeycloakAdminClientServiceImpl implements IKeycloakAdminClientService {
 
     private final KeycloakAdminClient keycloakAdminClient;
 
-    public KeycloakAdminClientService(KeycloakAdminClient keycloakAdminClient) {
+    public KeycloakAdminClientServiceImpl(KeycloakAdminClient keycloakAdminClient) {
         this.keycloakAdminClient = keycloakAdminClient;
     }
 
-    /**
-     * Создание нового пользователя в системе. Принимает два параметра
-     *
-     * @param userName логин пользователя
-     * @param pass     пароль
-     * @return объект в виде нового пользователя со всеми параметрами системы Keycloak
-     */
+    @Override
     public Object addUser(String userName, String pass) {
 
         if (!findUser(userName).isPresent()) {
@@ -55,9 +49,7 @@ public class KeycloakAdminClientService {
         return "Пользователь с логином " + userName + " уже существует";
     }
 
-    /**
-     * Обновление данных пользователя
-     */
+    @Override
     public String updateUser(String userName, String description) {
 
         if (findUser(userName).isPresent()) {
@@ -76,11 +68,7 @@ public class KeycloakAdminClientService {
         }
     }
 
-    /**
-     * Удаление пользователя из системы
-     *
-     * @param userName логин пользователя
-     */
+    @Override
     public String deleteUser(String userName) {
 
         if (findUser(userName).isPresent()) {
@@ -94,31 +82,19 @@ public class KeycloakAdminClientService {
         } else return "Пользователя с таким именем не существует";
     }
 
-    /**
-     * Получение всех пользователей в системе
-     *
-     * @return Список всех пользователей из система
-     */
+    @Override
     public List<UserRepresentation> getUsers() {
         List<UserRepresentation> allUsers = getBuildKeycloak().users().list();
         return allUsers;
     }
 
-    /**
-     * Получение всех клиентов(сервисов)
-     *
-     * @return Список клиентов(сервисов) в системе
-     */
+    @Override
     public List<ClientRepresentation> getAllClient() {
         List<ClientRepresentation> allClient = getBuildKeycloak().clients().findAll();
         return allClient;
     }
 
-    /**
-     * Создание нового клиента(сервиса) в системе
-     *
-     * @param clientId название клиента(сервиса)
-     */
+    @Override
     public Object createClient(String clientId) {
         Optional<ClientRepresentation> clietns = getBuildKeycloak().clients().findByClientId(clientId).stream().
                 filter(c -> c.getClientId().equals(clientId)).findFirst();
@@ -139,25 +115,14 @@ public class KeycloakAdminClientService {
         } else return "Client c именем " + clientId + " уже существует";
     }
 
-    /**
-     * Создание Роли в клиенте(сервисе)
-     *
-     * @param roleName название роли
-     * @param clientId Id клиента(сервиса)
-     */
+    @Override
     public void createRoleInClient(String roleName, String clientId) {
         RoleRepresentation clientRole = new RoleRepresentation();
         clientRole.setName(roleName);
         getBuildKeycloak().clients().get(clientId).roles().create(clientRole);
     }
 
-    /**
-     * Назначить роль клиента -> юзеру
-     *
-     * @param userName логин пользователя
-     * @param clientId Id клиента(сервиса). Пример: (cda63aba-3337-49de-b2b9-e7e04756df29)
-     * @param role     название роли
-     */
+    @Override
     public String assingAClientRoleToTheUser(String userName, String clientId, String role) {
 
         if (findUser(userName).isPresent()) {
@@ -172,13 +137,7 @@ public class KeycloakAdminClientService {
         } else return "Пользователь не существует";
     }
 
-    /**
-     * Отключить роли сервиса у пользователя
-     *
-     * @param userName логин пользователя
-     * @param clientId Id клиента(сервиса) Пример: (cda63aba-3337-49de-b2b9-e7e04756df29)
-     * @param role     название роли
-     */
+    @Override
     public String deleteAClientRoleToTheUser(String userName, String clientId, String role) {
 
         if (findUser(userName).isPresent()) {
@@ -193,26 +152,14 @@ public class KeycloakAdminClientService {
         } else return "Пользователя " + userName + " не существует";
     }
 
-    /**
-     * Получение ролей Клиента(Сервиса)
-     *
-     * @param clientId имя клиента(сервиса)
-     * @return Список ролей в клиенте(сервисе)
-     */
+    @Override
     public List<RoleRepresentation> getTheClientRoles(String clientId) {
         ClientRepresentation clientRepresentation = getBuildKeycloak().clients().findByClientId(clientId).get(0);
         List<RoleRepresentation> roles = getBuildKeycloak().clients().get(clientRepresentation.getId()).roles().list();
         return roles;
     }
 
-    /**
-     * Получение списка ролей пользователя в определенном клиенте
-     *
-     * @param userName логин пользователя
-     * @param clientId имя клиента(сервиса)
-     * @return Список ролей пользователя в сервисе
-     * @see RoleRepresentation
-     */
+    @Override
     public Object getRolesByUsername(String userName, String clientId) {
 
         if (findUser(userName).isPresent()) {
