@@ -52,6 +52,7 @@ _Есть несколько различных систем (с разными 
                     - error - страницы ошибок
                 - application.yml - properties file
                 - application-local.yml - properties для локального профиля
+                - application-okd.yml - properties для OKD профиля
     - Dockerfile
 - ****resource-server***
     - sources:

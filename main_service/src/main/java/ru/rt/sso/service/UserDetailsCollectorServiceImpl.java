@@ -16,7 +16,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Сервис для сбора информации о пользователе с principal claims
+ * Сервис для сбора информации, реализующий {@link UserDetailsCollectorService}
+ * <p>
+ *
+ * @author Vyacheslav Tretyakov
  */
 @Service
 public class UserDetailsCollectorServiceImpl implements UserDetailsCollectorService {

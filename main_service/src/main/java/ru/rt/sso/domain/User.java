@@ -4,13 +4,14 @@ package ru.rt.sso.domain;
 import lombok.Data;
 
 import java.util.List;
+
 /**
  * Класс для создания и изменения пользователя через Admin client<br>
  * Пока не используется
  * @author Алексей Васенин
  * */
-
 @Data
+@Deprecated
 public class User {
 
     private String userId;

@@ -1,4 +1,3 @@
-# Слава, проверь все!
 eureka:
   instance:
     hostname: eureka-server-java-school.apps.okd.stage.digital.rt.ru

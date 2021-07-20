@@ -20,7 +20,6 @@ import java.util.*;
  *
  * @author Алексей Васенин
  */
-
 @Service
 public class KeycloakAdminClientServiceImpl implements KeycloakAdminClientService {
 
