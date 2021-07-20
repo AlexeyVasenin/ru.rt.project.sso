@@ -16,23 +16,50 @@ _Есть несколько различных систем (с разными 
 
 ## Структура проекта
 
-- main_service - модуль основного сервиса
+**Объемлющий проект**:
+
+- ***Модули***:
+    - ***eureka-server*** - service discovery для микросервисов (клиентов)
+    - ***resource-server*** - защищает ресурсы (стат., дин.) с помощью токенов OAuth
+    - ***main_service*** - сервис администрирования
+    - ***microservice-cinema*** - сервис-заглушка
+    - ***microservice-library*** - сервис-заглушка
+    - ***microservice-music*** - сервис-заглушка
+<p>
+
+- [docker-compose](docker-compose.yml) - развертывание сервисов
+- [docker-compose-keycloak](docker-compose-keycloak.yml) - развертывание keycloak & database
+- [readme](README.md) - current readme
+- [launch](LAUNCH.md) - инструкция развертки с использованием Docker
+
+Структура проектов по gradle:
+
+- **microservice**
     - src
         - main
             - java
-                - ru.rt.sso - sources
-            - resources
-                - liquibase db changelog
-                - application.properties
-        - tests - тесты
-- plug_service - модуль сервисов-заглушек
-    - src
-        - main
-            - java
-                - ru.rt.cinema - sources
-            - resources
-                - templates
-                - application.properties
+                - ru.rt.microservice:
+                    - configs
+                    - controllers
+                    - domain
+                    - handles
+                    - services
+            - resources:
+                - static:
+                    - css - pages style
+                    - js - scripts
+                - templates:
+                    - error - страницы ошибок
+                - application.yml - properties file
+                - application-local.yml - properties для локального профиля
+    - Dockerfile
+- ****resource-server***
+    - sources:
+        - +repos - JPA репозитории
+        - +utils - утилиты
+    - resources:
+        - +db.changelog- логи БД
+        - +static.images - статические картинки (перенесены в БД)
 
 ## Технологии
 
@@ -46,13 +73,30 @@ _Есть несколько различных систем (с разными 
 
 **Система управления идентификацией и доступом (Сервер Авторизации)**: Keycloack
 
+**Фреймворки**:
+
+- Spring
+    - Boot
+        - OAuth2 client / server
+        - JPA
+    - Cloud
+        - Netflix Eureka client / server
+    - Security
+- Swagger
+
 **Инструменты разработки**: Lombok
 
-## Установка
+**Web шаблонизатор**: Thymeleaf
 
-```
-Coming soon...
-```
+**Развертывание и контейнеризация**: Docker, OpenShift
+
+## Установка и запуск
+
+- [Docker Launch](LAUNCH.md)
+
+Организация Gitlab CI и развертывание на OpenShift доступны в ветке:
+
+- [Stage](https://git.digital.rt.ru/java_school/auth3/ru.project.sso/-/tree/stage)
 
 ## Ресурсы проекта
 
