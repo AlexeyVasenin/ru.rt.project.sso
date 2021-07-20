@@ -8,6 +8,7 @@ variables:
   KUBERNETES_MEMORY_REQUEST: '1Gi'
   KUBERNETES_MEMORY_LIMIT: '1Gi'
 
+#Stages bridge
 stages:
 #  - bridge-eureka
 #  - bridge-resource
