@@ -1,4 +1,3 @@
-# Слава, проверь все!
 application:
   url: http://microservice-library-java-school.apps.okd.stage.digital.rt.ru/library
 

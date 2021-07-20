@@ -1,4 +1,3 @@
-# Слава, проверь все!
 application:
   url: http://microservice-music-java-school.apps.okd.stage.digital.rt.ru/music
 

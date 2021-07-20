@@ -10,7 +10,13 @@ import ru.rt.sso.service.UserDetailsCollectorService;
 
 import java.security.Principal;
 
-// todo описание
+/**
+ * Web Controller для работы с конечными точками сервиса Admin client
+ *
+ * @author Алексей Байдин
+ * @author Вячеслав Третьяков
+ * @author Алексей Васенин
+ * */
 @Controller
 @RequestMapping
 public class ClientController {
@@ -24,6 +30,9 @@ public class ClientController {
     @GetMapping("/")
     public String mainPage(Model model, Principal principal) {
         model.addAttribute("principal", principal);
+
+        model.addAttribute("applicationInfo", userDetailsCollectorService.getApplicationInfo());
+
         return "index";
     }
 

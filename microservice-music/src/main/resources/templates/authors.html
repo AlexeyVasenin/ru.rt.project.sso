@@ -26,7 +26,7 @@
 
 <div th:insert="~{index :: navbar}"></div>
 
-<main>
+<main class="container">
     <div class="p-2 mb-4 bg-light rounded-3">
         <div class="container-fluid py-5">
             <div th:if="${hasAuthorRole}">
@@ -41,71 +41,79 @@
             </div>
         </div>
     </div>
-    <div class="container p-4" th:if="${hasAuthorRole}">
-        <!-- TODO что с версткой? страница выглядит плохо -->
-        <p></p>
-        <div class="p-4 text-center">
-            <h2 class="py-5">Загрузка музыкальных треков</h2>
+
+    <div class="p-5 mb-4 bg-light rounded-3" th:if="${hasAuthorRole}">
+        <div class="row">
+            <h1 class="fw-bold service-h1">Загрузка музыкальных треков</h1>
         </div>
-        <div class="alert alert-danger" role="alert">
+
+        <div class="row">
+            <h4 class="service-h1">Информация о треке</h4>
         </div>
-        <h4>Информация о треке</h4>
+
         <form class="requires-validation" action="/uploading" method="POST" enctype="multipart/form-data"
               name="fileForm" novalidate>
-            <div class="col-md-5">
-                <label for="usernameInput">Автор</label>
-                <input class="form-control" type="text" th:placeholder="${userName}"
-                       aria-label="inputName" id="usernameInput" disabled readonly>
-            </div>
-            <p></p>
-            <div class="col-md-5">
-                <label for="trackInput">Название трека</label>
-                <input type="text" class="form-control" id="trackInput" name="modelName" required>
-                <div class="invalid-feedback">
-                    Заполните поле
+            <div class="px-5 justify-content-center">
+                <div class="row">
+                    <label for="usernameInput" class="form-label">
+                        Автор
+                    </label>
+                    <input class="form-control" type="text" th:placeholder="${userName}"
+                           aria-label="inputName" id="usernameInput" disabled readonly>
                 </div>
-            </div>
-            <p></p>
-            <div class="col-md-6">
-                <label for="descriptionInput" class="form-label">
-                    Описание
-                </label>
-                <textarea class="form-control" id="descriptionInput" rows="3" name="modelDescription"
-                          required></textarea>
-                <div class="invalid-feedback">
-                    Заполните поле
-                </div>
-            </div>
-            <p></p>
 
-            <div class="col-md-6">
-                <label for="formFileImg" class="form-label">
-                    Обложка трека
-                </label>
-                <input class="form-control" type="file" id="formFileImg" accept=".jpg,.png" name="modelImages" multiple
-                       required>
-                <div class="invalid-feedback">
-                    Трек
+                <div class="row mt-3">
+                    <label for="trackInput" class="form-label">
+                        Название трека
+                    </label>
+                    <input type="text" class="form-control" id="trackInput" name="modelName" required>
+                    <div class="invalid-feedback">
+                        Заполните поле
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <label for="descriptionInput" class="form-label">
+                        Описание
+                    </label>
+                    <textarea class="form-control" id="descriptionInput" rows="3" name="modelDescription"
+                              required></textarea>
+                    <div class="invalid-feedback">
+                        Заполните поле
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <label for="formFileImg" class="form-label">
+                        Обложка трека
+                    </label>
+                    <input class="form-control" type="file" id="formFileImg" accept=".jpg,.png" name="modelImages" multiple
+                           required>
+                    <div class="invalid-feedback">
+                        Трек
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <label for="formFileModel" class="form-label">
+                        Файл трека (максимум - 10 мегабайт)
+                    </label>
+                    <input class="form-control" type="file" id="formFileModel" accept=".obj" name="modelFile" required>
+                    <div class="invalid-feedback">
+                        Проверьте расширение файла
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center mt-4">
+                    <button type="submit" class="btn btn-primary" id="uploadButton" disabled>
+                        Загрузить
+                    </button>
                 </div>
             </div>
-            <p></p>
-            <div class="col-md-6">
-                <label for="formFileModel" class="form-label">
-                    Файл трека (максимум - 10 мегабайт)
-                </label>
-                <input class="form-control" type="file" id="formFileModel" accept=".obj" name="modelFile" required>
-                <div class="invalid-feedback">
-                    Проверьте расширение файла
-                </div>
-            </div>
-            <p></p>
-            <button type="submit" class="btn btn-primary" id="uploadButton" disabled>
-                Загрузить
-            </button>
         </form>
-
-        <div th:insert="~{index :: footer}"></div>
     </div>
+
+    <div th:insert="~{index :: footer}"></div>
 </main>
 
 <script th:src="@{/static/js/upload.js}"></script>
