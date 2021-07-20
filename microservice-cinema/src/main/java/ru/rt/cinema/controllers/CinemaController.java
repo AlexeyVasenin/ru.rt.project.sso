@@ -1,9 +1,7 @@
 package ru.rt.cinema.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,19 +17,29 @@ import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.Collections;
 
+/**
+ * Web Controller для работы с конечными точками сервиса Cinema.
+ * <p>
+ *
+ * @author Alexey Baidin
+ * @author Vyacheslav Tretyakov
+ */
 @Controller
 @RequestMapping
 public class CinemaController {
 
-    @Autowired
-    private UserDetailsCollectorService userDetailsCollectorService;
+    private final UserDetailsCollectorService userDetailsCollectorService;
+
+    private final RestRequestHandler restRequestHandler;
 
     @Autowired
-    private RestRequestHandler restRequestHandler;
+    public CinemaController(UserDetailsCollectorService userDetailsCollectorService, RestRequestHandler restRequestHandler) {
+        this.userDetailsCollectorService = userDetailsCollectorService;
+        this.restRequestHandler = restRequestHandler;
+    }
 
     @GetMapping("/")
     public String mainPage(Model model, Principal principal) {
-        /*Отобразится если principal, положенный в модель не пуст th:if="${principal}"*/
         model.addAttribute("principal", principal);
         model.addAttribute("movies", restRequestHandler.requestToGetAllMovies());
 
@@ -43,7 +51,25 @@ public class CinemaController {
         DefaultOidcUser principal = (DefaultOidcUser) authentication.getPrincipal();
         model.addAttribute("principal", principal);
         model.addAttribute("userInfo", userDetailsCollectorService.getUserInfo(principal));
+
         return "account";
+    }
+
+    @GetMapping("/subscribe")
+    public String subscribePage(Model model, Authentication authentication) {
+        DefaultOidcUser principal = (DefaultOidcUser) authentication.getPrincipal();
+        model.addAttribute("principal", principal);
+
+        boolean hasSubscriberRole = userDetailsCollectorService.isHasSubscriberRole(model, principal);
+        model.addAttribute("hasSubscriberRole", hasSubscriberRole);
+        model.addAttribute("movies", restRequestHandler.requestToGetAllMovies());
+
+        return "subscribe";
+    }
+
+    @GetMapping("/admin")
+    public ModelAndView accountPage(Principal principal) {
+        return new ModelAndView("admin", Collections.singletonMap("principal", principal));
     }
 
     @GetMapping("/back-channel-logout")
@@ -52,37 +78,8 @@ public class CinemaController {
         request.setAttribute("issuer", issuer);
         request.setAttribute("token", token);
         request.logout();
+
+        // WARN: redirect по внешнему запросу не срабатывает!
         return "redirect:/model";
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/admin")
-    public ModelAndView accountPage(Principal principal) {
-        return new ModelAndView("admin", Collections.singletonMap("principal", principal));
-    }
-
-    @PreAuthorize("hasRole('ROLE_SUBSCRIBER')")
-    @GetMapping("/subscribe")
-    public String subscribePage(Model model, Authentication authentication) {
-        DefaultOidcUser principal = (DefaultOidcUser) authentication.getPrincipal();
-        model.addAttribute("principal", principal);
-
-        boolean hasSubscriberRole = principal.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .anyMatch(authority -> authority.contains("ROLE_SUBSCRIBER"));
-
-        if (hasSubscriberRole) {
-            model.addAttribute("subscriptionEnd", principal.getUserInfo().getClaim("sub_end"));
-        }
-
-        model.addAttribute("hasSubscriberRole", hasSubscriberRole);
-        model.addAttribute("movies", restRequestHandler.requestToGetAllMovies());
-
-        return "subscribe";
-    }
-
-    @GetMapping("/about")
-    public ModelAndView aboutPage(Principal principal) {
-        return new ModelAndView("subscribe", Collections.singletonMap("principal", principal));
     }
 }

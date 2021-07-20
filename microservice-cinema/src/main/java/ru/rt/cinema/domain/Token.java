@@ -2,7 +2,14 @@ package ru.rt.cinema.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * DTO объект токена для запроса к Keycloak Admin REST API.
+ * <p>
+ *
+ * @author Alexey Baidin
+ */
 public class Token {
+
     @JsonProperty("access_token")
     public String accessToken;
 

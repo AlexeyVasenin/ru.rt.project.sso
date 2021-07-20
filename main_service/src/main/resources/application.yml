@@ -27,6 +27,8 @@ keycloak-client:
 spring:
   application:
     name: main_service
+  profiles:
+    active: local
   security:
     oauth2:
       client:
@@ -46,7 +48,5 @@ spring:
             jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
             user-name-attribute: preferred_username
 
-resource-server:
-  api:
-    url: http://${RESOURCE_HOST}/resource-server/api/admin
+
 

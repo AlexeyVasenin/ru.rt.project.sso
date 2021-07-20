@@ -29,7 +29,6 @@ dependencies {
     implementation 'org.keycloak:keycloak-admin-client:13.0.1'
     // oauth2:
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-    /*implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'*/
     // spring cloud:
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     // web:

@@ -5,18 +5,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.rt.resource.domain.Movie;
-import ru.rt.resource.services.MovieService;
+import ru.rt.resource.services.IMovieService;
+import ru.rt.resource.services.MovieServiceImpl;
 
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Rest Controller для обработки запросов от микросервиса с фильмами.
+ * <p>
+ *
+ * @author Alexey Baidin
+ */
 @RestController
 @RequestMapping(value = "/api/cinema")
 public class CinemaController {
-    private final MovieService movieService;
+    private final IMovieService movieService;
 
     @Autowired
-    public CinemaController(MovieService movieService) {
+    public CinemaController(IMovieService movieService) {
         this.movieService = movieService;
     }
 

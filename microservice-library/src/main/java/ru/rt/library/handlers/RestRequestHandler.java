@@ -1,42 +1,40 @@
 package ru.rt.library.handlers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
 import ru.rt.library.domain.Book;
 
 import java.util.List;
 
-@Component
-public class RestRequestHandler {
-    @Value("${resource-server.api.url}")
-    private String libraryApiUrl;
+/**
+ * Интерфейс, предоставляющий методы обработки запросов к ресурс-серверу.
+ * <p>
+ *
+ * @author Alexey Baidin
+ */
+public interface RestRequestHandler {
 
-    @Autowired
-    private WebClient webClient;
+    /**
+     * Запрос к серверу ресурсов на получение всех книг.
+     * <p>
+     *
+     * @return список POJO-объектов Book
+     */
+    List<Book> requestToGetAllBooks();
 
-    public List<Book> requestToGetAllBooks() {
-        List<Book> books = this.webClient.get()
-                .uri(libraryApiUrl)
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<Book>>() {
-                })
-                .block();
-        // для локального сохранения изображений
-//        if (books != null) {
-//            books.forEach(Book::saveCoverImageLocally);
-//        }
+    /**
+     * Запрос к серверу ресурсов на получение всех книг и сохранение изображений обложек книг локально.
+     * <p>
+     *
+     * @return список POJO-объектов Book
+     */
+    @Deprecated
+    List<Book> requestToGetAllBooksAndSaveLocally();
 
-        return books;
-    }
-
-    public Book requestToGetBookById(Integer id) {
-        return this.webClient.get()
-                .uri(libraryApiUrl + "/" + id)
-                .retrieve()
-                .bodyToMono(Book.class)
-                .block();
-    }
+    /**
+     * Запрос к серверу ресурсов на получение книги по заданному id.
+     * <p>
+     *
+     * @param id уникальный идентификатор сущности Book
+     * @return POJO-объект Book с заданным id or null
+     */
+    Book requestToGetBookById(Integer id);
 }

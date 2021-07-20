@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Rest-контроллер для получении информации о зарегистрированных микросервисах в SS0-системе.
+ */
 @RestController
 @RequestMapping("api/services")
 public class ServiceController {

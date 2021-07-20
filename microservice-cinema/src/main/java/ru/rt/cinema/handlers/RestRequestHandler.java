@@ -1,43 +1,40 @@
 package ru.rt.cinema.handlers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
 import ru.rt.cinema.domain.Movie;
 
 import java.util.List;
 
-@Component
-public class RestRequestHandler {
-    @Value("${resource-server.api.url}")
-    private String cinemaApiUrl;
+/**
+ * Интерфейс, предоставляющий методы обработки запросов к ресурс-серверу.
+ * <p>
+ *
+ * @author Alexey Baidin
+ */
+public interface RestRequestHandler {
 
-    @Autowired
-    private WebClient webClient;
+    /**
+     * Запрос к серверу ресурсов на получение всех фильмов.
+     * <p>
+     *
+     * @return список POJO-объектов Movie
+     */
+    List<Movie> requestToGetAllMovies();
 
-    public List<Movie> requestToGetAllMovies() {
-        List<Movie> movies = this.webClient.get()
-                .uri(cinemaApiUrl)
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<Movie>>() {
-                })
-                .block();
+    /**
+     * Запрос к серверу ресурсов на получение всех фильмов и сохранение изображений постеров локально.
+     * <p>
+     *
+     * @return список POJO-объектов Movie
+     */
+    @Deprecated
+    List<Movie> requestToGetAllMoviesAndSaveLocally();
 
-        // для локального сохранения изображений
-//        if (movies != null) {
-//            movies.forEach(Movie::savePosterImageLocally);
-//        }
-
-        return movies;
-    }
-
-    public Movie requestToGetMovieById(Integer id) {
-        return this.webClient.get()
-                .uri(cinemaApiUrl + "/" + id)
-                .retrieve()
-                .bodyToMono(Movie.class)
-                .block();
-    }
+    /**
+     * Запрос к серверу ресурсов на получение фильма по заданному id.
+     * <p>
+     *
+     * @param id уникальный идентификатор сущности Movie
+     * @return POJO-объект Movie с заданным id or null
+     */
+    Movie requestToGetMovieById(Integer id);
 }

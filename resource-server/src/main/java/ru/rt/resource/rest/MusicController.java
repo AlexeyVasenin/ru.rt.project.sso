@@ -5,18 +5,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.rt.resource.domain.Song;
-import ru.rt.resource.services.SongService;
+import ru.rt.resource.services.ISongService;
+import ru.rt.resource.services.SongServiceImpl;
 
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Rest Controller для обработки запросов от микросервиса с музыкой.
+ * <p>
+ *
+ * @author Alexey Baidin
+ */
 @RestController
 @RequestMapping(value = "/api/music")
 public class MusicController {
-    private final SongService songService;
+    private final ISongService songService;
 
     @Autowired
-    public MusicController(SongService songService) {
+    public MusicController(ISongService songService) {
         this.songService = songService;
     }
 

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,6 +19,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Класс конфигурации для настройки {@link WebSecurity} и {@link HttpSecurity}.
+ * <p>
+ *
+ * @author Alexey Baidin
+ */
 @Configuration
 public class ResourceServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -25,15 +32,18 @@ public class ResourceServerSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .anyRequest()
-                /*Сейчас эта штука ничего не дает взять с ресурсов, то бишь блочит 401 на все api/** */
-                    //.authenticated()
-                    .permitAll()
-                    .and()
-                .oauth2ResourceServer()
-                    .jwt().jwtAuthenticationConverter(jwtAuthenticationConverter());
+                .anyRequest()
+                .permitAll()
+                .and()
+                .oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter());
     }
 
+    /**
+     * Бин, создающий объект {@link JwtAuthenticationConverter}, который позволяет распарсить полученный от микросервиса
+     * jwt-токен для проведения аутентификации
+     *
+     * @return бин конвертера jwt
+     */
     @Bean
     public Converter<Jwt, AbstractAuthenticationToken> jwtAuthenticationConverter() {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
@@ -41,6 +51,13 @@ public class ResourceServerSecurityConfig extends WebSecurityConfigurerAdapter {
         return jwtAuthenticationConverter;
     }
 
+    /**
+     * Бин, создающий объект {@link JwtGrantedAuthoritiesConverter}, который позволяет проверить валидность jwt (у токена
+     * есть claim "realm_access", в котором есть не пустой список ролей), а также определить список присвоенных
+     * principal-у полномочий при аутентификации
+     *
+     * @return бин конвертера присвоенных полномочий (прав) из jwt
+     */
     @Bean
     public Converter<Jwt, Collection<GrantedAuthority>> jwtGrantedAuthoritiesConverter() {
         JwtGrantedAuthoritiesConverter delegate = new JwtGrantedAuthoritiesConverter();

@@ -1,10 +1,13 @@
 server:
   port: 8081
+  error:
+    whitelabel:
+      enabled: false
   servlet:
     context-path: /cinema
 
 application:
-  url: http://${APP_HOST}${server.servlet.context-path}
+  url: ${APP_URL}
 
 eureka:
   instance:
@@ -22,6 +25,8 @@ keycloak-client:
 spring:
   application:
     name: microservice-cinema
+  profiles:
+    active: local
   security:
     oauth2:
       client:
@@ -43,5 +48,5 @@ spring:
 
 resource-server:
   api:
-    url: http://${RESOURCE_HOST}/resource-server/api/cinema
+    url: ${RESOURCE_URL}
 

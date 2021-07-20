@@ -5,18 +5,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.rt.resource.domain.Book;
-import ru.rt.resource.services.BookService;
+import ru.rt.resource.services.BookServiceImpl;
+import ru.rt.resource.services.IBookService;
 
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Rest Controller для обработки запросов от микросервиса с книгами.
+ * <p>
+ *
+ * @author Alexey Baidin
+ */
 @RestController
 @RequestMapping(value = "/api/library")
 public class LibraryController {
-    private final BookService bookService;
+    private final IBookService bookService;
 
     @Autowired
-    public LibraryController(BookService bookService) {
+    public LibraryController(IBookService bookService) {
         this.bookService = bookService;
     }
 

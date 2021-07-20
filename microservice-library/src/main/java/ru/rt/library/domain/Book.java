@@ -8,7 +8,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * POJO объект для книги.
+ * <p>
+ *
+ * @author Alexey Baidin
+ */
 public class Book {
+
     public Long id;
     public String title;
     public String authorName;
@@ -20,21 +27,4 @@ public class Book {
     public Integer volume;
     public Boolean withSubscriptionOnly;
     public String imageSrc;
-
-    public void saveCoverImageLocally() {
-        try {
-            Path path = Paths.get("microservice-library/src/main/resources/static/images/" + this.filename + ".jpg");
-            if (Files.notExists(path)) {
-                ByteArrayInputStream is = new ByteArrayInputStream(this.coverImage);
-                BufferedImage image = ImageIO.read(is);
-                ImageIO.write(image, "jpg", path.toFile());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String getCoverImageSrc() {
-        return String.format("/static/images/%s.jpg", this.filename);
-    }
 }

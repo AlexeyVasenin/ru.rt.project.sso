@@ -13,6 +13,12 @@ import ru.rt.resource.utils.TypesConverter;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Rest Controller для обработки внешних запросов к БД (например, для прокидывания локальных изображений сущностей в базу).
+ * <p>
+ *
+ * @author Alexey Baidin
+ */
 @RestController
 @RequestMapping(value = "/api/database")
 public class DatabaseController {

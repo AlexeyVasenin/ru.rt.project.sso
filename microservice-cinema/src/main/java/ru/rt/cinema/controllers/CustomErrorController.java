@@ -10,6 +10,13 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
+/**
+ * Класс обработки ошибок, реализующий {@link ErrorController}
+ * <p>
+ * Отключение дефолтных страниц ошибки в application.yml error.whitelabel.enabled: false
+ *
+ * @author Vyacheslav Tretyakov
+ */
 @Controller
 public class CustomErrorController implements ErrorController {
 
@@ -18,10 +25,8 @@ public class CustomErrorController implements ErrorController {
         String errorPage = "error";    // default
         model.addAttribute("principal", principal);
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-
         if (status != null) {
             int statusCode = Integer.parseInt(status.toString());
-
             if (statusCode == HttpStatus.UNAUTHORIZED.value()) {
                 errorPage = "error/401";
             } else if (statusCode == HttpStatus.NOT_FOUND.value()) {
@@ -32,7 +37,6 @@ public class CustomErrorController implements ErrorController {
                 errorPage = "error/500";
             }
         }
-
         return errorPage;
     }
 
@@ -40,5 +44,4 @@ public class CustomErrorController implements ErrorController {
     public String getErrorPath() {
         return "/error";
     }
-
 }

@@ -23,27 +23,10 @@ table {
     text-align: center;
 }
 
-.movie-card {
-    width: 100%;
+.service-h1 {
+    text-align: center;
 }
 
-.movie-rating-div {
-    display: table;
-    font-family: Tahoma, serif;
-}
-
-.movie-rating {
-    display: table-cell;
-    vertical-align: middle;
-}
-
-.movie-rating-value {
-    font-style: italic;
-    font-size: 18px;
-    color: #ee0101;
-}
-
-.movie-title {
-    font-family: Tahoma, serif;
-    color: #1f1919;
+.service-p {
+    text-align: center;
 }
