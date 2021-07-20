@@ -14,7 +14,7 @@ import ru.rt.sso.clients.KeycloakAdminClient;
 import java.util.*;
 
 /**
- * Сервис для работы из Администраторского клиента {@link IKeycloakAdminClientService} <br>
+ * Сервис для работы из Администраторского клиента {@link KeycloakAdminClientService} <br>
  * Получение базовой информации из системы SSO Keycloak <br>
  * Внесение изменений в систему. Например добавление нового пользователя, клиента(сервиса) и тд.
  *
@@ -22,7 +22,7 @@ import java.util.*;
  */
 
 @Service
-public class KeycloakAdminClientServiceImpl implements IKeycloakAdminClientService {
+public class KeycloakAdminClientServiceImpl implements KeycloakAdminClientService {
 
     private final KeycloakAdminClient keycloakAdminClient;
 

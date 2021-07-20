@@ -13,7 +13,7 @@ import java.util.List;
  * @author Алексей Васенин
  * */
 
-public interface IKeycloakAdminClientService {
+public interface KeycloakAdminClientService {
 
     /**
      * Создание нового пользователя в системе. <br>

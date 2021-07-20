@@ -2,6 +2,7 @@ package ru.rt.sso.service;
 
 import com.netflix.discovery.shared.Application;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,8 +18,8 @@ import java.util.List;
 @Component
 public class RestRequestHandlerImpl implements RestRequestHandler {
 
-    private final String eurekaURL = "http://eureka-server-java-school.apps.okd.stage.digital.rt.ru/api/services";
-//    private final String eurekaURL = "http://localhost:8761/api/services";
+    @Value("${eureka.client.serviceUrl.defaultZone}")
+    private String eurekaURL;
 
     private final WebClient webClient;
 
@@ -29,8 +30,10 @@ public class RestRequestHandlerImpl implements RestRequestHandler {
 
     @Override
     public List<Application> getAllApplications() {
+        String allApplicationUri = eurekaURL.replace("eureka/", "api/services");
+
         return this.webClient.get()
-                .uri(eurekaURL)
+                .uri(allApplicationUri)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<Application>>() {
                 })
