@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
  *
  * @author Алексей Васенин
  */
-
 @Service
 public class KeycloakAdminClientServiceImpl implements KeycloakAdminClientService {
 

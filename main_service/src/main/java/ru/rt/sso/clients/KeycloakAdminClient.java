@@ -11,11 +11,10 @@ import org.springframework.stereotype.Service;
 
 /**
  * Класс для создания Keycloak объекта c параметрами администратора, для дальнейшей работы через Admin client-а.
+ *
  * @author Алексей Васенин
  * @author Вячеслав Третьяков
- *
  */
-
 @Slf4j
 @Service
 @Getter
@@ -44,6 +43,7 @@ public class KeycloakAdminClient {
     /**
      * It builds a {@link Keycloak} client from a given configuration. This client
      * is used to communicate with the Keycloak instance via REST API.
+     *
      * @return Keycloak instance
      * @see Keycloak
      */
