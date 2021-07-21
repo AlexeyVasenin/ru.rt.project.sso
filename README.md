@@ -99,6 +99,10 @@ _Есть несколько различных систем (с разными 
 
 - [Stage](https://git.digital.rt.ru/java_school/auth3/ru.project.sso/-/tree/stage)
 
+Документация API main_service:
+
+- [Swagger](http://admin-service-java-school.apps.okd.stage.digital.rt.ru/admin/swagger-ui/)
+
 ## Ресурсы проекта
 
 - [Trello](https://trello.com/b/JrZkSplq/authboard)
