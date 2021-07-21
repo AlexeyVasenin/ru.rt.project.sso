@@ -1,0 +1,13 @@
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sso_resource_server
+    username: postgres
+    password: pass
+    driver-class-name: org.postgresql.Driver

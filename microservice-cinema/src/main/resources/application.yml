@@ -1,0 +1,52 @@
+server:
+  port: 8081
+  error:
+    whitelabel:
+      enabled: false
+  servlet:
+    context-path: /cinema
+
+application:
+  url: ${APP_URL}
+
+eureka:
+  instance:
+    hostname: ${EUREKA_HOST}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}/eureka/
+
+keycloak-client:
+  server-url: http://keycloak-java-school.apps.okd.stage.digital.rt.ru/auth
+  realm: sso_realm
+
+spring:
+  application:
+    name: microservice-cinema
+  profiles:
+    active: local
+  security:
+    oauth2:
+      client:
+        registration:
+          microservice-cinema:
+            provider: keycloak
+            client-id: microservice-cinema
+            client-secret: 192f9bc9-7617-4b97-a549-92dc40d091be
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
+            scope: openid
+        provider:
+          keycloak:
+            authorization-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/auth
+            token-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/token
+            user-info-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/userinfo
+            jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
+            user-name-attribute: preferred_username
+
+resource-server:
+  api:
+    url: ${RESOURCE_URL}
+

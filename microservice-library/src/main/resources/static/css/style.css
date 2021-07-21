@@ -1,0 +1,66 @@
+/* Show it is fixed to the top */
+body {
+    min-height: 75rem;
+    padding-top: 4.5rem;
+}
+
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+}
+
+table {
+    margin: auto;
+    text-align: center;
+}
+
+.service-h1 {
+    text-align: center;
+}
+
+.service-p {
+    text-align: center;
+}
+
+.book-card {
+    width: 100%;
+}
+
+.book-rating-div {
+    display: table;
+    font-family: Tahoma, serif;
+}
+
+.book-rating {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.book-rating-value {
+    font-weight: bold;
+    font-size: 18px;
+    color: #ee0101;
+}
+
+.book-title {
+    font-family: Tahoma, serif;
+    color: #1f1919;
+}
+
+.book-image {
+    width: 40%;
+}
+
+.book-subscription-access {
+    font-style: italic;
+    color: #6d6d6d;
+}

@@ -1,0 +1,133 @@
+/* Show it is fixed to the top */
+body {
+    min-height: 75rem;
+    padding-top: 4.5rem;
+}
+
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+}
+
+table {
+    margin: auto;
+    text-align: center;
+}
+
+.service-h1 {
+    text-align: center;
+}
+
+.service-p {
+    text-align: center;
+}
+
+.song-box {
+    cursor: pointer;
+}
+
+.song-box:hover {
+    color: aqua;
+    border: 2px solid #da3545;
+    border-radius: 20px;
+    box-shadow: 2px 1px 1px#90232d;
+    background-color: #e86c78;
+}
+
+.song-album-logo {
+    width: 90px;
+}
+
+.song-box-title-musicians {
+    padding-top: 5px;
+}
+
+.song-title {
+    font-weight: bold;
+    font-size: larger;
+}
+
+.song-musicians {
+
+}
+
+.song-box-duration {
+    padding-top: 30px;
+}
+
+.song-duration-p {
+    text-align: center;
+}
+
+.song-duration {
+    font-size: larger;
+}
+
+/* https://developers.google.com/fonts/docs/material_icons */
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 36px;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+
+    margin: 5px;
+    cursor: pointer;
+}
+
+.music-player-navbar {
+    opacity: 0.6;
+}
+
+.music-player-navbar:hover {
+    opacity: 1;
+}
+
+.music-player-div {
+    padding-left: 20px;
+    padding-right: 20px;
+    color: aqua;
+}
+
+.song-box-title-musicians-music-player {
+    padding-top: 10px;
+}
+
+.song-album-logo-music-player {
+    width: 70px;
+}
+
+.duration-music-player {
+    padding-top: 20px;
+}
+
+.song-duration-p-music-player {
+    text-align: right;
+}

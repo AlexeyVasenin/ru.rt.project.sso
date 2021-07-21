@@ -1,0 +1,117 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="12.07.21-10" author="notjoji">
+        <insert tableName="songs">
+            <column name="title">goosebumps</column>
+            <column name="musician_name">Travis Scott, Kendrick Lamar</column>
+            <column name="rating">9.1</column>
+            <column name="duration">4:05</column>
+            <column name="filename">goosebumps</column>
+            <column name="image_src">https://avatars.yandex.net/get-music-content/41288/2f72f328.a.3780264-1/m1000x1000</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="12.07.21-11" author="notjoji">
+        <insert tableName="songs">
+            <column name="title">Who Dat Boy</column>
+            <column name="musician_name">Tyler, The Creator, A$AP Rocky</column>
+            <column name="rating">9.0</column>
+            <column name="duration">3:25</column>
+            <column name="filename">who_dat_boy</column>
+            <column name="image_src">https://avatars.yandex.net/get-music-content/192707/4d4f4cb7.a.4547491-1/m1000x1000</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="12.07.21-12" author="notjoji">
+        <insert tableName="songs">
+            <column name="title">Gorgeous</column>
+            <column name="musician_name">Kanye West, Kid Cudi, Raekwon</column>
+            <column name="rating">8.9</column>
+            <column name="duration">5:57</column>
+            <column name="filename">gorgeous</column>
+            <column name="image_src">https://avatars.yandex.net/get-music-content/2433821/f1c88270.a.169071-3/m1000x1000</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="12.07.21-13" author="notjoji">
+        <insert tableName="songs">
+            <column name="title">HIGHEST IN THE ROOM</column>
+            <column name="musician_name">Travis Scott</column>
+            <column name="rating">8.9</column>
+            <column name="duration">2:55</column>
+            <column name="filename">highest_in_the_room</column>
+            <column name="image_src">https://avatars.yandex.net/get-music-content/149669/51ee41e9.a.8908568-1/m1000x1000</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="12.07.21-14" author="notjoji">
+        <insert tableName="songs">
+            <column name="title">m.A.A.d city</column>
+            <column name="musician_name">Kendrick Lamar, MC Eiht</column>
+            <column name="rating">9.1</column>
+            <column name="duration">5:50</column>
+            <column name="filename">maad_city</column>
+            <column name="image_src">https://avatars.yandex.net/get-music-content/28589/98382a55.a.1174459-1/m1000x1000</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="12.07.21-15" author="notjoji">
+        <insert tableName="songs">
+            <column name="title">Lose Yourself</column>
+            <column name="musician_name">Eminem</column>
+            <column name="rating">9.2</column>
+            <column name="duration">5:26</column>
+            <column name="filename">lose_yourself</column>
+            <column name="image_src">https://avatars.yandex.net/get-music-content/34131/6fd4311d.a.4846-2/m1000x1000</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="12.07.21-16" author="notjoji">
+        <insert tableName="songs">
+            <column name="title">This Is America</column>
+            <column name="musician_name">Childish Gambino</column>
+            <column name="rating">8.9</column>
+            <column name="duration">3:45</column>
+            <column name="filename">this_is_america</column>
+            <column name="image_src">https://avatars.yandex.net/get-music-content/118603/00719f5b.a.5350759-1/m1000x1000</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="12.07.21-17" author="notjoji">
+        <insert tableName="songs">
+            <column name="title">The Box</column>
+            <column name="musician_name">Roddy Ricch</column>
+            <column name="rating">8.7</column>
+            <column name="duration">3:16</column>
+            <column name="filename">the_box</column>
+            <column name="image_src">https://avatars.yandex.net/get-music-content/2114230/b31e3d56.a.9362259-1/m1000x1000</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="12.07.21-18" author="notjoji">
+        <insert tableName="songs">
+            <column name="title">Ransom</column>
+            <column name="musician_name">Lil Tecca</column>
+            <column name="rating">8.6</column>
+            <column name="duration">2:11</column>
+            <column name="filename">ransom</column>
+            <column name="image_src">https://avatars.yandex.net/get-music-content/143117/9cfb1729.a.8858643-1/m1000x1000</column>
+        </insert>
+    </changeSet>
+
+    <changeSet id="12.07.21-19" author="notjoji">
+        <insert tableName="songs">
+            <column name="title">a lot</column>
+            <column name="musician_name">21 Savage</column>
+            <column name="rating">8.5</column>
+            <column name="duration">4:48</column>
+            <column name="filename">a_lot</column>
+            <column name="image_src">https://avatars.yandex.net/get-music-content/139444/edafb065.a.6377704-1/m1000x1000</column>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
